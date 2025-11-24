@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 4: Creating a Safe Environment</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.css">
+    
+    <style>
+        .reveal .slides section {
+            text-align: left;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 0.65em;
+            font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+            overflow-x: auto;
+            line-height: 1.5;
+            border: 1px solid #444;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .code-block pre {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+        }
+        .code-block code {
+            display: block;
+            white-space: pre;
+            overflow-x: auto;
+            color: #f8f8f2;
+        }
+        .code-block .comment {
+            color: #75715e;
+            font-style: italic;
+        }
+        .code-block .string {
+            color: #e6db74;
+        }
+        .code-block .keyword {
+            color: #66d9ef;
+        }
+        .code-block .function {
+            color: #a6e22e;
+        }
+        .code-block .variable {
+            color: #f92672;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 5px;
+        }
+        .warning {
+            background-color: #f8d7da;
+            padding: 10px;
+            border-left: 4px solid #dc3545;
+            margin: 10px 0;
+        }
+        .success {
+            background-color: #d4edda;
+            padding: 10px;
+            border-left: 4px solid #28a745;
+            margin: 10px 0;
+        }
+        .info {
+            background-color: #d1ecf1;
+            padding: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 10px 0;
+        }
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- Title -->
+            <section>
+                <h1>Day 4</h1>
+                <h2>Creating a Safe Environment</h2>
+                <p style="margin-top: 50px;">
+                    <a href="index.html">← Kembali ke Menu Utama</a>
+                </p>
+            </section>
+
+            <!-- Learning Objectives -->
+            <section>
+                <h2>Tujuan Pembelajaran</h2>
+                <ul>
+                    <li>Mampu mengamankan sistem Linux</li>
+                    <li>Mampu mengamankan database</li>
+                    <li>Memahami dan mengimplementasikan enkripsi</li>
+                    <li>Mampu mengamankan koneksi jaringan dengan SSL dan SSH</li>
+                    <li>Mampu mengamankan web server</li>
+                </ul>
+            </section>
+
+            <!-- 4.1 Securing Linux -->
+            <section>
+                <section>
+                    <h2>4.1 Securing Linux</h2>
+                    <p>Melindungi sistem dari ancaman internal dan eksternal</p>
+                </section>
+
+                <section>
+                    <h3>Prinsip Keamanan Linux</h3>
+                    <ul>
+                        <li><strong>Principle of Least Privilege</strong>: User hanya memiliki akses yang diperlukan</li>
+                        <li><strong>Defense in Depth</strong>: Multiple layers of security</li>
+                        <li><strong>Regular Updates</strong>: Patch security vulnerabilities</li>
+                        <li><strong>Monitoring and Logging</strong>: Monitor system activities</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Area Keamanan Linux</h3>
+                    <ul>
+                        <li><strong>User Management</strong>: Strong passwords, account policies</li>
+                        <li><strong>File Permissions</strong>: Proper ownership, chmod</li>
+                        <li><strong>Network Security</strong>: Firewall, disable unnecessary services</li>
+                        <li><strong>System Hardening</strong>: Disable root login, fail2ban</li>
+                        <li><strong>Logging</strong>: syslog, auditd, log rotation</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>SSH Hardening</h3>
+                    <div class="code-block">
+<pre><code><span class="comment"># /etc/ssh/sshd_config</span>
+<span class="keyword">Protocol</span> 2
+<span class="keyword">PermitRootLogin</span> <span class="keyword">no</span>
+<span class="keyword">PasswordAuthentication</span> <span class="keyword">no</span>
+<span class="keyword">PubkeyAuthentication</span> <span class="keyword">yes</span>
+<span class="keyword">MaxAuthTries</span> 3
+<span class="keyword">ClientAliveInterval</span> 300</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Firewall Configuration</h3>
+                    <div class="code-block">
+<pre><code><span class="comment"># UFW (Ubuntu)</span>
+<span class="function">ufw</span> default deny incoming
+<span class="function">ufw</span> default allow outgoing
+<span class="function">ufw</span> allow ssh
+<span class="function">ufw</span> allow 80/tcp
+<span class="function">ufw</span> allow 443/tcp
+<span class="function">ufw</span> enable</code></pre>
+                    </div>
+                </section>
+            </section>
+
+            <!-- 4.2 Securing Database -->
+            <section>
+                <section>
+                    <h2>4.2 Securing Database</h2>
+                    <p>Melindungi database dari akses tidak sah dan serangan</p>
+                </section>
+
+                <section>
+                    <h3>Ancaman Database</h3>
+                    <ul>
+                        <li><strong>SQL Injection</strong>: Sudah dibahas di Day 2</li>
+                        <li><strong>Unauthorized Access</strong>: Weak passwords, default credentials</li>
+                        <li><strong>Privilege Escalation</strong>: Excessive user privileges</li>
+                        <li><strong>Data Exposure</strong>: Unencrypted data, unauthorized backups</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Prinsip Keamanan Database</h3>
+                    <ul>
+                        <li><strong>Least Privilege</strong>: User hanya memiliki privilege yang diperlukan</li>
+                        <li><strong>Encryption</strong>: Data at rest dan in transit</li>
+                        <li><strong>Access Control</strong>: Strong authentication, network restrictions</li>
+                        <li><strong>Auditing</strong>: Log semua aktivitas penting</li>
+                        <li><strong>Regular Updates</strong>: Patch security vulnerabilities</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>MySQL User Management</h3>
+                    <div class="code-block">
+<pre><code><span class="comment">-- Create application user</span>
+<span class="keyword">CREATE USER</span> <span class="string">'app_user'</span>@<span class="string">'localhost'</span> 
+<span class="keyword">IDENTIFIED BY</span> <span class="string">'StrongPassword123!'</span>;
+
+<span class="comment">-- Grant minimal privileges</span>
+<span class="keyword">GRANT</span> SELECT, INSERT, UPDATE, DELETE 
+<span class="keyword">ON</span> security_training.* 
+<span class="keyword">TO</span> <span class="string">'app_user'</span>@<span class="string">'localhost'</span>;
+
+<span class="comment">-- Remove anonymous users</span>
+<span class="keyword">DELETE FROM</span> mysql.user <span class="keyword">WHERE</span> User=<span class="string">''</span>;</code></pre>
+                    </div>
+                </section>
+            </section>
+
+            <!-- 4.3 Using Encryption -->
+            <section>
+                <section>
+                    <h2>4.3 Using Encryption</h2>
+                    <p>Mengubah data menjadi format yang tidak dapat dibaca tanpa kunci</p>
+                </section>
+
+                <section>
+                    <h3>Jenis-jenis Encryption</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Symmetric Encryption</h4>
+                            <p>Satu kunci untuk encrypt dan decrypt</p>
+                            <p><strong>Contoh:</strong> AES, DES</p>
+                            <div class="info">Cepat dan efisien</div>
+                        </div>
+                        <div>
+                            <h4>Asymmetric Encryption</h4>
+                            <p>Dua kunci: public dan private</p>
+                            <p><strong>Contoh:</strong> RSA, ECC</p>
+                            <div class="info">Lebih aman tapi lebih lambat</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <h4>Hashing</h4>
+                        <p>One-way function (tidak dapat di-decrypt)</p>
+                        <p><strong>Contoh:</strong> SHA-256, bcrypt</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Use Cases Encryption</h3>
+                    <ul>
+                        <li><strong>Data at Rest</strong>: Encrypt files di disk, database, backups</li>
+                        <li><strong>Data in Transit</strong>: HTTPS/TLS, VPN, encrypted email</li>
+                        <li><strong>Password Storage</strong>: Hash passwords (bcrypt, argon2)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Encryption Best Practices</h3>
+                    <ul>
+                        <li>Gunakan strong algorithms (AES-256, RSA-2048+)</li>
+                        <li>Manage keys securely</li>
+                        <li>Rotate encryption keys regularly</li>
+                        <li>Use proper key derivation functions</li>
+                        <li>Don't store keys with encrypted data</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- 4.4 SSL and SSH -->
+            <section>
+                <section>
+                    <h2>4.4 Securing Network Connection: SSL and SSH</h2>
+                    <p><strong>SSL/TLS</strong>: Mengamankan komunikasi melalui jaringan</p>
+                    <p><strong>SSH</strong>: Protokol untuk akses remote yang aman</p>
+                </section>
+
+                <section>
+                    <h3>SSL/TLS</h3>
+                    <ul>
+                        <li><strong>Encryption</strong>: Mengenkripsi data yang ditransmisikan</li>
+                        <li><strong>Authentication</strong>: Memverifikasi identitas server</li>
+                        <li><strong>Integrity</strong>: Memastikan data tidak diubah</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>SSL/TLS Certificates</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Self-Signed</h4>
+                            <p>Untuk development/testing</p>
+                            <div class="warning">Browser akan menampilkan warning</div>
+                        </div>
+                        <div>
+                            <h4>CA-Signed</h4>
+                            <p>Dikeluarkan oleh Certificate Authority</p>
+                            <div class="success">Dipercaya oleh browser</div>
+                            <p><strong>Contoh:</strong> Let's Encrypt (gratis)</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>SSH Security</h3>
+                    <ul>
+                        <li>Key-based authentication (lebih aman dari password)</li>
+                        <li>Disable root login</li>
+                        <li>Change default port (optional)</li>
+                        <li>Use strong ciphers</li>
+                        <li>Implement fail2ban</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- 4.5 Securing Web Server -->
+            <section>
+                <section>
+                    <h2>4.5 Securing Web Server</h2>
+                    <p>Melindungi web server dari berbagai ancaman</p>
+                </section>
+
+                <section>
+                    <h3>Ancaman Web Server</h3>
+                    <ul>
+                        <li><strong>DDoS Attacks</strong>: Overwhelm server dengan traffic</li>
+                        <li><strong>Directory Traversal</strong>: Akses file di luar web root</li>
+                        <li><strong>Server Misconfiguration</strong>: Default settings yang tidak aman</li>
+                        <li><strong>Information Disclosure</strong>: Error messages yang terlalu informatif</li>
+                        <li><strong>Outdated Software</strong>: Known vulnerabilities</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Web Server Hardening</h3>
+                    <ul>
+                        <li>Remove unnecessary modules</li>
+                        <li>Disable directory listing</li>
+                        <li>Set proper file permissions</li>
+                        <li>Configure security headers</li>
+                        <li>Enable logging</li>
+                        <li>Rate limiting</li>
+                        <li>WAF (Web Application Firewall)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Security Headers</h3>
+                    <div class="code-block">
+<pre><code>X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=63072000
+Content-Security-Policy: default-src <span class="string">'self'</span></code></pre>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Practical Session -->
+            <section>
+                <section>
+                    <h2>Sesi Praktik Day 4</h2>
+                    <p>Praktik securing environment yang dapat diikuti peserta</p>
+                </section>
+
+                <section>
+                    <h3>Praktik 1: Hardening Linux Server</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengamankan server Linux dengan berbagai teknik hardening
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Update sistem: <code>sudo apt update && sudo apt upgrade</code></li>
+                        <li>Disable root login SSH</li>
+                        <li>Setup firewall dengan UFW</li>
+                        <li>Install dan konfigurasi fail2ban</li>
+                        <li>Setup automatic security updates</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment"># 1. Update system</span>
+sudo apt update
+sudo apt upgrade -y
+
+<span class="comment"># 2. Disable root login</span>
+sudo nano /etc/ssh/sshd_config
+<span class="comment"># Set: PermitRootLogin no</span>
+sudo systemctl restart sshd
+
+<span class="comment"># 3. Setup UFW firewall</span>
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow ssh
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw enable
+
+<span class="comment"># 4. Install fail2ban</span>
+sudo apt install fail2ban -y
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+
+<span class="comment"># 5. Setup automatic updates</span>
+sudo apt install unattended-upgrades -y
+sudo dpkg-reconfigure -plow unattended-upgrades</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 2: Mengamankan Database MySQL</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengimplementasikan security best practices untuk MySQL
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Jalankan <code>mysql_secure_installation</code></li>
+                        <li>Buat user dengan least privilege</li>
+                        <li>Enable SSL untuk koneksi database</li>
+                        <li>Setup database backup</li>
+                        <li>Enable audit logging</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment">-- 1. Secure installation</span>
+sudo mysql_secure_installation
+
+<span class="comment">-- 2. Create application user with minimal privileges</span>
+<span class="keyword">CREATE USER</span> <span class="string">'app_user'</span>@<span class="string">'localhost'</span> <span class="keyword">IDENTIFIED BY</span> <span class="string">'StrongPassword123!'</span>;
+<span class="keyword">GRANT</span> SELECT, INSERT, UPDATE, DELETE <span class="keyword">ON</span> myapp.* <span class="keyword">TO</span> <span class="string">'app_user'</span>@<span class="string">'localhost'</span>;
+<span class="keyword">FLUSH PRIVILEGES</span>;
+
+<span class="comment">-- 3. Remove anonymous users</span>
+<span class="keyword">DELETE FROM</span> mysql.user <span class="keyword">WHERE</span> User=<span class="string">''</span>;
+<span class="keyword">FLUSH PRIVILEGES</span>;
+
+<span class="comment">-- 4. Enable SSL (generate certificates first)</span>
+<span class="keyword">ALTER USER</span> <span class="string">'app_user'</span>@<span class="string">'localhost'</span> <span class="keyword">REQUIRE</span> SSL;
+
+<span class="comment">-- 5. Enable general query log</span>
+<span class="keyword">SET GLOBAL</span> general_log = <span class="string">'ON'</span>;
+<span class="keyword">SET GLOBAL</span> log_output = <span class="string">'FILE'</span>;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 3: Setup SSL/TLS dengan Let's Encrypt</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengimplementasikan HTTPS dengan sertifikat SSL/TLS gratis
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Install Certbot</li>
+                        <li>Generate SSL certificate</li>
+                        <li>Konfigurasi Apache/Nginx untuk HTTPS</li>
+                        <li>Setup auto-renewal</li>
+                        <li>Test SSL configuration</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment"># 1. Install Certbot</span>
+sudo apt install certbot python3-certbot-apache -y
+
+<span class="comment"># 2. Generate SSL certificate</span>
+sudo certbot --apache -d example.com -d www.example.com
+
+<span class="comment"># 3. Test auto-renewal</span>
+sudo certbot renew --dry-run
+
+<span class="comment"># 4. Setup cron for auto-renewal</span>
+sudo crontab -e
+<span class="comment"># Add: 0 0 * * * certbot renew --quiet</span>
+
+<span class="comment"># 5. Test SSL configuration</span>
+<span class="comment"># Visit: https://www.ssllabs.com/ssltest/</span>
+
+<span class="comment"># Apache configuration (auto-generated by certbot)</span>
+<span class="comment"># /etc/apache2/sites-available/example.com-le-ssl.conf</span>
+&lt;VirtualHost *:443&gt;
+    ServerName example.com
+    SSLEngine on
+    SSLCertificateFile /etc/letsencrypt/live/example.com/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/example.com/privkey.pem
+&lt;/VirtualHost&gt;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 4: Konfigurasi Security Headers</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengimplementasikan security headers untuk web server
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Buat file konfigurasi security headers</li>
+                        <li>Implementasikan di Apache/Nginx</li>
+                        <li>Test dengan securityheaders.com</li>
+                        <li>Implementasikan CSP (Content Security Policy)</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment"># Apache: /etc/apache2/conf-available/security-headers.conf</span>
+&lt;IfModule mod_headers.c&gt;
+    <span class="comment"># XSS Protection</span>
+    Header set X-XSS-Protection <span class="string">"1; mode=block"</span>
+    
+    <span class="comment"># Prevent MIME type sniffing</span>
+    Header set X-Content-Type-Options <span class="string">"nosniff"</span>
+    
+    <span class="comment"># Prevent clickjacking</span>
+    Header set X-Frame-Options <span class="string">"DENY"</span>
+    
+    <span class="comment"># HSTS (HTTP Strict Transport Security)</span>
+    Header always set Strict-Transport-Security <span class="string">"max-age=63072000; includeSubDomains; preload"</span>
+    
+    <span class="comment"># Content Security Policy</span>
+    Header set Content-Security-Policy <span class="string">"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';"</span>
+    
+    <span class="comment"># Referrer Policy</span>
+    Header set Referrer-Policy <span class="string">"strict-origin-when-cross-origin"</span>
+&lt;/IfModule&gt;
+
+<span class="comment"># Enable the configuration</span>
+sudo a2enconf security-headers
+sudo systemctl reload apache2</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 5: Implementasi File Encryption</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengenkripsi file sensitif menggunakan OpenSSL
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Generate encryption key</li>
+                        <li>Buat script untuk encrypt file</li>
+                        <li>Buat script untuk decrypt file</li>
+                        <li>Implementasikan di aplikasi PHP</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment"># 1. Generate encryption key</span>
+openssl rand -base64 32 > encryption_key.txt
+chmod 600 encryption_key.txt
+
+<span class="comment"># 2. Encrypt file</span>
+openssl enc -aes-256-cbc -salt -in sensitive_file.txt -out sensitive_file.txt.enc -pass file:encryption_key.txt
+
+<span class="comment"># 3. Decrypt file</span>
+openssl enc -aes-256-cbc -d -in sensitive_file.txt.enc -out sensitive_file_decrypted.txt -pass file:encryption_key.txt
+
+<span class="comment">// PHP implementation</span>
+<span class="keyword">function</span> <span class="function">encryptFile</span>($filepath, $key) {
+    $data = <span class="function">file_get_contents</span>($filepath);
+    $iv = <span class="function">openssl_random_pseudo_bytes</span>(16);
+    $encrypted = <span class="function">openssl_encrypt</span>($data, <span class="string">'AES-256-CBC'</span>, $key, 0, $iv);
+    <span class="keyword">return</span> <span class="function">base64_encode</span>($iv . $encrypted);
+}
+
+<span class="keyword">function</span> <span class="function">decryptFile</span>($encrypted_data, $key) {
+    $data = <span class="function">base64_decode</span>($encrypted_data);
+    $iv = <span class="function">substr</span>($data, 0, 16);
+    $encrypted = <span class="function">substr</span>($data, 16);
+    <span class="keyword">return</span> <span class="function">openssl_decrypt</span>($encrypted, <span class="string">'AES-256-CBC'</span>, $key, 0, $iv);
+}
+
+<span class="comment">// Usage</span>
+$key = <span class="function">file_get_contents</span>(<span class="string">'encryption_key.txt'</span>);
+$encrypted = <span class="function">encryptFile</span>(<span class="string">'sensitive.txt'</span>, $key);
+<span class="function">file_put_contents</span>(<span class="string">'sensitive.txt.enc'</span>, $encrypted);</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 6: Setup SSH Key Authentication</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengganti password authentication dengan SSH keys
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Generate SSH key pair di client</li>
+                        <li>Copy public key ke server</li>
+                        <li>Disable password authentication</li>
+                        <li>Test koneksi SSH</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment"># 1. Generate SSH key pair (on client)</span>
+ssh-keygen -t ed25519 -C <span class="string">"your_email@example.com"</span>
+<span class="comment"># Save to: ~/.ssh/id_ed25519</span>
+
+<span class="comment"># 2. Copy public key to server</span>
+ssh-copy-id -i ~/.ssh/id_ed25519.pub user@server_ip
+
+<span class="comment"># Or manually:</span>
+cat ~/.ssh/id_ed25519.pub | ssh user@server_ip <span class="string">"mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"</span>
+
+<span class="comment"># 3. Secure the authorized_keys file</span>
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+
+<span class="comment"># 4. Edit SSH config (on server)</span>
+sudo nano /etc/ssh/sshd_config
+<span class="comment"># Set: PasswordAuthentication no</span>
+<span class="comment"># Set: PubkeyAuthentication yes</span>
+sudo systemctl restart sshd
+
+<span class="comment"># 5. Test connection</span>
+ssh -i ~/.ssh/id_ed25519 user@server_ip</code></pre>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Summary -->
+            <section>
+                <h2>Ringkasan Day 4</h2>
+                <div class="success">
+                    <h3>Key Takeaways:</h3>
+                    <ul>
+                        <li>Linux security memerlukan multiple layers of defense</li>
+                        <li>Database security melibatkan access control, encryption, dan auditing</li>
+                        <li>Encryption harus digunakan untuk data at rest dan in transit</li>
+                        <li>SSL/TLS dan SSH mengamankan komunikasi jaringan</li>
+                        <li>Web server hardening mengurangi attack surface</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Final Project -->
+            <section>
+                <h2>Final Project Integration</h2>
+                <p>Setelah menyelesaikan semua 4 hari, integrasikan semua komponen:</p>
+                <ul>
+                    <li><strong>Day 1</strong>: Dokumentasi dan threat model</li>
+                    <li><strong>Day 2</strong>: Secure programming practices</li>
+                    <li><strong>Day 3</strong>: Authentication, authorization, logging, backup</li>
+                    <li><strong>Day 4</strong>: Server hardening, encryption, SSL/SSH</li>
+                </ul>
+                <div class="info" style="margin-top: 30px;">
+                    <strong>Buat aplikasi web lengkap yang mengimplementasikan semua security best practices!</strong>
+                </div>
+            </section>
+
+            <!-- Next Steps -->
+            <section>
+                <h2>Next Steps</h2>
+                <ul>
+                    <li>Review semua konfigurasi security</li>
+                    <li>Test semua implementasi</li>
+                    <li>Dokumentasikan environment production</li>
+                    <li>Setup monitoring dan alerting</li>
+                    <li>Regular security audits</li>
+                </ul>
+            </section>
+
+            <!-- Final Slide -->
+            <section class="center">
+                <h1>Selamat!</h1>
+                <h2>Anda telah menyelesaikan seluruh program pelatihan! 🎉</h2>
+                <p style="margin-top: 50px;">
+                    <a href="index.html">← Kembali ke Menu Utama</a>
+                </p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: false,
+            transition: 'slide',
+            slideNumber: true
+        });
+    </script>
+</body>
+</html>
+

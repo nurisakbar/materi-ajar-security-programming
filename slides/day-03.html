@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 3: Practicing Secure Operations</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.css">
+    
+    <style>
+        .reveal .slides section {
+            text-align: left;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 0.65em;
+            font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+            overflow-x: auto;
+            line-height: 1.5;
+            border: 1px solid #444;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .code-block pre {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+        }
+        .code-block code {
+            display: block;
+            white-space: pre;
+            overflow-x: auto;
+            color: #f8f8f2;
+        }
+        .code-block .comment {
+            color: #75715e;
+            font-style: italic;
+        }
+        .code-block .string {
+            color: #e6db74;
+        }
+        .code-block .keyword {
+            color: #66d9ef;
+        }
+        .code-block .function {
+            color: #a6e22e;
+        }
+        .code-block .variable {
+            color: #f92672;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 5px;
+        }
+        .warning {
+            background-color: #f8d7da;
+            padding: 10px;
+            border-left: 4px solid #dc3545;
+            margin: 10px 0;
+        }
+        .success {
+            background-color: #d4edda;
+            padding: 10px;
+            border-left: 4px solid #28a745;
+            margin: 10px 0;
+        }
+        .info {
+            background-color: #d1ecf1;
+            padding: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 10px 0;
+        }
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- Title -->
+            <section>
+                <h1>Day 3</h1>
+                <h2>Practicing Secure Operations</h2>
+                <p style="margin-top: 50px;">
+                    <a href="index.html">← Kembali ke Menu Utama</a>
+                </p>
+            </section>
+
+            <!-- Learning Objectives -->
+            <section>
+                <h2>Tujuan Pembelajaran</h2>
+                <ul>
+                    <li>Mampu mengimplementasikan OTP dan Multi-Factor Authentication (MFA)</li>
+                    <li>Memahami dan mengimplementasikan Authentication, Authorization, dan Logging yang aman</li>
+                    <li>Mampu mencegah kehilangan data dengan backup dan recovery strategies</li>
+                </ul>
+            </section>
+
+            <!-- 3.1 OTP & MFA -->
+            <section>
+                <section>
+                    <h2>3.1 Using OTP & MFA</h2>
+                    <p><strong>OTP (One-Time Password)</strong>: Password yang hanya valid untuk satu transaksi</p>
+                    <p><strong>MFA (Multi-Factor Authentication)</strong>: Memerlukan lebih dari satu faktor verifikasi</p>
+                </section>
+
+                <section>
+                    <h3>Faktor Autentikasi</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Something You Know</h4>
+                            <p>Password, PIN, Security Questions</p>
+                        </div>
+                        <div>
+                            <h4>Something You Have</h4>
+                            <p>Smartphone, Hardware Token, Smart Card</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <h4>Something You Are</h4>
+                        <p>Fingerprint, Face Recognition, Iris Scan</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Jenis-jenis OTP</h3>
+                    <ul>
+                        <li><strong>TOTP</strong> (Time-based OTP): Berdasarkan waktu (30-60 detik)
+                            <div class="info">Contoh: Google Authenticator, Authy</div>
+                        </li>
+                        <li><strong>HOTP</strong> (HMAC-based OTP): Berdasarkan counter</li>
+                        <li><strong>SMS OTP</strong>: Dikirim melalui SMS (kurang aman)</li>
+                        <li><strong>Email OTP</strong>: Dikirim melalui email</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Keuntungan MFA</h3>
+                    <ul>
+                        <li>Meningkatkan keamanan akun secara signifikan</li>
+                        <li>Mengurangi risiko akibat password yang bocor</li>
+                        <li>Compliance dengan regulasi (PCI-DSS, GDPR)</li>
+                        <li>Meningkatkan kepercayaan pengguna</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Best Practices MFA</h3>
+                    <ul>
+                        <li>Wajibkan MFA untuk akun admin</li>
+                        <li>Wajibkan MFA untuk operasi sensitif</li>
+                        <li>Berikan backup codes</li>
+                        <li>Support multiple methods</li>
+                        <li>Jangan gunakan SMS sebagai satu-satunya metode</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- 3.2 Authentication, Authorization, Logging -->
+            <section>
+                <section>
+                    <h2>3.2 User Authentication, Authorization, and Logging</h2>
+                    <p><strong>Authentication</strong>: Verifikasi identitas pengguna</p>
+                    <p><strong>Authorization</strong>: Penentuan hak akses pengguna</p>
+                    <p><strong>Logging</strong>: Pencatatan aktivitas untuk audit</p>
+                </section>
+
+                <section>
+                    <h3>Authentication Methods</h3>
+                    <ul>
+                        <li><strong>Password-based</strong>: Username/password dengan hashing (bcrypt, argon2)</li>
+                        <li><strong>Token-based</strong>: JWT, API tokens, Session tokens</li>
+                        <li><strong>Certificate-based</strong>: SSL/TLS client certificates</li>
+                        <li><strong>Biometric</strong>: Fingerprint, Face recognition</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Authorization Models</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>RBAC</h4>
+                            <p>Role-Based Access Control</p>
+                            <p>User → Role → Permissions</p>
+                            <div class="info">Contoh: Admin, User, Guest</div>
+                        </div>
+                        <div>
+                            <h4>ABAC</h4>
+                            <p>Attribute-Based Access Control</p>
+                            <p>Berdasarkan attributes</p>
+                            <div class="info">Lebih fleksibel dari RBAC</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Logging Best Practices</h3>
+                    <ul>
+                        <li>Log semua aktivitas penting: Login, logout, perubahan data</li>
+                        <li><strong>Jangan log informasi sensitif</strong>: Password, credit card</li>
+                        <li>Structured logging: Format konsisten (JSON)</li>
+                        <li>Log levels: DEBUG, INFO, WARNING, ERROR, CRITICAL</li>
+                        <li>Centralized logging: Collect logs di satu tempat</li>
+                        <li>Log retention: Tentukan berapa lama log disimpan</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Security Logging</h3>
+                    <ul>
+                        <li>Failed login attempts</li>
+                        <li>Privilege escalation attempts</li>
+                        <li>Unusual access patterns</li>
+                        <li>Data modification</li>
+                        <li>Configuration changes</li>
+                        <li>Security events</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- 3.3 Preventing Data Loss -->
+            <section>
+                <section>
+                    <h2>3.3 Preventing Data Loss</h2>
+                    <p><strong>Data Loss Prevention (DLP)</strong>: Strategi dan teknologi untuk mencegah kehilangan data</p>
+                </section>
+
+                <section>
+                    <h3>Penyebab Data Loss</h3>
+                    <ul>
+                        <li><strong>Human Error</strong>: Accidental deletion, wrong operations</li>
+                        <li><strong>Hardware Failure</strong>: Disk failure, server crash</li>
+                        <li><strong>Software Issues</strong>: Bugs, corrupted files</li>
+                        <li><strong>Security Breaches</strong>: Ransomware, data theft</li>
+                        <li><strong>Natural Disasters</strong>: Fire, flood, power outages</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Strategi Pencegahan Data Loss</h3>
+                    <ol>
+                        <li><strong>Backup Strategy</strong>
+                            <ul>
+                                <li>Regular automated backups</li>
+                                <li>Multiple backup locations</li>
+                                <li>Backup testing and verification</li>
+                            </ul>
+                        </li>
+                        <li><strong>Version Control</strong>: Git, database versioning</li>
+                        <li><strong>Replication</strong>: Database replication, file replication</li>
+                        <li><strong>Access Control</strong>: Least privilege, audit logs</li>
+                        <li><strong>Monitoring</strong>: Disk space, health checks</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>3-2-1 Backup Rule</h3>
+                    <div class="success">
+                        <ul>
+                            <li><strong>3 copies</strong> of your data</li>
+                            <li><strong>2 different media</strong> types</li>
+                            <li><strong>1 offsite</strong> backup</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Backup Types</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Full Backup</h4>
+                            <p>Complete backup of all data</p>
+                            <p><strong>Pros:</strong> Complete restore</p>
+                            <p><strong>Cons:</strong> Slow</p>
+                        </div>
+                        <div>
+                            <h4>Incremental Backup</h4>
+                            <p>Only changes since last backup</p>
+                            <p><strong>Pros:</strong> Fast</p>
+                            <p><strong>Cons:</strong> Slower restore</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Recovery Strategies</h3>
+                    <ul>
+                        <li><strong>RTO</strong> (Recovery Time Objective): Maximum acceptable downtime</li>
+                        <li><strong>RPO</strong> (Recovery Point Objective): Maximum acceptable data loss</li>
+                        <li><strong>Disaster Recovery Plan</strong>: Step-by-step recovery procedures</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- Practical Session -->
+            <section>
+                <section>
+                    <h2>Sesi Praktik Day 3</h2>
+                    <p>Praktik secure operations yang dapat diikuti peserta</p>
+                </section>
+
+                <section>
+                    <h3>Praktik 1: Implementasi OTP dengan TOTP</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengimplementasikan Time-based OTP untuk MFA
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Install library: <code>composer require pragmarx/google2fa</code></li>
+                        <li>Buat file <code>otp_setup.php</span></code> untuk generate secret key</li>
+                        <li>Buat file <code>otp_verify.php</span></code> untuk verifikasi OTP</li>
+                        <li>Integrasikan dengan form login</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment">// otp_setup.php - Generate secret key</span>
+<span class="keyword">require</span> <span class="string">'vendor/autoload.php'</span>;
+<span class="keyword">use</span> PragmaRX\Google2FA\Google2FA;
+
+$google2fa = <span class="keyword">new</span> Google2FA();
+$secret = $google2fa-><span class="function">generateSecretKey</span>();
+
+<span class="comment">// Save secret to database for user</span>
+$user_id = $_SESSION[<span class="string">'user_id'</span>];
+$stmt = $conn-><span class="function">prepare</span>(<span class="string">"UPDATE users SET otp_secret = ? WHERE id = ?"</span>);
+$stmt-><span class="function">bind_param</span>(<span class="string">"si"</span>, $secret, $user_id);
+$stmt-><span class="function">execute</span>();
+
+<span class="comment">// Generate QR code URL</span>
+$qrCodeUrl = $google2fa-><span class="function">getQRCodeUrl</span>(
+    <span class="string">'MyApp'</span>,
+    $user_email,
+    $secret
+);
+
+<span class="comment">// Display QR code for user to scan</span>
+<span class="keyword">echo</span> <span class="string">'&lt;img src="'</span> . $qrCodeUrl . <span class="string">'"&gt;'</span>;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 2: Implementasi RBAC (Role-Based Access Control)</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Membuat sistem authorization berbasis role
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Buat tabel: users, roles, permissions, role_permissions, user_roles</li>
+                        <li>Buat file <code>rbac.php</span></code> dengan fungsi check permission</li>
+                        <li>Implementasikan middleware untuk protect routes</li>
+                        <li>Test dengan berbagai role (admin, user, guest)</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment">// rbac.php - Role-based access control</span>
+<span class="keyword">function</span> <span class="function">hasPermission</span>($user_id, $permission) {
+    <span class="keyword">global</span> $conn;
+    
+    $stmt = $conn-><span class="function">prepare</span>(<span class="string">"
+        SELECT COUNT(*) 
+        FROM user_roles ur
+        JOIN role_permissions rp ON ur.role_id = rp.role_id
+        JOIN permissions p ON rp.permission_id = p.id
+        WHERE ur.user_id = ? AND p.name = ?
+    "</span>);
+    $stmt-><span class="function">bind_param</span>(<span class="string">"is"</span>, $user_id, $permission);
+    $stmt-><span class="function">execute</span>();
+    $result = $stmt-><span class="function">get_result</span>();
+    $count = $result-><span class="function">fetch_row</span>()[0];
+    
+    <span class="keyword">return</span> $count > 0;
+}
+
+<span class="comment">// Usage</span>
+<span class="keyword">if</span> (!<span class="function">hasPermission</span>($_SESSION[<span class="string">'user_id'</span>], <span class="string">'delete_user'</span>)) {
+    <span class="function">die</span>(<span class="string">"Access denied"</span>);
+}</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 3: Implementasi Security Logging</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Membuat sistem logging untuk security events
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Buat tabel <code>security_logs</span></code> dengan kolom: timestamp, user_id, event_type, ip_address, details</li>
+                        <li>Buat file <code>logger.php</span></code> dengan fungsi log security events</li>
+                        <li>Implementasikan logging untuk: login attempts, failed logins, privilege changes, data modifications</li>
+                        <li>Buat dashboard untuk melihat logs</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment">// logger.php - Security logging</span>
+<span class="keyword">function</span> <span class="function">logSecurityEvent</span>($event_type, $details = []) {
+    <span class="keyword">global</span> $conn;
+    
+    $user_id = $_SESSION[<span class="string">'user_id'</span>] ?? <span class="keyword">null</span>;
+    $ip_address = $_SERVER[<span class="string">'REMOTE_ADDR'</span>];
+    $user_agent = $_SERVER[<span class="string">'HTTP_USER_AGENT'</span>];
+    $details_json = <span class="function">json_encode</span>($details);
+    
+    $stmt = $conn-><span class="function">prepare</span>(<span class="string">"
+        INSERT INTO security_logs (user_id, event_type, ip_address, user_agent, details, created_at)
+        VALUES (?, ?, ?, ?, ?, NOW())
+    "</span>);
+    $stmt-><span class="function">bind_param</span>(<span class="string">"issss"</span>, $user_id, $event_type, $ip_address, $user_agent, $details_json);
+    $stmt-><span class="function">execute</span>();
+}
+
+<span class="comment">// Usage examples</span>
+<span class="function">logSecurityEvent</span>(<span class="string">'login_success'</span>, [<span class="string">'username'</span> => $username]);
+<span class="function">logSecurityEvent</span>(<span class="string">'login_failed'</span>, [<span class="string">'username'</span> => $username, <span class="string">'reason'</span> => <span class="string">'invalid_password'</span>]);
+<span class="function">logSecurityEvent</span>(<span class="string">'privilege_change'</span>, [<span class="string">'target_user'</span> => $target_user_id, <span class="string">'new_role'</span> => $new_role]);
+<span class="function">logSecurityEvent</span>(<span class="string">'data_modification'</span>, [<span class="string">'table'</span> => <span class="string">'users'</span>, <span class="string">'action'</span> => <span class="string">'update'</span>]);</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 4: Implementasi Backup Script</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Membuat automated backup system mengikuti 3-2-1 rule
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Buat script <code>backup.php</span></code> untuk backup database</li>
+                        <li>Buat script <code>backup_files.php</span></code> untuk backup files</li>
+                        <li>Setup cron job untuk automated backup</li>
+                        <li>Test restore procedure</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment">// backup.php - Database backup script</span>
+$backup_dir = <span class="string">'/backups/database/'</span>;
+$date = <span class="function">date</span>(<span class="string">'Y-m-d_H-i-s'</span>);
+$backup_file = $backup_dir . <span class="string">'backup_'</span> . $date . <span class="string">'.sql'</span>;
+
+<span class="comment">// Database credentials</span>
+$db_host = <span class="string">'localhost'</span>;
+$db_user = <span class="string">'backup_user'</span>;
+$db_pass = <span class="string">'secure_password'</span>;
+$db_name = <span class="string">'my_database'</span>;
+
+<span class="comment">// Create backup</span>
+$command = <span class="string">"mysqldump -h {$db_host} -u {$db_user} -p{$db_pass} {$db_name} > {$backup_file}"</span>;
+<span class="function">exec</span>($command);
+
+<span class="comment">// Compress backup</span>
+$compressed_file = $backup_file . <span class="string">'.gz'</span>;
+<span class="function">exec</span>(<span class="string">"gzip {$backup_file}"</span>);
+
+<span class="comment">// Copy to offsite location (example: S3, FTP, etc.)</span>
+<span class="comment">// uploadToS3($compressed_file);</span>
+
+<span class="comment">// Delete backups older than 30 days</span>
+$files = <span class="function">glob</span>($backup_dir . <span class="string">'backup_*.sql.gz'</span>);
+<span class="keyword">foreach</span> ($files <span class="keyword">as</span> $file) {
+    <span class="keyword">if</span> (<span class="function">filemtime</span>($file) < <span class="function">time</span>() - 30 * 24 * 60 * 60) {
+        <span class="function">unlink</span>($file);
+    }
+}</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 5: Implementasi Password Hashing yang Aman</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengimplementasikan password hashing dengan bcrypt/argon2
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Buat file <code>password_hash.php</span></code> untuk hash password saat registrasi</li>
+                        <li>Buat file <code>password_verify.php</span></code> untuk verify password saat login</li>
+                        <li>Implementasikan password strength meter</li>
+                        <li>Test dengan berbagai password</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment">// password_hash.php - Secure password hashing</span>
+$password = $_POST[<span class="string">'password'</span>];
+
+<span class="comment">// Use password_hash with bcrypt (default)</span>
+$hash = <span class="function">password_hash</span>($password, PASSWORD_DEFAULT);
+
+<span class="comment">// Or use Argon2 (more secure, PHP 7.2+)</span>
+$hash = <span class="function">password_hash</span>($password, PASSWORD_ARGON2ID, [
+    <span class="string">'memory_cost'</span> => 65536, <span class="comment">// 64 MB</span>
+    <span class="string">'time_cost'</span> => 4,        <span class="comment">// 4 iterations</span>
+    <span class="string">'threads'</span> => 3            <span class="comment">// 3 threads</span>
+]);
+
+<span class="comment">// Save hash to database</span>
+$stmt = $conn-><span class="function">prepare</span>(<span class="string">"UPDATE users SET password_hash = ? WHERE id = ?"</span>);
+$stmt-><span class="function">bind_param</span>(<span class="string">"si"</span>, $hash, $user_id);
+$stmt-><span class="function">execute</span>();
+
+<span class="comment">// password_verify.php - Verify password</span>
+$password = $_POST[<span class="string">'password'</span>];
+$hash = $user[<span class="string">'password_hash'</span>];
+
+<span class="keyword">if</span> (<span class="function">password_verify</span>($password, $hash)) {
+    <span class="comment">// Password correct</span>
+    <span class="function">logSecurityEvent</span>(<span class="string">'login_success'</span>);
+} <span class="keyword">else</span> {
+    <span class="comment">// Password incorrect</span>
+    <span class="function">logSecurityEvent</span>(<span class="string">'login_failed'</span>);
+}</code></pre>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Summary -->
+            <section>
+                <h2>Ringkasan Day 3</h2>
+                <div class="success">
+                    <h3>Key Takeaways:</h3>
+                    <ul>
+                        <li>MFA meningkatkan keamanan akun secara signifikan</li>
+                        <li>RBAC memberikan kontrol akses yang fleksibel</li>
+                        <li>Logging penting untuk audit dan monitoring</li>
+                        <li>Backup strategy harus mengikuti 3-2-1 rule</li>
+                        <li>Test restore procedures secara berkala</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Next Steps -->
+            <section>
+                <h2>Next Steps</h2>
+                <ul>
+                    <li>Review semua implementasi</li>
+                    <li>Test semua fitur security</li>
+                    <li>Siapkan environment untuk Day 4 (Server Security)</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <section class="center">
+                <h2>Terima Kasih!</h2>
+                <p style="margin-top: 50px;">
+                    <a href="day-04.html">→ Lanjut ke Day 4</a>
+                </p>
+                <p style="margin-top: 30px;">
+                    <a href="index.html">← Kembali ke Menu Utama</a>
+                </p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: false,
+            transition: 'slide',
+            slideNumber: true
+        });
+    </script>
+</body>
+</html>
+

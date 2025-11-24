@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 2: Practicing Secure Programming</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.css">
+    
+    <style>
+        .reveal .slides section {
+            text-align: left;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 0.65em;
+            font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+            overflow-x: auto;
+            line-height: 1.5;
+            border: 1px solid #444;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .code-block pre {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+        }
+        .code-block code {
+            display: block;
+            white-space: pre;
+            overflow-x: auto;
+            color: #f8f8f2;
+        }
+        .code-block .comment {
+            color: #75715e;
+            font-style: italic;
+        }
+        .code-block .string {
+            color: #e6db74;
+        }
+        .code-block .keyword {
+            color: #66d9ef;
+        }
+        .code-block .function {
+            color: #a6e22e;
+        }
+        .code-block .variable {
+            color: #f92672;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 5px;
+        }
+        .warning {
+            background-color: #f8d7da;
+            padding: 10px;
+            border-left: 4px solid #dc3545;
+            margin: 10px 0;
+        }
+        .success {
+            background-color: #d4edda;
+            padding: 10px;
+            border-left: 4px solid #28a745;
+            margin: 10px 0;
+        }
+        .info {
+            background-color: #d1ecf1;
+            padding: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 10px 0;
+        }
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- Title -->
+            <section>
+                <h1>Day 2</h1>
+                <h2>Practicing Secure Programming</h2>
+                <p style="margin-top: 50px;">
+                    <a href="index.html">← Kembali ke Menu Utama</a>
+                </p>
+            </section>
+
+            <!-- Learning Objectives -->
+            <section>
+                <h2>Tujuan Pembelajaran</h2>
+                <ul>
+                    <li>Mampu memvalidasi dan menyanitasi input pengguna</li>
+                    <li>Mencegah serangan SQL Injection</li>
+                    <li>Mencegah serangan Cross-Site Scripting (XSS)</li>
+                    <li>Mencegah Session Hijacking</li>
+                    <li>Mencegah Remote Code Execution</li>
+                </ul>
+            </section>
+
+            <!-- 2.1 Input Validation -->
+            <section>
+                <section>
+                    <h2>2.1 Validating and Sanitizing User Input</h2>
+                    <p><strong>Input Validation</strong>: Memverifikasi data sesuai format dan aturan</p>
+                    <p><strong>Input Sanitization</strong>: Membersihkan data dari karakter berbahaya</p>
+                </section>
+
+                <section>
+                    <h3>Prinsip Input Validation</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Whitelist Approach</h4>
+                            <div class="success">
+                                <strong>Lebih Aman</strong><br>
+                                Hanya mengizinkan karakter/format yang diizinkan
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Blacklist Approach</h4>
+                            <div class="warning">
+                                <strong>Kurang Aman</strong><br>
+                                Menolak karakter yang diketahui berbahaya
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Teknik Validasi</h3>
+                    <ul>
+                        <li><strong>Type Validation</strong>: String, integer, email</li>
+                        <li><strong>Length Validation</strong>: Membatasi panjang input</li>
+                        <li><strong>Format Validation</strong>: Regex, email format</li>
+                        <li><strong>Range Validation</strong>: Nilai dalam rentang yang diizinkan</li>
+                        <li><strong>Business Logic Validation</strong>: Validasi sesuai aturan bisnis</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Contoh Implementasi</h3>
+                    <div class="code-block">
+<pre><code><span class="comment">// Validate email</span>
+<span class="keyword">if</span> (!<span class="function">filter_var</span>($email, FILTER_VALIDATE_EMAIL)) {
+    <span class="function">die</span>(<span class="string">"Invalid email"</span>);
+}
+
+<span class="comment">// Validate length</span>
+<span class="keyword">if</span> (<span class="function">strlen</span>($username) < 3 || <span class="function">strlen</span>($username) > 50) {
+    <span class="function">die</span>(<span class="string">"Username must be 3-50 characters"</span>);
+}
+
+<span class="comment">// Whitelist approach</span>
+<span class="keyword">if</span> (!<span class="function">preg_match</span>(<span class="string">'/^[a-zA-Z0-9]+$/'</span>, $username)) {
+    <span class="function">die</span>(<span class="string">"Username can only contain letters and numbers"</span>);
+}</code></pre>
+                    </div>
+                </section>
+
+                <!-- Step-by-Step Practical Session -->
+                <section>
+                    <h2>Praktik Lengkap: Form Registrasi dengan Validasi & Sanitasi</h2>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Membuat form registrasi lengkap dengan validasi dan sanitasi yang aman
+                    </div>
+                    <p>Ikuti langkah-langkah berikut untuk membuat aplikasi registrasi yang aman</p>
+                </section>
+
+                <section>
+                    <h3>Step 1: Setup Database</h3>
+                    <p><strong>Buat database dan tabel users:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">-- Buat database</span>
+<span class="keyword">CREATE DATABASE</span> security_training;
+
+<span class="keyword">USE</span> security_training;
+
+<span class="comment">-- Buat tabel users</span>
+<span class="keyword">CREATE TABLE</span> users (
+    id <span class="keyword">INT</span> AUTO_INCREMENT PRIMARY KEY,
+    username <span class="keyword">VARCHAR</span>(50) <span class="keyword">NOT NULL</span> <span class="keyword">UNIQUE</span>,
+    email <span class="keyword">VARCHAR</span>(100) <span class="keyword">NOT NULL</span> <span class="keyword">UNIQUE</span>,
+    password_hash <span class="keyword">VARCHAR</span>(255) <span class="keyword">NOT NULL</span>,
+    full_name <span class="keyword">VARCHAR</span>(100),
+    phone <span class="keyword">VARCHAR</span>(20),
+    created_at <span class="keyword">TIMESTAMP</span> <span class="keyword">DEFAULT</span> CURRENT_TIMESTAMP
+);</code></pre>
+                    </div>
+                    <div class="success" style="margin-top: 15px;">
+                        <strong>✓ Checklist:</strong> Database dan tabel sudah dibuat
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 2: Buat File Koneksi Database</h3>
+                    <p><strong>Buat file <code>config.php</code>:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// config.php</span>
+<span class="keyword">?&gt;</span>&lt;?php
+<span class="keyword">define</span>(<span class="string">'DB_HOST'</span>, <span class="string">'localhost'</span>);
+<span class="keyword">define</span>(<span class="string">'DB_USER'</span>, <span class="string">'root'</span>);
+<span class="keyword">define</span>(<span class="string">'DB_PASS'</span>, <span class="string">''</span>);
+<span class="keyword">define</span>(<span class="string">'DB_NAME'</span>, <span class="string">'security_training'</span>);
+
+<span class="comment">// Koneksi database</span>
+$conn = <span class="keyword">new</span> <span class="function">mysqli</span>(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+<span class="keyword">if</span> ($conn->connect_error) {
+    <span class="function">die</span>(<span class="string">"Connection failed: "</span> . $conn->connect_error);
+}
+
+<span class="comment">// Set charset</span>
+$conn-><span class="function">set_charset</span>(<span class="string">"utf8mb4"</span>);
+<span class="keyword">?&gt;</span></code></pre>
+                    </div>
+                    <div class="success" style="margin-top: 15px;">
+                        <strong>✓ Checklist:</strong> File config.php sudah dibuat dan database terkoneksi
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 3: Buat File Validasi (Bagian 1)</h3>
+                    <p><strong>Buat file <code>validation.php</code> dengan fungsi validasi:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// validation.php</span>
+<span class="keyword">function</span> <span class="function">validateEmail</span>($email) {
+    <span class="comment">// Trim whitespace</span>
+    $email = <span class="function">trim</span>($email);
+    
+    <span class="comment">// Validate format</span>
+    <span class="keyword">if</span> (!<span class="function">filter_var</span>($email, FILTER_VALIDATE_EMAIL)) {
+        <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">false</span>, <span class="string">'error'</span> => <span class="string">'Format email tidak valid'</span>];
+    }
+    
+    <span class="comment">// Validate length</span>
+    <span class="keyword">if</span> (<span class="function">strlen</span>($email) > 100) {
+        <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">false</span>, <span class="string">'error'</span> => <span class="string">'Email maksimal 100 karakter'</span>];
+    }
+    
+    <span class="comment">// Sanitize</span>
+    $email = <span class="function">filter_var</span>($email, FILTER_SANITIZE_EMAIL);
+    
+    <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">true</span>, <span class="string">'value'</span> => $email];
+}
+
+<span class="keyword">function</span> <span class="function">validateUsername</span>($username) {
+    <span class="comment">// Trim whitespace</span>
+    $username = <span class="function">trim</span>($username);
+    
+    <span class="comment">// Validate length</span>
+    <span class="keyword">if</span> (<span class="function">strlen</span>($username) < 3 || <span class="function">strlen</span>($username) > 50) {
+        <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">false</span>, <span class="string">'error'</span> => <span class="string">'Username harus 3-50 karakter'</span>];
+    }
+    
+    <span class="comment">// Whitelist: hanya alphanumeric</span>
+    <span class="keyword">if</span> (!<span class="function">preg_match</span>(<span class="string">'/^[a-zA-Z0-9]+$/'</span>, $username)) {
+        <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">false</span>, <span class="string">'error'</span> => <span class="string">'Username hanya boleh huruf dan angka'</span>];
+    }
+    
+    <span class="comment">// Sanitize (remove any special characters)</span>
+    $username = <span class="function">preg_replace</span>(<span class="string">'/[^a-zA-Z0-9]/'</span>, <span class="string">''</span>, $username);
+    
+    <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">true</span>, <span class="string">'value'</span> => $username];
+}</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 3: Buat File Validasi (Bagian 2)</h3>
+                    <div class="code-block">
+<pre><code><span class="keyword">function</span> <span class="function">validatePassword</span>($password) {
+    <span class="comment">// Validate length</span>
+    <span class="keyword">if</span> (<span class="function">strlen</span>($password) < 8) {
+        <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">false</span>, <span class="string">'error'</span> => <span class="string">'Password minimal 8 karakter'</span>];
+    }
+    
+    <span class="comment">// Validate strength: harus ada huruf besar, kecil, dan angka</span>
+    <span class="keyword">if</span> (!<span class="function">preg_match</span>(<span class="string">'/[a-z]/'</span>, $password)) {
+        <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">false</span>, <span class="string">'error'</span> => <span class="string">'Password harus mengandung huruf kecil'</span>];
+    }
+    
+    <span class="keyword">if</span> (!<span class="function">preg_match</span>(<span class="string">'/[A-Z]/'</span>, $password)) {
+        <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">false</span>, <span class="string">'error'</span> => <span class="string">'Password harus mengandung huruf besar'</span>];
+    }
+    
+    <span class="keyword">if</span> (!<span class="function">preg_match</span>(<span class="string">'/[0-9]/'</span>, $password)) {
+        <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">false</span>, <span class="string">'error'</span> => <span class="string">'Password harus mengandung angka'</span>];
+    }
+    
+    <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">true</span>, <span class="string">'value'</span> => $password];
+}
+
+<span class="keyword">function</span> <span class="function">validatePhone</span>($phone) {
+    <span class="comment">// Trim dan remove non-digit characters</span>
+    $phone = <span class="function">preg_replace</span>(<span class="string">'/[^0-9+]/'</span>, <span class="string">''</span>, <span class="function">trim</span>($phone));
+    
+    <span class="comment">// Validate format (contoh: +628123456789 atau 08123456789)</span>
+    <span class="keyword">if</span> (!<span class="function">preg_match</span>(<span class="string">'/^(\+62|0)[0-9]{9,12}$/'</span>, $phone)) {
+        <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">false</span>, <span class="string">'error'</span> => <span class="string">'Format nomor telepon tidak valid'</span>];
+    }
+    
+    <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">true</span>, <span class="string">'value'</span> => $phone];
+}
+
+<span class="keyword">function</span> <span class="function">validateFullName</span>($name) {
+    <span class="comment">// Trim whitespace</span>
+    $name = <span class="function">trim</span>($name);
+    
+    <span class="comment">// Validate length</span>
+    <span class="keyword">if</span> (<span class="function">strlen</span>($name) < 2 || <span class="function">strlen</span>($name) > 100) {
+        <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">false</span>, <span class="string">'error'</span> => <span class="string">'Nama harus 2-100 karakter'</span>];
+    }
+    
+    <span class="comment">// Allow letters, spaces, and common name characters</span>
+    <span class="keyword">if</span> (!<span class="function">preg_match</span>(<span class="string">'/^[a-zA-Z\s\-\'\.]+$/'</span>, $name)) {
+        <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">false</span>, <span class="string">'error'</span> => <span class="string">'Nama hanya boleh mengandung huruf, spasi, dan karakter khusus nama'</span>];
+    }
+    
+    <span class="comment">// Sanitize</span>
+    $name = <span class="function">filter_var</span>($name, FILTER_SANITIZE_STRING);
+    
+    <span class="keyword">return</span> [<span class="string">'valid'</span> => <span class="keyword">true</span>, <span class="string">'value'</span> => $name];
+}
+<span class="keyword">?&gt;</span></code></pre>
+                    </div>
+                    <div class="success" style="margin-top: 15px;">
+                        <strong>✓ Checklist:</strong> File validation.php sudah dibuat dengan semua fungsi validasi
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 4: Buat Form HTML (Bagian 1 - PHP Logic)</h3>
+                    <p><strong>Buat file <code>register.php</code> - Bagian PHP:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">&lt;!-- register.php --&gt;</span>
+&lt;?php
+<span class="keyword">require</span> <span class="string">'config.php'</span>;
+<span class="keyword">require</span> <span class="string">'validation.php'</span>;
+
+$errors = [];
+$success = <span class="keyword">false</span>;
+
+<span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">'POST'</span>) {
+    <span class="comment">// Validasi semua input</span>
+    $email_result = <span class="function">validateEmail</span>($_POST[<span class="string">'email'</span>] ?? <span class="string">''</span>);
+    $username_result = <span class="function">validateUsername</span>($_POST[<span class="string">'username'</span>] ?? <span class="string">''</span>);
+    $password_result = <span class="function">validatePassword</span>($_POST[<span class="string">'password'</span>] ?? <span class="string">''</span>);
+    $fullname_result = <span class="function">validateFullName</span>($_POST[<span class="string">'full_name'</span>] ?? <span class="string">''</span>);
+    $phone_result = <span class="function">validatePhone</span>($_POST[<span class="string">'phone'</span>] ?? <span class="string">''</span>);
+    
+    <span class="comment">// Collect errors</span>
+    <span class="keyword">if</span> (!$email_result[<span class="string">'valid'</span>]) $errors[] = $email_result[<span class="string">'error'</span>];
+    <span class="keyword">if</span> (!$username_result[<span class="string">'valid'</span>]) $errors[] = $username_result[<span class="string">'error'</span>];
+    <span class="keyword">if</span> (!$password_result[<span class="string">'valid'</span>]) $errors[] = $password_result[<span class="string">'error'</span>];
+    <span class="keyword">if</span> (!$fullname_result[<span class="string">'valid'</span>]) $errors[] = $fullname_result[<span class="string">'error'</span>];
+    <span class="keyword">if</span> (!$phone_result[<span class="string">'valid'</span>]) $errors[] = $phone_result[<span class="string">'error'</span>];
+    
+    <span class="comment">// Check if email/username already exists</span>
+    <span class="keyword">if</span> (empty($errors)) {
+        $stmt = $conn-><span class="function">prepare</span>(<span class="string">"SELECT id FROM users WHERE email = ? OR username = ?"</span>);
+        $stmt-><span class="function">bind_param</span>(<span class="string">"ss"</span>, $email_result[<span class="string">'value'</span>], $username_result[<span class="string">'value'</span>]);
+        $stmt-><span class="function">execute</span>();
+        $result = $stmt-><span class="function">get_result</span>();
+        
+        <span class="keyword">if</span> ($result->num_rows > 0) {
+            $errors[] = <span class="string">"Email atau username sudah terdaftar"</span>;
+        }
+    }
+    
+    <span class="comment">// Insert to database if no errors</span>
+    <span class="keyword">if</span> (empty($errors)) {
+        $password_hash = <span class="function">password_hash</span>($password_result[<span class="string">'value'</span>], PASSWORD_DEFAULT);
+        
+        $stmt = $conn-><span class="function">prepare</span>(<span class="string">"INSERT INTO users (username, email, password_hash, full_name, phone) VALUES (?, ?, ?, ?, ?)"</span>);
+        $stmt-><span class="function">bind_param</span>(<span class="string">"sssss"</span>, 
+            $username_result[<span class="string">'value'</span>],
+            $email_result[<span class="string">'value'</span>],
+            $password_hash,
+            $fullname_result[<span class="string">'value'</span>],
+            $phone_result[<span class="string">'value'</span>]
+        );
+        
+        <span class="keyword">if</span> ($stmt-><span class="function">execute</span>()) {
+            $success = <span class="keyword">true</span>;
+        } <span class="keyword">else</span> {
+            $errors[] = <span class="string">"Terjadi kesalahan. Silakan coba lagi."</span>;
+        }
+    }
+}
+?&gt;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 4: Buat Form HTML (Bagian 2 - HTML Form)</h3>
+                    <div class="code-block">
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="id"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Registrasi&lt;/title&gt;
+    &lt;style&gt;
+        .error { color: red; }
+        .success { color: green; }
+        form { max-width: 500px; margin: 50px auto; }
+        input, button { width: 100%; padding: 10px; margin: 5px 0; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Form Registrasi&lt;/h1&gt;
+    
+    &lt;?php <span class="keyword">if</span> ($success): ?&gt;
+        &lt;div class="success"&gt;Registrasi berhasil!&lt;/div&gt;
+    &lt;?php <span class="keyword">endif</span>; ?&gt;
+    
+    &lt;?php <span class="keyword">if</span> (!empty($errors)): ?&gt;
+        &lt;ul class="error"&gt;
+            &lt;?php <span class="keyword">foreach</span> ($errors <span class="keyword">as</span> $error): ?&gt;
+                &lt;li&gt;&lt;?php <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($error); ?&gt;&lt;/li&gt;
+            &lt;?php <span class="keyword">endforeach</span>; ?&gt;
+        &lt;/ul&gt;
+    &lt;?php <span class="keyword">endif</span>; ?&gt;
+    
+    &lt;form method="POST"&gt;
+        &lt;label&gt;Username:&lt;/label&gt;
+        &lt;input type="text" name="username" required 
+               value="&lt;?php <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($_POST[<span class="string">'username'</span>] ?? <span class="string">''</span>); ?&gt;"&gt;
+        
+        &lt;label&gt;Email:&lt;/label&gt;
+        &lt;input type="email" name="email" required 
+               value="&lt;?php <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($_POST[<span class="string">'email'</span>] ?? <span class="string">''</span>); ?&gt;"&gt;
+        
+        &lt;label&gt;Password:&lt;/label&gt;
+        &lt;input type="password" name="password" required&gt;
+        &lt;small&gt;Minimal 8 karakter, harus ada huruf besar, kecil, dan angka&lt;/small&gt;
+        
+        &lt;label&gt;Nama Lengkap:&lt;/label&gt;
+        &lt;input type="text" name="full_name" required 
+               value="&lt;?php <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($_POST[<span class="string">'full_name'</span>] ?? <span class="string">''</span>); ?&gt;"&gt;
+        
+        &lt;label&gt;Nomor Telepon:&lt;/label&gt;
+        &lt;input type="text" name="phone" 
+               value="&lt;?php <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($_POST[<span class="string">'phone'</span>] ?? <span class="string">''</span>); ?&gt;"&gt;
+        
+        &lt;button type="submit"&gt;Daftar&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                    <div class="success" style="margin-top: 15px;">
+                        <strong>✓ Checklist:</strong> Form registrasi sudah dibuat dengan validasi lengkap
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 5: Testing & Verifikasi</h3>
+                    <p><strong>Test dengan berbagai skenario:</strong></p>
+                    <div class="two-column">
+                        <div>
+                            <h4>Test Case Valid:</h4>
+                            <ul style="font-size: 0.9em;">
+                                <li>Username: <code>john123</code></li>
+                                <li>Email: <code>john@example.com</code></li>
+                                <li>Password: <code>Password123</code></li>
+                                <li>Nama: <code>John Doe</code></li>
+                                <li>Phone: <code>08123456789</code></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Test Case Invalid:</h4>
+                            <ul style="font-size: 0.9em;">
+                                <li>Username: <code>ab</code> (terlalu pendek)</li>
+                                <li>Email: <code>invalid-email</code></li>
+                                <li>Password: <code>12345</code> (terlalu lemah)</li>
+                                <li>Nama: <code>&lt;script&gt;</code> (XSS attempt)</li>
+                                <li>Phone: <code>abc</code> (bukan angka)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="info" style="margin-top: 20px;">
+                        <strong>Verifikasi:</strong>
+                        <ul>
+                            <li>✓ Data yang valid berhasil disimpan</li>
+                            <li>✓ Data yang invalid ditolak dengan pesan error</li>
+                            <li>✓ XSS attempt tidak berhasil (lihat di database)</li>
+                            <li>✓ SQL injection tidak berhasil</li>
+                            <li>✓ Password di-hash dengan aman</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 6: Review & Best Practices</h3>
+                    <div class="success">
+                        <h4>Yang sudah diimplementasikan:</h4>
+                        <ul>
+                            <li>✓ <strong>Input Validation:</strong> Semua input divalidasi sebelum diproses</li>
+                            <li>✓ <strong>Input Sanitization:</strong> Data dibersihkan dari karakter berbahaya</li>
+                            <li>✓ <strong>Whitelist Approach:</strong> Hanya karakter yang diizinkan diterima</li>
+                            <li>✓ <strong>Prepared Statements:</strong> Mencegah SQL injection</li>
+                            <li>✓ <strong>Password Hashing:</strong> Password di-hash dengan password_hash()</li>
+                            <li>✓ <strong>Output Encoding:</strong> Data ditampilkan dengan htmlspecialchars()</li>
+                            <li>✓ <strong>Error Handling:</strong> Error ditampilkan dengan aman</li>
+                        </ul>
+                    </div>
+                    <div class="info" style="margin-top: 20px;">
+                        <strong>Pelajaran yang didapat:</strong>
+                        <ul>
+                            <li>Validasi dilakukan di server-side (tidak hanya client-side)</li>
+                            <li>Setiap input memiliki aturan validasi yang spesifik</li>
+                            <li>Sanitization dilakukan setelah validasi</li>
+                            <li>Pesan error tidak mengungkapkan informasi sensitif</li>
+                        </ul>
+                    </div>
+                </section>
+            </section>
+
+            <!-- 2.2 SQL Injection -->
+            <section>
+                <section>
+                    <h2>2.2 Preventing SQL Injection</h2>
+                    <p>Teknik serangan di mana penyerang menyuntikkan kode SQL berbahaya</p>
+                </section>
+
+                <section>
+                    <h3>Contoh Vulnerable Code</h3>
+                    <div class="warning">
+                        JANGAN GUNAKAN DI PRODUKSI!
+                    </div>
+                    <div class="code-block">
+<pre><code>$username = $_POST[<span class="string">'username'</span>];
+$password = $_POST[<span class="string">'password'</span>];
+$query = <span class="string">"SELECT * FROM users 
+          WHERE username = '$username' 
+          AND password = '$password'"</span>;
+$result = <span class="function">mysqli_query</span>($conn, $query);</code></pre>
+                    </div>
+                    <div class="info">
+                        <strong>Exploit:</strong><br>
+                        Username: <code>admin' OR '1'='1</code>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Cara Pencegahan</h3>
+                    <ol>
+                        <li><strong>Prepared Statements</strong> (Paling Aman)</li>
+                        <li>Input Validation</li>
+                        <li>Least Privilege</li>
+                        <li>Error Handling</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>Secure Code dengan Prepared Statements</h3>
+                    <div class="code-block">
+<pre><code>$stmt = $conn-><span class="function">prepare</span>(<span class="string">"SELECT * FROM users 
+                        WHERE username = ? AND password = ?"</span>);
+$stmt-><span class="function">bind_param</span>(<span class="string">"ss"</span>, $username, $password);
+$stmt-><span class="function">execute</span>();
+$result = $stmt-><span class="function">get_result</span>();</code></pre>
+                    </div>
+                    <div class="success">
+                        Database memisahkan data dari kode SQL
+                    </div>
+                </section>
+
+                <!-- Step-by-Step Practical Session: SQL Injection Prevention -->
+                <section>
+                    <h2>Praktik Lengkap: Login System dengan Prepared Statements</h2>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Membuat sistem login yang aman dari SQL injection
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 1: Buat File Vulnerable (untuk Demo)</h3>
+                    <p><strong>Buat file <code>login_vulnerable.php</code> untuk menunjukkan vulnerability:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// login_vulnerable.php - JANGAN GUNAKAN DI PRODUKSI!</span>
+<span class="keyword">require</span> <span class="string">'config.php'</span>;
+
+<span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">'POST'</span>) {
+    $username = $_POST[<span class="string">'username'</span>];
+    $password = $_POST[<span class="string">'password'</span>];
+    
+    <span class="comment">// VULNERABLE: String concatenation</span>
+    $query = <span class="string">"SELECT * FROM users WHERE username = '$username' AND password = '$password'"</span>;
+    $result = <span class="function">mysqli_query</span>($conn, $query);
+    
+    <span class="keyword">if</span> ($result && <span class="function">mysqli_num_rows</span>($result) > 0) {
+        <span class="keyword">echo</span> <span class="string">"Login berhasil!"</span>;
+    } <span class="keyword">else</span> {
+        <span class="keyword">echo</span> <span class="string">"Login gagal!"</span>;
+    }
+}
+?&gt;
+&lt;form method="POST"&gt;
+    Username: &lt;input type="text" name="username"&gt;&lt;br&gt;
+    Password: &lt;input type="password" name="password"&gt;&lt;br&gt;
+    &lt;button type="submit"&gt;Login&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                    </div>
+                    <div class="warning" style="margin-top: 15px;">
+                        <strong>Test SQL Injection:</strong> Coba input: <code>admin' OR '1'='1</code> di username
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 2: Buat File Secure (Bagian 1 - PHP Logic)</h3>
+                    <p><strong>Buat file <code>login_secure.php</code> - Bagian PHP:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// login_secure.php</span>
+<span class="keyword">require</span> <span class="string">'config.php'</span>;
+<span class="function">session_start</span>();
+
+$error = <span class="string">''</span>;
+
+<span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">'POST'</span>) {
+    $username = <span class="function">trim</span>($_POST[<span class="string">'username'</span>] ?? <span class="string">''</span>);
+    $password = $_POST[<span class="string">'password'</span>] ?? <span class="string">''</span>;
+    
+    <span class="comment">// Validate input</span>
+    <span class="keyword">if</span> (empty($username) || empty($password)) {
+        $error = <span class="string">"Username dan password harus diisi"</span>;
+    } <span class="keyword">else</span> {
+        <span class="comment">// SECURE: Prepared statement</span>
+        $stmt = $conn-><span class="function">prepare</span>(<span class="string">"SELECT id, username, email, password_hash FROM users WHERE username = ?"</span>);
+        $stmt-><span class="function">bind_param</span>(<span class="string">"s"</span>, $username);
+        $stmt-><span class="function">execute</span>();
+        $result = $stmt-><span class="function">get_result</span>();
+        
+        <span class="keyword">if</span> ($user = $result-><span class="function">fetch_assoc</span>()) {
+            <span class="comment">// Verify password</span>
+            <span class="keyword">if</span> (<span class="function">password_verify</span>($password, $user[<span class="string">'password_hash'</span>])) {
+                <span class="comment">// Login successful</span>
+                $_SESSION[<span class="string">'user_id'</span>] = $user[<span class="string">'id'</span>];
+                $_SESSION[<span class="string">'username'</span>] = $user[<span class="string">'username'</span>];
+                <span class="function">header</span>(<span class="string">'Location: dashboard.php'</span>);
+                <span class="keyword">exit</span>;
+            } <span class="keyword">else</span> {
+                $error = <span class="string">"Password salah"</span>;
+            }
+        } <span class="keyword">else</span> {
+            $error = <span class="string">"Username tidak ditemukan"</span>;
+        }
+        $stmt-><span class="function">close</span>();
+    }
+}
+?&gt;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 2: Buat File Secure (Bagian 2 - HTML Form)</h3>
+                    <div class="code-block">
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Login&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Login&lt;/h1&gt;
+    &lt;?php <span class="keyword">if</span> ($error): ?&gt;
+        &lt;div style="color: red;"&gt;&lt;?php <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($error); ?&gt;&lt;/div&gt;
+    &lt;?php <span class="keyword">endif</span>; ?&gt;
+    &lt;form method="POST"&gt;
+        Username: &lt;input type="text" name="username" required&gt;&lt;br&gt;
+        Password: &lt;input type="password" name="password" required&gt;&lt;br&gt;
+        &lt;button type="submit"&gt;Login&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 3: Testing SQL Injection</h3>
+                    <p><strong>Test dengan berbagai payload SQL injection:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// Test Case 1: Basic SQL Injection</span>
+Username: admin<span class="string">' OR '1'='1</span>
+Password: anything
+<span class="comment">// Expected: Login gagal (vulnerable file akan berhasil, secure file akan gagal)</span>
+
+<span class="comment">// Test Case 2: Comment-based injection</span>
+Username: admin<span class="string">' --</span>
+Password: anything
+<span class="comment">// Expected: Login gagal</span>
+
+<span class="comment">// Test Case 3: Union-based injection</span>
+Username: admin<span class="string">' UNION SELECT * FROM users --</span>
+Password: anything
+<span class="comment">// Expected: Login gagal</span>
+
+<span class="comment">// Test Case 4: Valid credentials</span>
+Username: john123
+Password: Password123
+<span class="comment">// Expected: Login berhasil</span></code></pre>
+                    </div>
+                    <div class="success" style="margin-top: 15px;">
+                        <strong>✓ Verifikasi:</strong> Prepared statements mencegah semua jenis SQL injection
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 4: Buat Dashboard untuk Verifikasi</h3>
+                    <p><strong>Buat file <code>dashboard.php</code>:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// dashboard.php</span>
+<span class="function">session_start</span>();
+
+<span class="keyword">if</span> (!<span class="function">isset</span>($_SESSION[<span class="string">'user_id'</span>])) {
+    <span class="function">header</span>(<span class="string">'Location: login_secure.php'</span>);
+    <span class="keyword">exit</span>;
+}
+
+<span class="keyword">require</span> <span class="string">'config.php'</span>;
+
+<span class="comment">// Get user info using prepared statement</span>
+$stmt = $conn-><span class="function">prepare</span>(<span class="string">"SELECT id, username, email, full_name FROM users WHERE id = ?"</span>);
+$stmt-><span class="function">bind_param</span>(<span class="string">"i"</span>, $_SESSION[<span class="string">'user_id'</span>]);
+$stmt-><span class="function">execute</span>();
+$result = $stmt-><span class="function">get_result</span>();
+$user = $result-><span class="function">fetch_assoc</span>();
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Dashboard&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Welcome, &lt;?php <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($user[<span class="string">'username'</span>]); ?&gt;!&lt;/h1&gt;
+    &lt;p&gt;Email: &lt;?php <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($user[<span class="string">'email'</span>]); ?&gt;&lt;/p&gt;
+    &lt;a href="logout.php"&gt;Logout&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                </section>
+            </section>
+
+            <!-- 2.3 XSS -->
+            <section>
+                <section>
+                    <h2>2.3 Preventing Cross-Site Scripting (XSS)</h2>
+                    <p>Serangan di mana penyerang menyuntikkan script berbahaya ke dalam halaman web</p>
+                </section>
+
+                <section>
+                    <h3>Jenis-jenis XSS</h3>
+                    <div class="two-column">
+                        <div>
+                            <h4>Stored XSS</h4>
+                            <p>Script disimpan di database</p>
+                            <p><strong>Contoh:</strong> Comment box, forum post</p>
+                        </div>
+                        <div>
+                            <h4>Reflected XSS</h4>
+                            <p>Script direfleksikan dari input</p>
+                            <p><strong>Contoh:</strong> Search results</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <h4>DOM-based XSS</h4>
+                        <p>Script dieksekusi di client-side</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Contoh Serangan XSS</h3>
+                    <div class="code-block">
+<pre><code>&lt;<span class="keyword">script</span>&gt;<span class="function">alert</span>(<span class="string">'XSS'</span>)&lt;/<span class="keyword">script</span>&gt;
+&lt;<span class="keyword">img</span> <span class="variable">src</span>=x <span class="variable">onerror</span>=<span class="string">"alert('XSS')"</span>&gt;
+&lt;<span class="keyword">svg</span> <span class="variable">onload</span>=<span class="string">"alert('XSS')"</span>&gt;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Cara Pencegahan</h3>
+                    <ol>
+                        <li><strong>Output Encoding</strong>
+                            <div class="code-block">
+<pre><code><span class="function">echo</span> <span class="function">htmlspecialchars</span>($userInput, ENT_QUOTES, <span class="string">'UTF-8'</span>);</code></pre>
+                            </div>
+                        </li>
+                        <li><strong>Content Security Policy (CSP)</strong></li>
+                        <li><strong>Input Validation</strong></li>
+                        <li><strong>HttpOnly Cookies</strong></li>
+                    </ol>
+                </section>
+
+                <!-- Step-by-Step Practical Session: XSS Prevention -->
+                <section>
+                    <h2>Praktik Lengkap: Comment System dengan XSS Prevention</h2>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Membuat sistem komentar yang aman dari XSS attack
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 1: Buat Tabel Comments</h3>
+                    <div class="code-block">
+<pre><code><span class="comment">-- Buat tabel comments</span>
+<span class="keyword">CREATE TABLE</span> comments (
+    id <span class="keyword">INT</span> AUTO_INCREMENT PRIMARY KEY,
+    user_id <span class="keyword">INT</span>,
+    content <span class="keyword">TEXT</span> <span class="keyword">NOT NULL</span>,
+    created_at <span class="keyword">TIMESTAMP</span> <span class="keyword">DEFAULT</span> CURRENT_TIMESTAMP,
+    <span class="keyword">FOREIGN KEY</span> (user_id) <span class="keyword">REFERENCES</span> users(id)
+);</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 2: Buat File Vulnerable (untuk Demo)</h3>
+                    <p><strong>Buat file <code>comment_vulnerable.php</code>:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// comment_vulnerable.php - JANGAN GUNAKAN DI PRODUKSI!</span>
+<span class="keyword">require</span> <span class="string">'config.php'</span>;
+
+<span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">'POST'</span>) {
+    $content = $_POST[<span class="string">'content'</span>];
+    <span class="comment">// VULNERABLE: Langsung insert tanpa sanitization</span>
+    $stmt = $conn-><span class="function">prepare</span>(<span class="string">"INSERT INTO comments (user_id, content) VALUES (?, ?)"</span>);
+    $stmt-><span class="function">bind_param</span>(<span class="string">"is"</span>, $_SESSION[<span class="string">'user_id'</span>], $content);
+    $stmt-><span class="function">execute</span>();
+}
+
+<span class="comment">// VULNERABLE: Langsung echo tanpa encoding</span>
+$result = $conn-><span class="function">query</span>(<span class="string">"SELECT * FROM comments ORDER BY created_at DESC"</span>);
+<span class="keyword">while</span> ($comment = $result-><span class="function">fetch_assoc</span>()) {
+    <span class="keyword">echo</span> <span class="string">"&lt;div&gt;"</span> . $comment[<span class="string">'content'</span>] . <span class="string">"&lt;/div&gt;"</span>; <span class="comment">// VULNERABLE!</span>
+}
+?&gt;
+&lt;form method="POST"&gt;
+    &lt;textarea name="content"&gt;&lt;/textarea&gt;
+    &lt;button type="submit"&gt;Post Comment&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                    </div>
+                    <div class="warning" style="margin-top: 15px;">
+                        <strong>Test XSS:</strong> Coba input: <code>&lt;script&gt;alert('XSS')&lt;/script&gt;</code>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 3: Buat File Secure (Bagian 1 - PHP Logic)</h3>
+                    <p><strong>Buat file <code>comment_secure.php</code> - Bagian PHP:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// comment_secure.php</span>
+<span class="keyword">require</span> <span class="string">'config.php'</span>;
+<span class="function">session_start</span>();
+
+<span class="keyword">if</span> (!<span class="function">isset</span>($_SESSION[<span class="string">'user_id'</span>])) {
+    <span class="function">header</span>(<span class="string">'Location: login_secure.php'</span>);
+    <span class="keyword">exit</span>;
+}
+
+$error = <span class="string">''</span>;
+
+<span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">'POST'</span>) {
+    $content = <span class="function">trim</span>($_POST[<span class="string">'content'</span>] ?? <span class="string">''</span>);
+    
+    <span class="comment">// Validate input</span>
+    <span class="keyword">if</span> (empty($content)) {
+        $error = <span class="string">"Komentar tidak boleh kosong"</span>;
+    } <span class="keyword">elseif</span> (<span class="function">strlen</span>($content) > 1000) {
+        $error = <span class="string">"Komentar maksimal 1000 karakter"</span>;
+    } <span class="keyword">else</span> {
+        <span class="comment">// SECURE: Store as-is, encode when displaying</span>
+        $stmt = $conn-><span class="function">prepare</span>(<span class="string">"INSERT INTO comments (user_id, content) VALUES (?, ?)"</span>);
+        $stmt-><span class="function">bind_param</span>(<span class="string">"is"</span>, $_SESSION[<span class="string">'user_id'</span>], $content);
+        $stmt-><span class="function">execute</span>();
+        <span class="function">header</span>(<span class="string">'Location: comment_secure.php'</span>);
+        <span class="keyword">exit</span>;
+    }
+}
+
+<span class="comment">// SECURE: Display with output encoding</span>
+$stmt = $conn-><span class="function">prepare</span>(<span class="string">"SELECT c.*, u.username FROM comments c JOIN users u ON c.user_id = u.id ORDER BY c.created_at DESC"</span>);
+$stmt-><span class="function">execute</span>();
+$result = $stmt-><span class="function">get_result</span>();
+?&gt;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 3: Buat File Secure (Bagian 2 - HTML Output)</h3>
+                    <div class="code-block">
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Comments&lt;/title&gt;
+    &lt;style&gt;
+        .comment { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+        .error { color: red; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Comments&lt;/h1&gt;
+    
+    &lt;?php <span class="keyword">if</span> ($error): ?&gt;
+        &lt;div class="error"&gt;&lt;?php <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($error); ?&gt;&lt;/div&gt;
+    &lt;?php <span class="keyword">endif</span>; ?&gt;
+    
+    &lt;form method="POST"&gt;
+        &lt;textarea name="content" rows="4" cols="50" required&gt;&lt;/textarea&gt;&lt;br&gt;
+        &lt;button type="submit"&gt;Post Comment&lt;/button&gt;
+    &lt;/form&gt;
+    
+    &lt;h2&gt;All Comments&lt;/h2&gt;
+    &lt;?php <span class="keyword">while</span> ($comment = $result-><span class="function">fetch_assoc</span>()): ?&gt;
+        &lt;div class="comment"&gt;
+            &lt;strong&gt;&lt;?php <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($comment[<span class="string">'username'</span>]); ?&gt;&lt;/strong&gt;
+            &lt;p&gt;&lt;?php <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($comment[<span class="string">'content'</span>]); ?&gt;&lt;/p&gt;
+            &lt;small&gt;&lt;?php <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($comment[<span class="string">'created_at'</span>]); ?&gt;&lt;/small&gt;
+        &lt;/div&gt;
+    &lt;?php <span class="keyword">endwhile</span>; ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 4: Testing XSS Attacks</h3>
+                    <p><strong>Test dengan berbagai XSS payload:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// Test Case 1: Basic XSS</span>
+&lt;script&gt;<span class="function">alert</span>(<span class="string">'XSS'</span>)&lt;/script&gt;
+<span class="comment">// Expected: Script tidak dieksekusi, ditampilkan sebagai text</span>
+
+<span class="comment">// Test Case 2: Image XSS</span>
+&lt;img src=x onerror="<span class="function">alert</span>(<span class="string">'XSS'</span>)"&gt;
+<span class="comment">// Expected: Tag img ditampilkan sebagai text</span>
+
+<span class="comment">// Test Case 3: SVG XSS</span>
+&lt;svg onload="<span class="function">alert</span>(<span class="string">'XSS'</span>)"&gt;
+<span class="comment">// Expected: Tag svg ditampilkan sebagai text</span>
+
+<span class="comment">// Test Case 4: Event handler</span>
+&lt;div onclick="<span class="function">alert</span>(<span class="string">'XSS'</span>)"&gt;Click me&lt;/div&gt;
+<span class="comment">// Expected: Tag div ditampilkan sebagai text</span>
+
+<span class="comment">// Test Case 5: Valid comment</span>
+Ini adalah komentar yang valid dan aman!
+<span class="comment">// Expected: Komentar ditampilkan dengan benar</span></code></pre>
+                    </div>
+                    <div class="success" style="margin-top: 15px;">
+                        <strong>✓ Verifikasi:</strong> Output encoding mencegah semua jenis XSS attack
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 5: Implementasi Content Security Policy</h3>
+                    <p><strong>Tambahkan CSP header di <code>comment_secure.php</code>:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// Tambahkan di bagian atas file, sebelum output apapun</span>
+<span class="function">header</span>(<span class="string">"Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';"</span>);
+
+<span class="comment">// Atau di HTML head:</span>
+&lt;meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';"&gt;</code></pre>
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>CSP Benefits:</strong> Mencegah eksekusi inline scripts dan external resources yang tidak terpercaya
+                    </div>
+                </section>
+            </section>
+
+            <!-- 2.4 Session Hijacking -->
+            <section>
+                <section>
+                    <h2>2.4 Preventing Session Hijacking</h2>
+                    <p>Serangan di mana penyerang mencuri session ID pengguna</p>
+                </section>
+
+                <section>
+                    <h3>Metode Session Hijacking</h3>
+                    <ul>
+                        <li><strong>Session Sniffing</strong>: Menangkap session ID melalui network</li>
+                        <li><strong>XSS Attack</strong>: Mencuri session ID melalui JavaScript</li>
+                        <li><strong>Session Fixation</strong>: Memaksa korban menggunakan session ID yang diketahui</li>
+                        <li><strong>Man-in-the-Middle</strong>: Menyadap komunikasi</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Cara Pencegahan</h3>
+                    <ul>
+                        <li>Regenerate session ID setelah login</li>
+                        <li>HTTPS Only (Secure flag pada cookies)</li>
+                        <li>HttpOnly Cookies (mencegah JavaScript access)</li>
+                        <li>SameSite Attribute (mencegah CSRF)</li>
+                        <li>Session Timeout</li>
+                        <li>IP Validation (optional)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Secure Session Configuration</h3>
+                    <div class="code-block">
+<pre><code><span class="function">ini_set</span>(<span class="string">'session.cookie_httponly'</span>, 1);
+<span class="function">ini_set</span>(<span class="string">'session.cookie_secure'</span>, 1);
+<span class="function">ini_set</span>(<span class="string">'session.use_only_cookies'</span>, 1);
+<span class="function">ini_set</span>(<span class="string">'session.cookie_samesite'</span>, <span class="string">'Strict'</span>);
+
+<span class="function">session_regenerate_id</span>(<span class="keyword">true</span>);</code></pre>
+                    </div>
+                </section>
+
+                <!-- Step-by-Step Practical Session: Session Security -->
+                <section>
+                    <h2>Praktik Lengkap: Secure Session Management</h2>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengimplementasikan session management yang aman
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 1: Buat File Session Configuration</h3>
+                    <p><strong>Buat file <code>session_config.php</code>:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// session_config.php</span>
+<span class="comment">// Secure session configuration</span>
+<span class="function">ini_set</span>(<span class="string">'session.cookie_httponly'</span>, 1);
+<span class="function">ini_set</span>(<span class="string">'session.cookie_secure'</span>, 1); <span class="comment">// Set to 1 if using HTTPS</span>
+<span class="function">ini_set</span>(<span class="string">'session.use_only_cookies'</span>, 1);
+<span class="function">ini_set</span>(<span class="string">'session.cookie_samesite'</span>, <span class="string">'Strict'</span>);
+<span class="function">ini_set</span>(<span class="string">'session.gc_maxlifetime'</span>, 1800); <span class="comment">// 30 minutes</span>
+<span class="function">ini_set</span>(<span class="string">'session.cookie_lifetime'</span>, 0); <span class="comment">// Until browser closes</span>
+
+<span class="function">session_start</span>();
+
+<span class="comment">// Regenerate session ID periodically</span>
+<span class="keyword">if</span> (!<span class="function">isset</span>($_SESSION[<span class="string">'created'</span>])) {
+    $_SESSION[<span class="string">'created'</span>] = <span class="function">time</span>();
+} <span class="keyword">elseif</span> (<span class="function">time</span>() - $_SESSION[<span class="string">'created'</span>] > 300) {
+    <span class="comment">// Regenerate every 5 minutes</span>
+    <span class="function">session_regenerate_id</span>(<span class="keyword">true</span>);
+    $_SESSION[<span class="string">'created'</span>] = <span class="function">time</span>();
+}
+
+<span class="comment">// Check session timeout</span>
+<span class="keyword">if</span> (<span class="function">isset</span>($_SESSION[<span class="string">'last_activity'</span>]) && (<span class="function">time</span>() - $_SESSION[<span class="string">'last_activity'</span>] > 1800)) {
+    <span class="comment">// 30 minutes timeout</span>
+    <span class="function">session_destroy</span>();
+    <span class="function">header</span>(<span class="string">'Location: login_secure.php?timeout=1'</span>);
+    <span class="keyword">exit</span>;
+}
+$_SESSION[<span class="string">'last_activity'</span>] = <span class="function">time</span>();
+
+<span class="comment">// IP validation (optional, can cause issues with proxies)</span>
+<span class="keyword">if</span> (<span class="function">isset</span>($_SESSION[<span class="string">'ip'</span>])) {
+    <span class="keyword">if</span> ($_SESSION[<span class="string">'ip'</span>] !== $_SERVER[<span class="string">'REMOTE_ADDR'</span>]) {
+        <span class="function">session_destroy</span>();
+        <span class="function">header</span>(<span class="string">'Location: login_secure.php?security=1'</span>);
+        <span class="keyword">exit</span>;
+    }
+} <span class="keyword">else</span> {
+    $_SESSION[<span class="string">'ip'</span>] = $_SERVER[<span class="string">'REMOTE_ADDR'</span>];
+}</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 2: Update Login untuk Regenerate Session</h3>
+                    <p><strong>Update <code>login_secure.php</code>:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// Di login_secure.php, setelah password verified</span>
+<span class="keyword">if</span> (<span class="function">password_verify</span>($password, $user[<span class="string">'password_hash'</span>])) {
+    <span class="comment">// Regenerate session ID after successful login</span>
+    <span class="function">session_regenerate_id</span>(<span class="keyword">true</span>);
+    
+    <span class="comment">// Set session variables</span>
+    $_SESSION[<span class="string">'user_id'</span>] = $user[<span class="string">'id'</span>];
+    $_SESSION[<span class="string">'username'</span>] = $user[<span class="string">'username'</span>];
+    $_SESSION[<span class="string">'created'</span>] = <span class="function">time</span>();
+    $_SESSION[<span class="string">'last_activity'</span>] = <span class="function">time</span>();
+    $_SESSION[<span class="string">'ip'</span>] = $_SERVER[<span class="string">'REMOTE_ADDR'</span>];
+    
+    <span class="function">header</span>(<span class="string">'Location: dashboard.php'</span>);
+    <span class="keyword">exit</span>;
+}</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 3: Buat File Logout</h3>
+                    <p><strong>Buat file <code>logout.php</code>:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// logout.php</span>
+<span class="keyword">require</span> <span class="string">'session_config.php'</span>;
+
+<span class="comment">// Destroy session completely</span>
+$_SESSION = [];
+
+<span class="comment">// Delete session cookie</span>
+<span class="keyword">if</span> (<span class="function">isset</span>($_COOKIE[<span class="function">session_name</span>()])) {
+    <span class="function">setcookie</span>(<span class="function">session_name</span>(), <span class="string">''</span>, <span class="function">time</span>() - 3600, <span class="string">'/'</span>);
+}
+
+<span class="function">session_destroy</span>();
+
+<span class="function">header</span>(<span class="string">'Location: login_secure.php?logout=1'</span>);
+<span class="keyword">exit</span>;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 4: Testing Session Security</h3>
+                    <p><strong>Test dengan berbagai skenario:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// Test Case 1: Session Timeout</span>
+<span class="comment">// 1. Login ke aplikasi</span>
+<span class="comment">// 2. Tunggu 30+ menit tanpa aktivitas</span>
+<span class="comment">// 3. Coba akses halaman protected</span>
+<span class="comment">// Expected: Redirect ke login dengan pesan timeout</span>
+
+<span class="comment">// Test Case 2: Session Regeneration</span>
+<span class="comment">// 1. Login dan catat session ID dari cookie</span>
+<span class="comment">// 2. Tunggu 5 menit atau lakukan aktivitas</span>
+<span class="comment">// 3. Cek session ID lagi</span>
+<span class="comment">// Expected: Session ID berubah</span>
+
+<span class="comment">// Test Case 3: Session Fixation</span>
+<span class="comment">// 1. Set session ID manual: ?PHPSESSID=attacker_session</span>
+<span class="comment">// 2. Login</span>
+<span class="comment">// Expected: Session ID diregenerate setelah login</span>
+
+<span class="comment">// Test Case 4: HttpOnly Cookie</span>
+<span class="comment">// 1. Coba akses session cookie via JavaScript: document.cookie</span>
+<span class="comment">// Expected: Session cookie tidak muncul (HttpOnly)</span>
+
+<span class="comment">// Test Case 5: IP Validation</span>
+<span class="comment">// 1. Login dari IP tertentu</span>
+<span class="comment">// 2. Coba akses dari IP berbeda (jika diaktifkan)</span>
+<span class="comment">// Expected: Session di-destroy dan redirect ke login</span></code></pre>
+                    </div>
+                </section>
+            </section>
+
+            <!-- 2.5 Remote Code Execution -->
+            <section>
+                <section>
+                    <h2>2.5 Preventing Remote Code Execution</h2>
+                    <p>Serangan di mana penyerang dapat mengeksekusi kode secara remote pada server</p>
+                </section>
+
+                <section>
+                    <h3>Vektor Serangan RCE</h3>
+                    <ul>
+                        <li><strong>Command Injection</strong>: exec(), system(), shell_exec()</li>
+                        <li><strong>File Inclusion</strong>: LFI/RFI</li>
+                        <li><strong>Deserialization</strong>: unserialize() dengan user input</li>
+                        <li><strong>Template Injection</strong>: SSTI</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Contoh Vulnerable Code</h3>
+                    <div class="warning">
+                        JANGAN GUNAKAN DI PRODUKSI!
+                    </div>
+                    <div class="code-block">
+<pre><code><span class="comment">// Command Injection</span>
+$filename = $_GET[<span class="string">'file'</span>];
+<span class="function">exec</span>(<span class="string">"cat "</span> . $filename);
+
+<span class="comment">// File Inclusion</span>
+<span class="keyword">include</span>($_GET[<span class="string">'page'</span>] . <span class="string">'.php'</span>);
+
+<span class="comment">// Deserialization</span>
+$data = <span class="function">unserialize</span>($_POST[<span class="string">'data'</span>]);</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Cara Pencegahan</h3>
+                    <ul>
+                        <li>Hindari fungsi berbahaya (eval, exec, system)</li>
+                        <li>Input Validation (whitelist approach)</li>
+                        <li>Safe File Operations (basename, realpath)</li>
+                        <li>Hindari deserialization dari user input</li>
+                        <li>Least Privilege untuk web server</li>
+                    </ul>
+                </section>
+
+                <!-- Step-by-Step Practical Session: RCE Prevention -->
+                <section>
+                    <h2>Praktik Lengkap: File Viewer yang Aman</h2>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Membuat file viewer yang aman dari command injection dan path traversal
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 1: Buat File Vulnerable (untuk Demo)</h3>
+                    <p><strong>Buat file <code>file_viewer_vulnerable.php</code>:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// file_viewer_vulnerable.php - JANGAN GUNAKAN DI PRODUKSI!</span>
+<span class="keyword">require</span> <span class="string">'session_config.php'</span>;
+
+<span class="keyword">if</span> (!<span class="function">isset</span>($_SESSION[<span class="string">'user_id'</span>])) {
+    <span class="function">header</span>(<span class="string">'Location: login_secure.php'</span>);
+    <span class="keyword">exit</span>;
+}
+
+<span class="comment">// VULNERABLE: Command injection</span>
+<span class="keyword">if</span> (<span class="function">isset</span>($_GET[<span class="string">'file'</span>])) {
+    $filename = $_GET[<span class="string">'file'</span>];
+    <span class="function">exec</span>(<span class="string">"cat "</span> . $filename); <span class="comment">// VULNERABLE!</span>
+}
+
+<span class="comment">// VULNERABLE: Path traversal</span>
+<span class="keyword">if</span> (<span class="function">isset</span>($_GET[<span class="string">'page'</span>])) {
+    <span class="keyword">include</span>($_GET[<span class="string">'page'</span>] . <span class="string">'.php'</span>); <span class="comment">// VULNERABLE!</span>
+}
+?&gt;
+&lt;form&gt;
+    File: &lt;input type="text" name="file"&gt;
+    &lt;button type="submit"&gt;View&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                    </div>
+                    <div class="warning" style="margin-top: 15px;">
+                        <strong>Test:</strong> Coba input: <code>file.txt; rm -rf /</code> atau <code>../../../etc/passwd</code>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 2: Buat File Secure (Bagian 1 - PHP Logic)</h3>
+                    <p><strong>Buat file <code>file_viewer_secure.php</code> - Bagian PHP:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// file_viewer_secure.php</span>
+<span class="keyword">require</span> <span class="string">'session_config.php'</span>;
+
+<span class="keyword">if</span> (!<span class="function">isset</span>($_SESSION[<span class="string">'user_id'</span>])) {
+    <span class="function">header</span>(<span class="string">'Location: login_secure.php'</span>);
+    <span class="keyword">exit</span>;
+}
+
+<span class="comment">// Define allowed files (whitelist)</span>
+$allowed_files = [
+    <span class="string">'file1.txt'</span>,
+    <span class="string">'file2.txt'</span>,
+    <span class="string">'file3.txt'</span>,
+    <span class="string">'document.pdf'</span>
+];
+
+<span class="comment">// Define allowed directory</span>
+$allowed_dir = <span class="function">realpath</span>(<span class="string">'uploads/'</span>);
+
+<span class="keyword">if</span> (<span class="function">isset</span>($_GET[<span class="string">'file'</span>])) {
+    <span class="comment">// Get basename to prevent path traversal</span>
+    $filename = <span class="function">basename</span>($_GET[<span class="string">'file'</span>]);
+    
+    <span class="comment">// Whitelist validation</span>
+    <span class="keyword">if</span> (!<span class="function">in_array</span>($filename, $allowed_files)) {
+        <span class="function">die</span>(<span class="string">"File not allowed"</span>);
+    }
+    
+    <span class="comment">// Get real path and verify it's in allowed directory</span>
+    $filepath = <span class="function">realpath</span>($allowed_dir . <span class="string">'/'</span> . $filename);
+    
+    <span class="comment">// Verify file is within allowed directory</span>
+    <span class="keyword">if</span> ($filepath === <span class="keyword">false</span> || <span class="function">strpos</span>($filepath, $allowed_dir) !== 0) {
+        <span class="function">die</span>(<span class="string">"Access denied"</span>);
+    }
+    
+    <span class="comment">// Verify file exists</span>
+    <span class="keyword">if</span> (!<span class="function">file_exists</span>($filepath)) {
+        <span class="function">die</span>(<span class="string">"File not found"</span>);
+    }
+    
+    <span class="comment">// SECURE: Read file safely</span>
+    $content = <span class="function">file_get_contents</span>($filepath);
+    <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;"</span> . <span class="function">htmlspecialchars</span>($content) . <span class="string">"&lt;/pre&gt;"</span>;
+    <span class="keyword">exit</span>;
+}
+?&gt;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 2: Buat File Secure (Bagian 2 - HTML Output)</h3>
+                    <div class="code-block">
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;File Viewer&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;File Viewer&lt;/h1&gt;
+    &lt;ul&gt;
+        &lt;?php <span class="keyword">foreach</span> ($allowed_files <span class="keyword">as</span> $file): ?&gt;
+            &lt;li&gt;
+                &lt;a href="?file=&lt;?php <span class="keyword">echo</span> <span class="function">urlencode</span>($file); ?&gt;"&gt;
+                    &lt;?php <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($file); ?&gt;
+                &lt;/a&gt;
+            &lt;/li&gt;
+        &lt;?php <span class="keyword">endforeach</span>; ?&gt;
+    &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 3: Testing Command Injection & Path Traversal</h3>
+                    <p><strong>Test dengan berbagai payload:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// Test Case 1: Command Injection</span>
+?file=file.txt; rm -rf /
+<span class="comment">// Expected: File not allowed (whitelist validation)</span>
+
+?file=file.txt | cat /etc/passwd
+<span class="comment">// Expected: File not allowed</span>
+
+?file=file.txt && ls -la
+<span class="comment">// Expected: File not allowed</span>
+
+<span class="comment">// Test Case 2: Path Traversal</span>
+?file=../../../etc/passwd
+<span class="comment">// Expected: basename() akan mengembalikan hanya "passwd", tidak ada di whitelist</span>
+
+?file=..%2F..%2F..%2Fetc%2Fpasswd
+<span class="comment">// Expected: basename() akan mengembalikan hanya "passwd"</span>
+
+?file=file1.txt/../../etc/passwd
+<span class="comment">// Expected: basename() akan mengembalikan hanya "passwd"</span>
+
+<span class="comment">// Test Case 3: Valid file</span>
+?file=file1.txt
+<span class="comment">// Expected: File ditampilkan dengan benar</span>
+
+<span class="comment">// Test Case 4: File outside allowed directory</span>
+<span class="comment">// Even if filename is in whitelist, realpath check will fail</span>
+<span class="comment">// Expected: Access denied</span></code></pre>
+                    </div>
+                    <div class="success" style="margin-top: 15px;">
+                        <strong>✓ Verifikasi:</strong> Whitelist + basename() + realpath() mencegah command injection dan path traversal
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 4: Buat File Upload (Bagian 1 - PHP Logic)</h3>
+                    <p><strong>Buat file <code>file_upload_secure.php</code> - Bagian PHP:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// file_upload_secure.php</span>
+<span class="keyword">require</span> <span class="string">'session_config.php'</span>;
+
+<span class="keyword">if</span> (!<span class="function">isset</span>($_SESSION[<span class="string">'user_id'</span>])) {
+    <span class="function">header</span>(<span class="string">'Location: login_secure.php'</span>);
+    <span class="keyword">exit</span>;
+}
+
+$error = <span class="string">''</span>;
+$success = <span class="keyword">false</span>;
+
+<span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">'POST'</span> && <span class="function">isset</span>($_FILES[<span class="string">'file'</span>])) {
+    <span class="comment">// Allowed file types (whitelist)</span>
+    $allowed_types = [<span class="string">'image/jpeg'</span>, <span class="string">'image/png'</span>, <span class="string">'image/gif'</span>, <span class="string">'application/pdf'</span>];
+    $allowed_extensions = [<span class="string">'jpg'</span>, <span class="string">'jpeg'</span>, <span class="string">'png'</span>, <span class="string">'gif'</span>, <span class="string">'pdf'</span>];
+    $max_size = 5 * 1024 * 1024; <span class="comment">// 5MB</span>
+    
+    $file = $_FILES[<span class="string">'file'</span>];
+    
+    <span class="comment">// Validate file type</span>
+    <span class="keyword">if</span> (!<span class="function">in_array</span>($file[<span class="string">'type'</span>], $allowed_types)) {
+        $error = <span class="string">"File type not allowed"</span>;
+    }
+    
+    <span class="comment">// Validate file size</span>
+    <span class="keyword">elseif</span> ($file[<span class="string">'size'</span>] > $max_size) {
+        $error = <span class="string">"File too large (max 5MB)"</span>;
+    }
+    
+    <span class="comment">// Validate file extension</span>
+    <span class="keyword">else</span> {
+        $extension = <span class="function">strtolower</span>(<span class="function">pathinfo</span>($file[<span class="string">'name'</span>], PATHINFO_EXTENSION));
+        <span class="keyword">if</span> (!<span class="function">in_array</span>($extension, $allowed_extensions)) {
+            $error = <span class="string">"File extension not allowed"</span>;
+        }
+    }
+    
+    <span class="comment">// Upload file if validation passed</span>
+    <span class="keyword">if</span> (empty($error)) {
+        <span class="comment">// Generate safe filename</span>
+        $filename = <span class="function">uniqid</span>() . <span class="string">'_'</span> . <span class="function">basename</span>($file[<span class="string">'name'</span>]);
+        $upload_dir = <span class="string">'uploads/'</span>;
+        $filepath = $upload_dir . $filename;
+        
+        <span class="keyword">if</span> (<span class="function">move_uploaded_file</span>($file[<span class="string">'tmp_name'</span>], $filepath)) {
+            $success = <span class="keyword">true</span>;
+        } <span class="keyword">else</span> {
+            $error = <span class="string">"Upload failed"</span>;
+        }
+    }
+}
+?&gt;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 4: Buat File Upload (Bagian 2 - HTML Form)</h3>
+                    <div class="code-block">
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;File Upload&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Upload File&lt;/h1&gt;
+    &lt;?php <span class="keyword">if</span> ($success): ?&gt;
+        &lt;div style="color: green;"&gt;File uploaded successfully!&lt;/div&gt;
+    &lt;?php <span class="keyword">endif</span>; ?&gt;
+    &lt;?php <span class="keyword">if</span> ($error): ?&gt;
+        &lt;div style="color: red;"&gt;&lt;?php <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($error); ?&gt;&lt;/div&gt;
+    &lt;?php <span class="keyword">endif</span>; ?&gt;
+    &lt;form method="POST" enctype="multipart/form-data"&gt;
+        &lt;input type="file" name="file" required&gt;
+        &lt;button type="submit"&gt;Upload&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Step 5: Testing File Upload Security</h3>
+                    <p><strong>Test dengan berbagai file:</strong></p>
+                    <div class="code-block">
+<pre><code><span class="comment">// Test Case 1: PHP file upload</span>
+<span class="comment">// Upload: shell.php dengan content &lt;?php system($_GET['cmd']); ?&gt;</span>
+<span class="comment">// Expected: File type not allowed</span>
+
+<span class="comment">// Test Case 2: Double extension</span>
+<span class="comment">// Filename: image.php.jpg</span>
+<span class="comment">// Expected: Extension check akan melihat "jpg" (valid), tapi MIME type akan invalid</span>
+
+<span class="comment">// Test Case 3: Large file</span>
+<span class="comment">// Upload file &gt; 5MB</span>
+<span class="comment">// Expected: File too large</span>
+
+<span class="comment">// Test Case 4: Valid image</span>
+<span class="comment">// Upload: image.jpg (valid JPEG)</span>
+<span class="comment">// Expected: Upload berhasil</span>
+
+<span class="comment">// Test Case 5: Path traversal in filename</span>
+<span class="comment">// Filename: ../../../etc/passwd</span>
+<span class="comment">// Expected: basename() akan mengembalikan hanya "passwd"</span></code></pre>
+                    </div>
+                    <div class="success" style="margin-top: 15px;">
+                        <strong>✓ Verifikasi:</strong> Multiple validation layers mencegah file upload attacks
+                    </div>
+                </section>
+            </section>
+
+            <!-- Practical Session -->
+            <section>
+                <section>
+                    <h2>Sesi Praktik Day 2</h2>
+                    <p>Praktik secure programming yang dapat diikuti peserta</p>
+                </section>
+
+                <section>
+                    <h3>Praktik 1: Membuat Form Validasi yang Aman</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Menerapkan input validation dan sanitization
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Buat file <code>register.php</code> dengan form registrasi</li>
+                        <li>Implementasikan validasi untuk:</li>
+                        <ul>
+                            <li>Email (format dan domain)</li>
+                            <li>Username (3-20 karakter, alphanumeric)</li>
+                            <li>Password (min 8 karakter, mengandung huruf besar, kecil, angka)</li>
+                        </ul>
+                        <li>Sanitasi semua input sebelum disimpan</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment">// register.php - Contoh implementasi</span>
+<span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">'POST'</span>) {
+    <span class="comment">// Validate email</span>
+    $email = <span class="function">filter_var</span>(<span class="function">trim</span>($_POST[<span class="string">'email'</span>]), FILTER_VALIDATE_EMAIL);
+    <span class="keyword">if</span> (!$email) {
+        $errors[] = <span class="string">"Invalid email format"</span>;
+    }
+    
+    <span class="comment">// Validate username (whitelist approach)</span>
+    $username = <span class="function">trim</span>($_POST[<span class="string">'username'</span>]);
+    <span class="keyword">if</span> (!<span class="function">preg_match</span>(<span class="string">'/^[a-zA-Z0-9]{3,20}$/'</span>, $username)) {
+        $errors[] = <span class="string">"Username must be 3-20 alphanumeric characters"</span>;
+    }
+    
+    <span class="comment">// Validate password strength</span>
+    $password = $_POST[<span class="string">'password'</span>];
+    <span class="keyword">if</span> (!<span class="function">preg_match</span>(<span class="string">'/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/'</span>, $password)) {
+        $errors[] = <span class="string">"Password must be at least 8 characters with uppercase, lowercase, and number"</span>;
+    }
+}</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 2: Mencegah SQL Injection dengan Prepared Statements</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengimplementasikan prepared statements untuk login
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Buat database dengan tabel users</li>
+                        <li>Buat file <code>login.php</code> dengan vulnerable code (untuk demo)</li>
+                        <li>Buat file <code>login_secure.php</code> dengan prepared statements</li>
+                        <li>Test dengan SQL injection payload</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment">// login_secure.php</span>
+<span class="keyword">if</span> ($_SERVER[<span class="string">'REQUEST_METHOD'</span>] == <span class="string">'POST'</span>) {
+    $username = $_POST[<span class="string">'username'</span>];
+    $password = $_POST[<span class="string">'password'</span>];
+    
+    <span class="comment">// Prepared statement</span>
+    $stmt = $conn-><span class="function">prepare</span>(<span class="string">"SELECT id, username, password_hash FROM users WHERE username = ?"</span>);
+    $stmt-><span class="function">bind_param</span>(<span class="string">"s"</span>, $username);
+    $stmt-><span class="function">execute</span>();
+    $result = $stmt-><span class="function">get_result</span>();
+    
+    <span class="keyword">if</span> ($user = $result-><span class="function">fetch_assoc</span>()) {
+        <span class="keyword">if</span> (<span class="function">password_verify</span>($password, $user[<span class="string">'password_hash'</span>])) {
+            <span class="comment">// Login successful</span>
+            <span class="function">session_start</span>();
+            $_SESSION[<span class="string">'user_id'</span>] = $user[<span class="string">'id'</span>];
+        }
+    }
+}</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 3: Mencegah XSS dengan Output Encoding</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengimplementasikan output encoding untuk mencegah XSS
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Buat file <code>comment.php</code> dengan form komentar</li>
+                        <li>Simpan komentar ke database</li>
+                        <li>Tampilkan komentar dengan output encoding</li>
+                        <li>Test dengan XSS payload: <code>&lt;script&gt;alert('XSS')&lt;/script&gt;</code></li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment">// comment.php - Display comments safely</span>
+<span class="keyword">while</span> ($comment = $result-><span class="function">fetch_assoc</span>()) {
+    <span class="comment">// Output encoding</span>
+    <span class="keyword">echo</span> <span class="string">'&lt;div class="comment"&gt;'</span>;
+    <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($comment[<span class="string">'username'</span>], ENT_QUOTES, <span class="string">'UTF-8'</span>);
+    <span class="keyword">echo</span> <span class="string">': '</span>;
+    <span class="keyword">echo</span> <span class="function">htmlspecialchars</span>($comment[<span class="string">'content'</span>], ENT_QUOTES, <span class="string">'UTF-8'</span>);
+    <span class="keyword">echo</span> <span class="string">'&lt;/div&gt;'</span>;
+}
+
+<span class="comment">// Atau menggunakan filter_var untuk URL</span>
+$url = <span class="function">filter_var</span>($user_input, FILTER_SANITIZE_URL);
+<span class="keyword">echo</span> <span class="string">'&lt;a href="'</span> . <span class="function">htmlspecialchars</span>($url, ENT_QUOTES) . <span class="string">'"&gt;Link&lt;/a&gt;'</span>;</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 4: Implementasi Session Management yang Aman</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengimplementasikan session management dengan security best practices
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Buat file <code>session_config.php</span></code> dengan konfigurasi session yang aman</li>
+                        <li>Implementasikan session regeneration setelah login</li>
+                        <li>Implementasikan session timeout</li>
+                        <li>Test session fixation attack</li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment">// session_config.php</span>
+<span class="function">ini_set</span>(<span class="string">'session.cookie_httponly'</span>, 1);
+<span class="function">ini_set</span>(<span class="string">'session.cookie_secure'</span>, 1);
+<span class="function">ini_set</span>(<span class="string">'session.use_only_cookies'</span>, 1);
+<span class="function">ini_set</span>(<span class="string">'session.cookie_samesite'</span>, <span class="string">'Strict'</span>);
+<span class="function">ini_set</span>(<span class="string">'session.gc_maxlifetime'</span>, 1800); <span class="comment">// 30 minutes</span>
+
+<span class="function">session_start</span>();
+
+<span class="comment">// Regenerate session ID after login</span>
+<span class="keyword">if</span> (!<span class="function">isset</span>($_SESSION[<span class="string">'created'</span>])) {
+    <span class="function">session_regenerate_id</span>(<span class="keyword">true</span>);
+    $_SESSION[<span class="string">'created'</span>] = <span class="function">time</span>();
+}
+
+<span class="comment">// Check session timeout</span>
+<span class="keyword">if</span> (<span class="function">isset</span>($_SESSION[<span class="string">'created'</span>]) && (<span class="function">time</span>() - $_SESSION[<span class="string">'created'</span>] > 1800)) {
+    <span class="function">session_destroy</span>();
+    <span class="function">header</span>(<span class="string">'Location: login.php'</span>);
+    <span class="keyword">exit</span>;
+}</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Praktik 5: Mencegah Command Injection</h3>
+                    <div class="info">
+                        <strong>Tujuan:</strong> Mengimplementasikan safe file operations
+                    </div>
+                    <p><strong>Langkah-langkah:</strong></p>
+                    <ol>
+                        <li>Buat file <code>file_viewer.php</span></code> untuk melihat file</li>
+                        <li>Implementasikan whitelist untuk file yang diizinkan</li>
+                        <li>Gunakan basename() dan realpath() untuk sanitasi</li>
+                        <li>Test dengan path traversal: <code>../../../etc/passwd</code></li>
+                    </ol>
+                    <div class="code-block">
+<pre><code><span class="comment">// file_viewer.php - Safe file operations</span>
+$allowed_files = [<span class="string">'file1.txt'</span>, <span class="string">'file2.txt'</span>, <span class="string">'file3.txt'</span>];
+
+<span class="keyword">if</span> (<span class="function">isset</span>($_GET[<span class="string">'file'</span>])) {
+    <span class="comment">// Whitelist validation</span>
+    $filename = <span class="function">basename</span>($_GET[<span class="string">'file'</span>]);
+    
+    <span class="keyword">if</span> (!<span class="function">in_array</span>($filename, $allowed_files)) {
+        <span class="function">die</span>(<span class="string">"File not allowed"</span>);
+    }
+    
+    <span class="comment">// Get real path and verify it's in allowed directory</span>
+    $filepath = <span class="function">realpath</span>(<span class="string">'uploads/'</span> . $filename);
+    $allowed_dir = <span class="function">realpath</span>(<span class="string">'uploads/'</span>);
+    
+    <span class="keyword">if</span> (<span class="function">strpos</span>($filepath, $allowed_dir) !== 0) {
+        <span class="function">die</span>(<span class="string">"Access denied"</span>);
+    }
+    
+    <span class="comment">// Safe to read file</span>
+    <span class="keyword">echo</span> <span class="function">file_get_contents</span>($filepath);
+}</code></pre>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Summary -->
+            <section>
+                <h2>Ringkasan Day 2</h2>
+                <div class="success">
+                    <h3>Key Takeaways:</h3>
+                    <ul>
+                        <li>Selalu validasi dan sanitasi input pengguna</li>
+                        <li>Gunakan prepared statements untuk mencegah SQL Injection</li>
+                        <li>Encode output untuk mencegah XSS</li>
+                        <li>Implementasi session management yang aman</li>
+                        <li>Hindari fungsi berbahaya dan validasi semua file operations</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Next Steps -->
+            <section>
+                <h2>Next Steps</h2>
+                <ul>
+                    <li>Review semua kode yang telah dibuat</li>
+                    <li>Test semua aplikasi dengan berbagai attack vectors</li>
+                    <li>Siapkan environment untuk Day 3 (OTP, Authentication, Data Loss Prevention)</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <section class="center">
+                <h2>Terima Kasih!</h2>
+                <p style="margin-top: 50px;">
+                    <a href="day-03.html">→ Lanjut ke Day 3</a>
+                </p>
+                <p style="margin-top: 30px;">
+                    <a href="index.html">← Kembali ke Menu Utama</a>
+                </p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: false,
+            transition: 'slide',
+            slideNumber: true
+        });
+    </script>
+</body>
+</html>
+
